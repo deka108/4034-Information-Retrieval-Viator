@@ -1,0 +1,4 @@
+requests==2.13.0
+facebook==0.0
+Flask==0.12
+Jinja2==2.9.5
