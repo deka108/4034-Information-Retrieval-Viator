@@ -20,22 +20,55 @@
     </md-toolbar>
 
     <!-- Container #2 -->
-    <md-content class="md-padding md-margin">
+    <md-content>
         <div layout="row" layout-align="center center">
-            <div flex="80">
+            <div flex="80" layout-padding>
                 <md-card>
-                    <md-card-content>
-                        <div>
+                    <md-card-title>
+                        <md-card-title-text>
                             <span class="md-headline">Where do you want to go?</span>
-                        </div>
-                        <div>
+                            <span class="md-subhead">Place to eat in Bali, find hotel in Kuala Lumpur</span>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <md-card-content>
+                        <div layout="column">
                             <form name="searchForm" ng-controller="SearchController">
-                                <md-input-container class="md-block" md-no-float>
-                                    <input aria-label="textQuery" name="textQuery" ng-model="textQuery" placeholder="enter search query" required>
+                                <md-input-container class="md-block  md-accent" md-no-float>
+                                    <input aria-label="textQuery" name="textQuery" ng-model="textQuery" placeholder="Enter search query" required>
                                     <div ng-messages="searchForm.textQuery.$error">
                                         <div ng-message="required">Please enter your search query.</div>
                                     </div>
                                 </md-input-container>
+                                <div layout="row" layout-align="start center">
+                                    <div flex="50">
+                                        <md-input-container>
+                                            <label>Order By</label>
+                                            <md-select class="md-accent" ng-model="orderOptions">
+                                                <md-option ng-repeat="order in searchOrders" ng-value="order">
+                                                    {{order.value}}
+                                                </md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                    </div>
+                                    <div flex="50">
+                                        <md-input-container>
+                                            <label>Filter By</label>
+                                            <md-select class="md-accent" ng-model="selectedFilterCategory">
+                                                <md-option ng-repeat="filterOption in searchFilters" ng-value="filterOption">
+                                                    {{filterOption.category}}
+                                                </md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                        <md-input-container>
+                                            <label>{{selectedFilterCategory.category}}</label>
+                                            <md-select class="md-accent" aria-label="Selected Filter" ng-model="selectedFilter">
+                                                <md-option ng-repeat="filter in selectedFilterCategory.values" ng-value="filter">
+                                                    {{filter}}
+                                                </md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                    </div>
+                                </div>
                                 <div layout="row" layout-align="end" flex>
                                     <md-button class="md-accent md-raised">Search</md-button>
                                 </div>
