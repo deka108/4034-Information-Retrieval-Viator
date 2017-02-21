@@ -9,11 +9,11 @@
     <title>Viator</title>
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,700'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="./assets/app.css" />
+    <link rel="stylesheet" href="./style/app.css" />
 </head>
 
 <body ng-cloak layout="column">
-    <!-- Container #1 (see wireframe) -->
+    <!-- Container #1 -->
     <md-toolbar layout="row" class="md-toolbar-tools">
         <md-icon style="color:white">flight</md-icon>
         <h1 flex class="page-title">Viator App</h1>
@@ -44,7 +44,8 @@
                                         <md-input-container>
                                             <label>Order By</label>
                                             <md-select class="md-accent" ng-model="orderOptions">
-                                                <md-option ng-repeat="order in searchOrders" ng-value="order">
+                                                <md-option><em>None</em></md-option>
+                                                <md-option class="md-accent" ng-repeat="order in searchOrders" ng-value="order">
                                                     {{order.value}}
                                                 </md-option>
                                             </md-select>
@@ -53,18 +54,11 @@
                                     <div flex="50">
                                         <md-input-container>
                                             <label>Filter By</label>
-                                            <md-select class="md-accent" ng-model="selectedFilterCategory">
-                                                <md-option ng-repeat="filterOption in searchFilters" ng-value="filterOption">
-                                                    {{filterOption.category}}
-                                                </md-option>
-                                            </md-select>
-                                        </md-input-container>
-                                        <md-input-container>
-                                            <label>{{selectedFilterCategory.category}}</label>
-                                            <md-select class="md-accent" aria-label="Selected Filter" ng-model="selectedFilter">
-                                                <md-option ng-repeat="filter in selectedFilterCategory.values" ng-value="filter">
-                                                    {{filter}}
-                                                </md-option>
+                                            <md-select class="md-accent" ng-model="selectedFilter">
+                                                <md-option><em>None</em></md-option>
+                                                <md-optgroup ng-repeat="filterOption in searchFilters" label="{{filterOption.category}}">
+                                                    <md-option class="md-accent" ng-value="filter" ng-repeat="filter in filterOption.values">{{filter}}</md-option>
+                                                </md-optgroup>
                                             </md-select>
                                         </md-input-container>
                                     </div>
@@ -80,11 +74,11 @@
         </div>
     </md-content>
 
-    <script src="./jspm_packages/system.js" type="text/javascript"></script>
-    <script src="config.js" type="text/javascript"></script>
+    <script src="jspm_packages/system.js" type="text/javascript"></script>
+    <script src="./config.js" type="text/javascript"></script>
     <script type="text/javascript">
         System
-            .import('./src/boot/boot.js')
+            .import('src/boot/boot.js')
             .catch(console.error.bind(console)); // make sure any errors print to console
     </script>
 
