@@ -42,12 +42,5 @@ class SearchResultPage(object):
         # return iter(self.results)
         pass
 
-
-def reindex_database():
-    pass
-
-def udpate_database():
-    pass
-
 def search(query):
     pass
