@@ -13,3 +13,12 @@
 - DiscoverHongKong: 2163
 - wonderfulplacesindo: 989
 - goturkeytourism: 794
+
+## Server
+python run.py [--host hostname --port port_number]
+  * --host and --port_number is optional
+
+## Front end (will be combined with server)
+jspm install in directory with config.js and package.json
+live-server .
+develop!
