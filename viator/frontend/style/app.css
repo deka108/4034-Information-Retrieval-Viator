@@ -1,0 +1,11 @@
+.page-title {
+    color: white;
+}
+
+.card-layout {
+    width: 100%;
+}
+
+md-input-container:not(.md-input-invalid).md-input-focused .md-input {
+    border-color: lightgreen;
+}

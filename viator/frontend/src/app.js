@@ -6,6 +6,7 @@ import 'angular-aria';
 import 'angular-material';
 
 import SearchController from 'src/controllers/SearchController';
+import URL from 'src/constants/URL';
 
 export default angular.module('viator-app', ['ngMaterial'])
     .config(function($mdThemingProvider) {
@@ -13,4 +14,5 @@ export default angular.module('viator-app', ['ngMaterial'])
             .primaryPalette('orange')
             .accentPalette('light-green');
     })
+    .constant('URL', URL)
     .controller('SearchController', SearchController);

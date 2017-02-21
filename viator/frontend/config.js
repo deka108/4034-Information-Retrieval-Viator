@@ -9,7 +9,8 @@ System.config({
         ]
     },
     paths: {
-        "src/*": "src/*",
+        "src/": "src/",
+        "style/": "style/",
         "github:*": "jspm_packages/github/*",
         "npm:*": "jspm_packages/npm/*"
     },
@@ -19,6 +20,7 @@ System.config({
         "angular-animate": "github:angular/bower-angular-animate@1.6.2",
         "angular-aria": "github:angular/bower-angular-aria@1.6.2",
         "angular-material": "github:angular/bower-material@1.1.3",
+        "angular-messages": "github:angular/bower-angular-messages@1.6.2",
         "babel": "npm:babel-core@5.8.38",
         "babel-runtime": "npm:babel-runtime@5.8.38",
         "core-js": "npm:core-js@1.2.7",
@@ -26,6 +28,9 @@ System.config({
             "angular": "github:angular/bower-angular@1.6.2"
         },
         "github:angular/bower-angular-aria@1.6.2": {
+            "angular": "github:angular/bower-angular@1.6.2"
+        },
+        "github:angular/bower-angular-messages@1.6.2": {
             "angular": "github:angular/bower-angular@1.6.2"
         },
         "github:angular/bower-material@1.1.3": {
