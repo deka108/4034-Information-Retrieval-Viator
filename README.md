@@ -1,14 +1,9 @@
 # cz4034-information-retrieval
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-test
-#test1
 =======
 ## No of records in each crawled data:
 =======
 ## Number of records in each crawled data:
->>>>>>> 1d41e92eb737c0ed9c0a5f68e3b38d54453d253b
+1d41e92eb737c0ed9c0a5f68e3b38d54453d253b
 - Tripviss:176
 - TripAdvisor:3068
 - visitjapaninternational: 1445
