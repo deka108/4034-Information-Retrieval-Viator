@@ -3,7 +3,7 @@
 ## No of records in each crawled data:
 =======
 ## Number of records in each crawled data:
-1d41e92eb737c0ed9c0a5f68e3b38d54453d253b
+
 - Tripviss:176
 - TripAdvisor:3068
 - visitjapaninternational: 1445
@@ -17,8 +17,6 @@
 - DiscoverHongKong: 2163
 - wonderfulplacesindo: 989
 - goturkeytourism: 794
-<<<<<<< HEAD
->>>>>>> 622bf8afd7b71b2ea209c8e0fe88e8a3431804d8
 =======
 
 ## Server
@@ -33,7 +31,7 @@ python run.py [--host hostname --port port_number]
 - Develop!
 
 node.js dependencies will be removed after front end dev is done and combined with server
->>>>>>> 1d41e92eb737c0ed9c0a5f68e3b38d54453d253b
+
 
 
 ## Solr Search
