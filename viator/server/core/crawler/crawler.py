@@ -6,7 +6,8 @@ import time
 import datetime
 
 
-access_token = 'EAACEdEose0cBAIyGEt0HmSXL9QgScefVc9HeEIQG1Pa561At2aoBi7X5ZB92lM4RZBSD2hv9kpJ4ZAoevCHNGY8I52VtA5q1E8WIYKtOIJMbuIMpUZCZBHAobrr3ChjqQogpP7sDmdPD9SDILvrwOtt8OPrlXcazUuoP7fVMZBoX4UrCDYZA5xfrq0e6LFZBlZA7BTR3ZBCmk0GQZDZD'
+
+access_token = 'EAACEdEose0cBAEdO0kwCeWZCnmPyk6CIOpSGZBsUNRyWnIxEeRGp8ZBy3NS38J3MPQUH5OgV7zcMtZBkRAKKhjwrXqMRdqa0uuOenF6ZB7G6u23sxmn0E9vovXPNGgj0KoiMaUsQpbb7XzZCLWROUeZCJ5MgSSL3HmgXlbrBJs0XMudbMKsRzlIbVoxIN5YrUAZD'
 
 
 post_id = 'goturkeytourism'
@@ -56,7 +57,7 @@ def crawl_data(post_id,access_token):
     profile = graph.get_object(post_id)
     posts = graph.get_connections(profile['id'], 'posts')
     #comments = graph.get_all_connections(profile['id'], 'comments')
-    with open('%s_facebook.json' %post_id, 'w', newline='', encoding='utf-8') as outfile:
+    with open('%s_facebook.json' %post_id, 'a', newline='', encoding='utf-8') as outfile:
         json.dump(posts, outfile, sort_keys=True, indent=4)
 
 
@@ -83,3 +84,4 @@ def crawl_data(post_id,access_token):
 
 if __name__ == '__main__':
     crawl_data(post_id, access_token)
+    #print(config.BASE_DIR)
