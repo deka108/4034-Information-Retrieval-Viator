@@ -6,7 +6,10 @@ import 'angular-aria';
 import 'angular-material';
 
 import SearchController from 'src/controllers/SearchController';
+import SearchResultsController from 'src/controllers/SearchResultsController';
+import PostDataService from 'src/services/PostDataService';
 import URL from 'src/constants/URL';
+import EVENTS from 'src/constants/EVENTS';
 
 export default angular.module('viator-app', ['ngMaterial'])
     .config(function($mdThemingProvider) {
@@ -15,4 +18,7 @@ export default angular.module('viator-app', ['ngMaterial'])
             .accentPalette('light-green');
     })
     .constant('URL', URL)
-    .controller('SearchController', SearchController);
+    .constant('EVENTS', EVENTS)
+    .controller('SearchController', SearchController)
+    .controller('SearchResultsController', SearchResultsController)
+    .service('PostDataService', PostDataService)

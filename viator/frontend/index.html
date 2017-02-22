@@ -10,6 +10,7 @@
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,700'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="./style/app.css" />
+    <link rel="stylesheet" href="./jspm_packages/github/angular/bower-material@1.1.3/angular-material.css" />
 </head>
 
 <body ng-cloak layout="column">
@@ -70,6 +71,23 @@
                         </div>
                     </md-card-content>
                 </md-card>
+                <div ng-controller='SearchResultsController'>
+                    <md-card ng-repeat="test in tests">
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">{{test.title}}</span>
+                                <span class="md-subhead">{{test.description}}</span>
+                                <md-card-title-media>
+                                    <div class='md-media-lg card-media' ng-src='{{test.img-src}}'>
+                                    </div>
+                                </md-card-title-media>
+                                <!--p>{{result.description}}</p-->
+                                <md-button class="md-accent md-raised" ng-click='call2Service()'>Trigger</md-button>
+                                <span ng-if="data" >Data: {{data}}</span>
+                            </md-card-title-text>
+                        </md-card-title>
+                    </md-card>
+                </div>
             </div>
         </div>
     </md-content>
