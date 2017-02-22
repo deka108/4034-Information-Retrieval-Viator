@@ -39,3 +39,8 @@ python run.py [--host hostname --port port_number]
 
 node.js dependencies will be removed after front end dev is done and combined with server
 >>>>>>> 1d41e92eb737c0ed9c0a5f68e3b38d54453d253b
+
+
+## Solr Search
+- query: [example](https://gist.github.com/felixputera/1d90ea9e3f929ec300511bbd8db605bf)
+- result: [result](https://gist.github.com/felixputera/e9870a3335396cbdeb4b5b804bdcdc0f)
