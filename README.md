@@ -5,7 +5,6 @@
 ## Number of records in each crawled data:
 
 - Tripviss:176
-- TripAdvisor:3068
 - visitjapaninternational: 1445
 - koreatourism: 4093
 - TheSmartLocal: 2856
@@ -17,6 +16,7 @@
 - DiscoverHongKong: 2163
 - wonderfulplacesindo: 989
 - goturkeytourism: 794
+
 =======
 
 ## Server
