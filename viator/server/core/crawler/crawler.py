@@ -5,18 +5,13 @@ import urllib.request
 import time
 import datetime
 
-
-
-access_token = 'EAACEdEose0cBAEdO0kwCeWZCnmPyk6CIOpSGZBsUNRyWnIxEeRGp8ZBy3NS38J3MPQUH5OgV7zcMtZBkRAKKhjwrXqMRdqa0uuOenF6ZB7G6u23sxmn0E9vovXPNGgj0KoiMaUsQpbb7XzZCLWROUeZCJ5MgSSL3HmgXlbrBJs0XMudbMKsRzlIbVoxIN5YrUAZD'
-
-
-post_id = 'goturkeytourism'
-
+access_token = 'EAACEdEose0cBANiO733LMNxiakt9IraUQ6Bicaho1ZBWOjtQnPrgyZAy5Kop4IPuSdUPx4K9MYIioAcyDsSyPDZCy2wGZB15m0nfZBdiXJ9z50sAB7zPhulQuRzGZAiQ5gbhZA5tr0IPrJO0RsYgzttMbdXBkn1syQMiwbUbgNc1IxvZCjaAf8LDK4gBXbJCZCDQZAWDTx7HYDMwZDZD'
+page_id = 'visitchinanow'
 base = "https://graph.facebook.com/v2.8"
-node = "/%s/posts" % post_id
+node = "/%s/posts" % page_id
 fields = "/?fields=message,link,created_time,type,name,id," + \
-            "comments.limit(0).summary(true),shares,reactions" + \
-            ".limit(0).summary(true)"
+         "comments.limit(0).summary(true),shares,reactions" + \
+         ".limit(0).summary(true)"
 parameters = "&limit=%s&access_token=%s" % (100, access_token)
 url = base + node + fields + parameters
 
@@ -32,56 +27,42 @@ def request_until_succeed(url):
         except Exception as e:
             print(e)
             time.sleep(5)
-
             print("Error for URL %s: %s" % (url, datetime.datetime.now()))
             print("Retrying.")
-
     return response.read().decode(response.headers.get_content_charset())
 
 
-
-
-def some_action(post):
-    try:
-        print(post['message'])
-    except KeyError as e:
-        print(e)
-
-    #print (json.dumps(post),indent=4, sort_keys=True)
-
-
-def crawl_data(post_id,access_token):
+def crawl_data(page_id, access_token):
     has_next_page = True
     num_processed = 0
     graph = facebook.GraphAPI(access_token)
-    profile = graph.get_object(post_id)
+    profile = graph.get_object(page_id)
     posts = graph.get_connections(profile['id'], 'posts')
-    #comments = graph.get_all_connections(profile['id'], 'comments')
-    with open('%s_facebook.json' %post_id, 'a', newline='', encoding='utf-8') as outfile:
-        json.dump(posts, outfile, sort_keys=True, indent=4)
 
-
+    list = []
     while has_next_page:
-        #[some_action(post=post) for post in posts['data']]
+        list.append(posts)
         for post in posts['data']:
+            print(post['created_time'])
             num_processed += 1
             if num_processed % 100 == 0:
                 print("%s Statuses Processed: %s" % \
-                  (num_processed, datetime.datetime.now()))
+                      (num_processed, datetime.datetime.now()))
 
-           #request next page
-             #posts = requests.get(posts['paging']['next']).json()
-        #with open('%s_facebook_statuses.csv' % page_id, 'w', newline='', encoding='utf-8') as file:
-        if('paging' in posts.keys()):
+        # request next page
+        if 'paging' in posts.keys():
             posts = json.loads(request_until_succeed(posts['paging']['next']))
+
         else:
             has_next_page = False
+            print(num_processed)
             file = open('records.txt', 'a')
-            file.write("%s" % post_id + ": " + "%s" % num_processed + "\n")
+            file.write("%s" % page_id + ": " + "%s" % num_processed + "\n")
             file.close()
 
+    with open('%s_facebook.json' % page_id, 'a', newline='', encoding='utf-8') as outfile:
+        json.dump(list, outfile, sort_keys=True, indent=4)
 
 
 if __name__ == '__main__':
-    crawl_data(post_id, access_token)
-    #print(config.BASE_DIR)
+    crawl_data(page_id, access_token)
