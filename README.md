@@ -1,7 +1,5 @@
 # cz4034-information-retrieval
 =======
-## No of records in each crawled data:
-=======
 ## Number of records in each crawled data:
 
 - Tripviss:176
