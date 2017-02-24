@@ -1,4 +1,4 @@
-from server import app
+from server.server_app import app
 
 import argparse
 
