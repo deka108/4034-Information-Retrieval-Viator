@@ -5,7 +5,6 @@ import urllib.request
 import time
 import datetime
 
-
 access_token = 'EAACEdEose0cBAIyGEt0HmSXL9QgScefVc9HeEIQG1Pa561At2aoBi7X5ZB92lM4RZBSD2hv9kpJ4ZAoevCHNGY8I52VtA5q1E8WIYKtOIJMbuIMpUZCZBHAobrr3ChjqQogpP7sDmdPD9SDILvrwOtt8OPrlXcazUuoP7fVMZBoX4UrCDYZA5xfrq0e6LFZBlZA7BTR3ZBCmk0GQZDZD'
 
 
@@ -82,4 +81,6 @@ def crawl_data(post_id,access_token):
 
 
 if __name__ == '__main__':
-    crawl_data(post_id, access_token)
+    # crawl_data(post_id, access_token)
+    print(BASE_DIR)
+
