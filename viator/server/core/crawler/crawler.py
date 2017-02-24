@@ -5,11 +5,10 @@ import json
 import urllib.request
 import time
 import datetime
+from server import config
 
 access_token = 'EAACEdEose0cBANiO733LMNxiakt9IraUQ6Bicaho1ZBWOjtQnPrgyZAy5Kop4IPuSdUPx4K9MYIioAcyDsSyPDZCy2wGZB15m0nfZBdiXJ9z50sAB7zPhulQuRzGZAiQ5gbhZA5tr0IPrJO0RsYgzttMbdXBkn1syQMiwbUbgNc1IxvZCjaAf8LDK4gBXbJCZCDQZAWDTx7HYDMwZDZD'
 page_id = 'visitchinanow'
-
-from server import config
 
 base = "https://graph.facebook.com/v2.8"
 page_id = 'visitchinanow'
