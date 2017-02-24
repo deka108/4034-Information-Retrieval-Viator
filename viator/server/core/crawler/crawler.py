@@ -1,3 +1,4 @@
+import os
 import facebook
 import requests
 import json
@@ -5,17 +6,13 @@ import urllib.request
 import time
 import datetime
 
-<<<<<<< HEAD
 access_token = 'EAACEdEose0cBANiO733LMNxiakt9IraUQ6Bicaho1ZBWOjtQnPrgyZAy5Kop4IPuSdUPx4K9MYIioAcyDsSyPDZCy2wGZB15m0nfZBdiXJ9z50sAB7zPhulQuRzGZAiQ5gbhZA5tr0IPrJO0RsYgzttMbdXBkn1syQMiwbUbgNc1IxvZCjaAf8LDK4gBXbJCZCDQZAWDTx7HYDMwZDZD'
 page_id = 'visitchinanow'
-=======
-access_token = 'EAACEdEose0cBAIyGEt0HmSXL9QgScefVc9HeEIQG1Pa561At2aoBi7X5ZB92lM4RZBSD2hv9kpJ4ZAoevCHNGY8I52VtA5q1E8WIYKtOIJMbuIMpUZCZBHAobrr3ChjqQogpP7sDmdPD9SDILvrwOtt8OPrlXcazUuoP7fVMZBoX4UrCDYZA5xfrq0e6LFZBlZA7BTR3ZBCmk0GQZDZD'
 
+from server import config
 
-post_id = 'goturkeytourism'
-
->>>>>>> 67289b8... modify init
 base = "https://graph.facebook.com/v2.8"
+page_id = 'visitchinanow'
 node = "/%s/posts" % page_id
 fields = "/?fields=message,link,created_time,type,name,id," + \
          "comments.limit(0).summary(true),shares,reactions" + \
@@ -71,12 +68,8 @@ def crawl_data(page_id, access_token):
     with open('%s_facebook.json' % page_id, 'a', newline='', encoding='utf-8') as outfile:
         json.dump(list, outfile, sort_keys=True, indent=4)
 
-
+def test():
+    print("TEST")
+    
 if __name__ == '__main__':
-<<<<<<< HEAD
     crawl_data(page_id, access_token)
-=======
-    # crawl_data(post_id, access_token)
-    print(BASE_DIR)
-
->>>>>>> 67289b8... modify init
