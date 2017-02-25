@@ -11,8 +11,7 @@ def after_request(response):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--host', default='0.0.0.0', 
-    help='Host name')
+    parser.add_argument('--host', default='0.0.0.0', help='Host name')
     parser.add_argument('-p', '--port', default=3000, help='Port number')
     args = parser.parse_args() 
 
