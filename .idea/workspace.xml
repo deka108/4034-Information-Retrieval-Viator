@@ -2,16 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3132a3b1-81d4-454c-9fcf-9877bf3fe9ef" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/viator/server/handler/crawl.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/solr.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/viator/server/server_app.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/__init__.py" afterPath="$PROJECT_DIR$/viator/server/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/frontend/index.html" afterPath="$PROJECT_DIR$/viator/frontend/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/run.py" afterPath="$PROJECT_DIR$/viator/run.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/config.py" afterPath="$PROJECT_DIR$/viator/server/config.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/core/crawler/crawler.py" afterPath="$PROJECT_DIR$/viator/server/core/crawler/crawler.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/views/__init__.py" afterPath="$PROJECT_DIR$/viator/server/handler/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/views/db_manager.py" afterPath="$PROJECT_DIR$/viator/server/handler/db_manager.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/views/db_map.py" afterPath="$PROJECT_DIR$/viator/server/handler/db_map.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/views/index.py" afterPath="$PROJECT_DIR$/viator/server/handler/index.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/views/search.py" afterPath="$PROJECT_DIR$/viator/server/handler/search.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/views/static/index.html" afterPath="$PROJECT_DIR$/viator/server/handler/static/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/handler/db_manager.py" afterPath="$PROJECT_DIR$/viator/server/handler/db_manager.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/handler/db_map.py" afterPath="$PROJECT_DIR$/viator/server/handler/db_map.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/views/util.py" afterPath="$PROJECT_DIR$/viator/server/views/util.py" />
     </list>
     <ignored path="cz4034-information-retrieval.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,17 +34,27 @@
     <favorites_list name="cz4034-information-retrieval" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.42945325">
+    <splitter split-orientation="horizontal" split-proportion="0.86243385">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="crawler.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/viator/server/core/crawler/crawler.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="255">
-                  <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
+                <state relative-caret-position="179">
+                  <caret line="72" column="17" selection-start-line="72" selection-start-column="17" selection-end-line="72" selection-end-column="17" />
                   <folding>
-                    <element signature="e#0#15#0" expanded="true" />
+                    <element signature="e#0#9#0" expanded="true" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="db_map.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/viator/server/handler/db_map.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -55,7 +65,7 @@
                 <state relative-caret-position="0">
                   <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding>
-                    <element signature="e#0#22#0" expanded="true" />
+                    <element signature="e#0#33#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -74,8 +84,8 @@
           <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/viator/server/config.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="119">
-                  <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
+                <state relative-caret-position="204">
+                  <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
                   <folding />
                 </state>
               </provider>
@@ -97,7 +107,7 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="crawl.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="crawl.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/viator/server/handler/crawl.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="170">
@@ -109,13 +119,13 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="db_manager.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="db_manager.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/viator/server/handler/db_manager.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="363">
-                  <caret line="27" column="8" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="8" />
+                  <caret line="42" column="8" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="8" />
                   <folding>
-                    <element signature="e#0#27#0" expanded="true" />
+                    <element signature="e#0#36#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -145,6 +155,7 @@
         <option value="$PROJECT_DIR$/viator/server/__init__.py" />
         <option value="$PROJECT_DIR$/viator/server/handler/crawl.py" />
         <option value="$PROJECT_DIR$/viator/server/core/crawler/crawler.py" />
+        <option value="$PROJECT_DIR$/viator/server/handler/db_map.py" />
       </list>
     </option>
   </component>
@@ -521,7 +532,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1378" height="744" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16740088" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -531,7 +542,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.329653" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.329653" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -564,7 +575,7 @@
         <state relative-caret-position="1360">
           <caret line="85" column="4" selection-start-line="85" selection-start-column="4" selection-end-line="85" selection-end-column="4" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3229,7 +3240,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#22#0" expanded="true" />
+            <element signature="e#0#33#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3244,16 +3255,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/viator/server/handler/db_manager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="27" column="8" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/viator/server/handler/index.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -3264,9 +3265,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/viator/server/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
+        <state relative-caret-position="204">
+          <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viator/server/handler/db_map.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viator/server/core/crawler/crawler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="72" column="17" selection-start-line="72" selection-start-column="17" selection-end-line="72" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -3280,12 +3299,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/viator/server/core/crawler/crawler.py">
+    <entry file="file://$PROJECT_DIR$/viator/server/handler/db_manager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
+        <state relative-caret-position="363">
+          <caret line="42" column="8" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="8" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
