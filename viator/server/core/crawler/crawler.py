@@ -5,7 +5,7 @@ import urllib.request
 import time
 import datetime
 
-access_token = 'EAACEdEose0cBANiO733LMNxiakt9IraUQ6Bicaho1ZBWOjtQnPrgyZAy5Kop4IPuSdUPx4K9MYIioAcyDsSyPDZCy2wGZB15m0nfZBdiXJ9z50sAB7zPhulQuRzGZAiQ5gbhZA5tr0IPrJO0RsYgzttMbdXBkn1syQMiwbUbgNc1IxvZCjaAf8LDK4gBXbJCZCDQZAWDTx7HYDMwZDZD'
+access_token = 'EAACEdEose0cBAIVoIaZAajt0ZBAVZBLE9Gl4cxJhDSXh1r7WqDN6lut0UiEpHMbJdytQnMpUaNoKuXpnXFa2nidNvkP3xkwmsAywdcXxxgySsyhH3VQwGTapY8lSL4B9tda2bT4jutbkl9L0d5GedCavVLdaZA6SZCaTa4zHhqjMrt3Pk4KTuZB3SyZAAHhK0ZAfDtkjfRLT4gZDZD'
 page_id = 'visitchinanow'
 base = "https://graph.facebook.com/v2.8"
 node = "/%s/posts" % page_id
@@ -64,5 +64,11 @@ def crawl_data(page_id, access_token):
         json.dump(list, outfile, sort_keys=True, indent=4)
 
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
+def crawl_main():
     crawl_data(page_id, access_token)
+    return "yay"
+
+
+def test():
+    return "test"
