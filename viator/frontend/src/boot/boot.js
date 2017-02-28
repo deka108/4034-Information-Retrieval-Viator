@@ -10,8 +10,9 @@ angular
     .ready(function() {
         angular
             .module('viator-bootstrap', [App.name])
-            .run(() => {
+            .run($rootScope => {
                 console.log(`Running the 'viator-bootstrap'`);
+                $rootScope._ = window._;
             });
 
         let body = document.getElementsByTagName("body")[0];

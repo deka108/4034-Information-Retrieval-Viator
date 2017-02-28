@@ -1,6 +1,5 @@
-function SearchController($scope, PostDataService) {
-
-    $scope.currOrder = null;
+function SearchController($scope, PostDataService, EVENTS, _) {
+    $scope.curOrder = null;
 
     $scope.searchFilters = [{
             category: 'Emotions',
@@ -11,6 +10,7 @@ function SearchController($scope, PostDataService) {
             values: ['Indonesia', 'Japan', 'Malaysia', 'Singapore']
         }
     ];
+
     $scope.searchOrders = [
         { value: null },
         { value: 'Likes' },
@@ -22,23 +22,31 @@ function SearchController($scope, PostDataService) {
         console.log($scope.selectedFilterCategory);
     };
 
-    $scope.callService = function(textQuery){
-        PostDataService.getData(textQuery).then(function success (response) {
-            $scope.data = response.data;
-        }, function failure (response) {
-            console.log(response);
-        })
+    $scope.sortBy = function(order) {
+        $scope.currOrder = order.value ? order.value.toLowerCase() : null;
     };
 
-    $scope.sortBy = function(order) {
-        $scope.currOrder = order.value? order.value.toLowerCase() : null;
+    $scope.searchQuery = function(query) {
+        PostDataService.retrieveQueryResult(query);
     }
 
-    // $scope.$on(EVENTS.RECEIVE_DATA, function(event, fetchedData){
-    //     $scope.data = fetchedData;
-    //     console.log(fetchedData.data.data);
-    // });
+    $scope.getPostByPageId = function(pageId) {
+        PostDataService.retrievePostDataByPageId(pageId);
+    };
+
+    $scope.$on(EVENTS.POST_DATA_RECEIVED, function() {
+        let postDataTemp = PostDataService.getPostData();
+
+        if (postDataTemp instanceof Array) {
+            $scope.postData = _.flatMap(postDataTemp, data => data.data);
+        }
+    });
+
+    $scope.$on(EVENTS.SEARCH_RESULTS_RECEIVED, function() {
+        $scope.searchResult = PostDataService.getSearchResult();
+        console.log($scope.searchResult);
+    });
 
 }
 
-export default ['$scope', 'PostDataService', SearchController];
+export default ['$scope', 'PostDataService', 'EVENTS', '_', SearchController];

@@ -9,3 +9,15 @@
 md-input-container:not(.md-input-invalid).md-input-focused .md-input {
     border-color: lightgreen;
 }
+
+md-input-container .md-errors-spacer {
+    display: none;
+}
+
+md-input-container {
+    margin-bottom: 0;
+}
+
+.scretch-btn {
+    width: 80%;
+}

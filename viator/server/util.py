@@ -29,5 +29,14 @@ def get_file_name(country):
 def read_json_data(country):
     data_path = get_file_path(country)
     if data_path:
-        with open(data_path) as data_file:
-            return json.load(data_file)
+        with open(data_path, mode='r') as file_handler:
+            return json.load(file_handler)
+
+def get_schema_data(file_name=None):
+    if not file_name:
+        schema_path = config.SCHEMA_DATA_PATH
+    else:
+        schema_path = config.get_data_path(file_name)
+        
+    with open(schema_path, mode='r') as file_handler:
+        return json.load(file_handler)

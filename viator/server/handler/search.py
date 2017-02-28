@@ -1,15 +1,17 @@
 from flask import Blueprint, jsonify, request
 
+from server.core.solr import solr_interface
+
+import json
+
 search_page = Blueprint('search', __name__)
 
-
-@search_page.route('/', methods=['GET'])
+@search_page.route('/', methods=['POST'])
 def search_query():
-    query_arg = request.args.get('query')
-    args = request.args.lists()
-    print(args)
+    query_params = request.data
+    response = solr_interface.search(query_params)
 
-    return jsonify(args)
+    return jsonify(response)
 
 
 class SearchResult(object):

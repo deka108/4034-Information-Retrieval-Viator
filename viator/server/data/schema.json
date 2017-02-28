@@ -1,0 +1,7 @@
+{
+    "add-field": {
+        "name": "something",
+        "type": "text",
+        "indexed": true
+    }
+}

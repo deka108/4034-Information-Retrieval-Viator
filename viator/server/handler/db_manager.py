@@ -1,46 +1,32 @@
+import requests
+
 from flask import Blueprint, jsonify
 
-from server.core.solr import post_data_solr as pds
+from server.core.solr import solr_interface
 from server import config, util
-import requests
+
 
 db_manager = Blueprint('db_manager', __name__, static_folder='../data')
 
 
 @db_manager.route('/indexing/')
 def indexing_all_database():
-    countries = util.get_data_names()
-    for country in countries:
-        data = util.read_json_data(country)
-        if data:
-            try:
-                r = requests.post(config.SOLR_UPDATE_JSON_URL, json=data)
-                return "{} successfully indexed!".format(country)
-            except requests.exceptions.ConnectionError: 
-                return "Unable to connect with Solr server"
-    return "Country not exist"
+    return solr_interface.index_all()
 
 
 @db_manager.route('/indexing/<country>')
 def indexing_country_database(country):
-    data = util.read_json_data(country)
-    if data:
-        try:
-            r = requests.post(config.SOLR_UPDATE_JSON_URL, json=data)
-            return "{} successfully indexed!".format(country)
-        except requests.exceptions.ConnectionError: 
-            return "Unable to connect with Solr server"
-    return "Country not exist"
+    return solr_interface.index_specific(country)
 
 
 @db_manager.route('/delete/')
 def delete_table():
-    return "send data to solr"
+    return solr_interface.delete_all_index()
 
 
-@db_manager.route('/delete/page_name')
-def delete_table_name():
-    return "send data to solr"
+@db_manager.route('/delete/<country>')
+def delete_table_name(country):
+    return solr_interface.delete_index_by_page(country)
 
 
 @db_manager.route('/read/')
@@ -59,6 +45,12 @@ def read_data(country):
     return "Country does not exist"
 
 
-# @db_manager.route('/test/')
-# def test():
-#     return jsonify(pds.test())
+@db_manager.route('/core')
+def get_core():
+    return jsonify(solr_interface.get_core())
+
+
+@db_manager.route('/schema', defaults={'path': ''})
+@db_manager.route('/schema/<path:path>')
+def get_schema(path):
+    return jsonify(solr_interface.get_schema())
