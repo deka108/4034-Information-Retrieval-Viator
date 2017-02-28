@@ -1,17 +1,11 @@
-function PostDataService($http, $rootScope, EVENTS, URL){
-    function _updateData(data){
-        $rootScope.$broadcast(EVENTS.RECEIVE_DATA, data);
-    }
+function PostDataService($http, $rootScope, URL){
+    // function _updateData(data){
+    //     $rootScope.$broadcast(EVENTS.RECEIVE_DATA, data);
+    // }
 
     this.getData = function(country){
-        $http.get(URL.DATA_URL + country).then(
-        function success(response){
-            console.log(response);
-        }, 
-        function error(response){
-            console.error(response);
-        });
-    }
+        return $http.get(URL.DATA_URL + country);
+    };
 
     this.createData = function(){
         $http.get(URL.DB_CREATE).then(
@@ -27,4 +21,4 @@ function PostDataService($http, $rootScope, EVENTS, URL){
     }
 }
 
-export default ['$http', '$rootScope', 'EVENTS', 'URL', PostDataService]
+export default ['$http', '$rootScope', 'URL', PostDataService]
