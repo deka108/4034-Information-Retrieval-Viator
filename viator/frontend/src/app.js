@@ -4,14 +4,15 @@ import angular from 'angular';
 import 'angular-animate';
 import 'angular-aria';
 import 'angular-material';
+import 'angular-material-data-table';
 
 import SearchController from 'src/controllers/SearchController';
-import SearchResultsController from 'src/controllers/SearchResultsController';
+import AdminController from 'src/controllers/AdminController';
 import PostDataService from 'src/services/PostDataService';
 import URL from 'src/constants/URL';
 import EVENTS from 'src/constants/EVENTS';
 
-export default angular.module('viator-app', ['ngMaterial'])
+export default angular.module('viator-app', ['ngMaterial', 'md.data.table'])
     .config(function($mdThemingProvider) {
         $mdThemingProvider.theme('default')
             .primaryPalette('orange')
@@ -20,5 +21,5 @@ export default angular.module('viator-app', ['ngMaterial'])
     .constant('URL', URL)
     .constant('EVENTS', EVENTS)
     .controller('SearchController', SearchController)
-    .controller('SearchResultsController', SearchResultsController)
+    .controller('AdminController', AdminController)
     .service('PostDataService', PostDataService)

@@ -1,9 +1,9 @@
 import os
 
 from flask import Flask
-from .views.search import search_page
-from .views.index import index_page
-from .views.db_manager import db_manager
+from .handler.search import search_page
+from .handler.index import index_page
+from .handler.db_manager import db_manager
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
