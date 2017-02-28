@@ -1,23 +1,19 @@
 from server import config
 import json
 
-DATA_MAP = {
-    'hongkong' : 'DiscoverHongKong_facebook.json',
-    'turkey' : 'goturkeytourism_facebook.json',
-    'india': 'incredibleindia_facebook.json',
-    'indonesia.travel': 'indonesia.travel_facebook.json',
-    'indonesiatravel': 'indonesiatravel_facebook.json',
-    'philipphines': 'itsmorefuninthePhilippines_facebook.json',
-    'korea': 'koreatourism_facebook.json',
-    'malaysia': 'malaysia.travel.sg_facebook.json',
-    'singapore': 'TheSmartLocal_facebook.json',
-    'tripadvisor': 'TripAdvisor_facebook.json',
-    'tripviss': 'Tripviss_facebook.json',
-    'china': 'visitchinanow_facebook.json',
-    'japan': 'visitjapaninternational_facebook.json',
-    'indonesia': 'wonderfulplacesindo_facebook.json'
-}
+JSON_FILE_NAME = "%s_facebook.json"
 
+DATA_MAP = {}
+
+def update_data_map():
+    global DATA_MAP
+    DATA_MAP = {}
+    with open(config.RECORDS_DATA_PATH, 'r') as file_handler:
+        for line in file_handler.readlines():
+            page_id = line.split(":")[0]
+            DATA_MAP[page_id] = JSON_FILE_NAME % page_id
+
+update_data_map()
 
 def get_data_names():
     return DATA_MAP.keys()

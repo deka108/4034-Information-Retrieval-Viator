@@ -12,6 +12,7 @@ SOLR_SEARCH_URL = SOLR_BASE_URL + "/query"
 
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 JSON_DATA_PATH = os.path.join(DATA_DIR, '%s')
+RECORDS_DATA_PATH = os.path.join(DATA_DIR, 'records.txt')
 
 # Enable protection agains *Cross-site Request Forgery (CSRF)*
 CSRF_ENABLED = True

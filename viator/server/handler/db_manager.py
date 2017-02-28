@@ -1,8 +1,7 @@
 from flask import Blueprint, jsonify
 
 from server.core.solr import post_data_solr as pds
-from server import config
-from . import util
+from server import config, util
 import requests
 
 db_manager = Blueprint('db_manager', __name__, static_folder='../data')
@@ -60,6 +59,6 @@ def read_data(country):
     return "Country does not exist"
 
 
-@db_manager.route('/test/')
-def test():
-    return jsonify(pds.test())
+# @db_manager.route('/test/')
+# def test():
+#     return jsonify(pds.test())
