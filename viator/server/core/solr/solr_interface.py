@@ -1,7 +1,13 @@
 import json
 import os
 import requests
-from server.handler import util
+from server import util, config
+
+
+s = requests.Session()
+s.mount('http://', requests.adapters.HTTPAdapter(max_retries=5))
+s.mount('https://', requests.adapters.HTTPAdapter(max_retries=5))
+
 
 def read_from_file(dir_folder='./data/'):
     text_data = []
@@ -57,9 +63,9 @@ def add_to_dict(posting):
     return post_dict
 
 
-def send_to_solr(body_payload, core_name):
+def send_to_solr(body_payload):
     print(json.dumps(body_payload))
-    r = requests.post("http://localhost:8983/solr/{core}/update".format(core=core_name),
+    r = s.post("{url}/update".format(url=config.SOLR_BASE_URL),
                       headers={"Content-Type": "application/json"},
                       data='{}'.format(json.dumps(body_payload)))
     print(r.json())
@@ -69,16 +75,38 @@ def test():
     # print(config.SOLR_BASE_URL)
     return util.read_json_data('china')
 
-if __name__ == '__main__':
-    text_data = read_from_file('./')
-    for text in text_data:
-        temp_json = json.loads(text)
-        for post in temp_json['data']:
-            to_be_posted = add_to_dict(post)
 
-            payload = json.loads(''' {
-                "add": {"doc" : %s,
-                "commitWithin": 1000
-            }}''' % json.dumps(to_be_posted))
-            send_to_solr(payload, 'travelsearch')
+def delete_all_index():
+    r = s.get("{url}/update?stream.body=<delete><query>*:*</query></delete>&commit=true".format(url=config.SOLR_BASE_URL))
+    return str(r.status_code)
+
+
+def delete_index_by_page(page_name):
+    r = s.get("{url}/update?stream.body=<delete><query>page_name_s:{page_name}</query></delete>&commit=true".format(url=config.SOLR_BASE_URL, page_name=page_name))
+    return str(r.status_code)
+
+
+def index_specific(country):
+    temp_json = util.read_json_data(country)
+    if temp_json:
+        for branch in temp_json:
+            for post in branch['data']:
+                to_be_posted = add_to_dict(post)
+                to_be_posted['page_name_s'] = country
+                payload = json.loads(''' {
+                    "add": {"doc" : %s,
+                    "commitWithin": 1000
+                }}''' % json.dumps(to_be_posted))
+                send_to_solr(payload)
+        return "Successfully indexed {}".format(country)
+    return "Country does not exist"
+
+
+def index_all():
+    delete_all_index()
+    data_names = util.get_data_names()
+    for name in data_names:
+        index_specific(name)
+    return "Success"
+
 
