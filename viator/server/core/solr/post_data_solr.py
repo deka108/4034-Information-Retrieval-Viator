@@ -1,7 +1,7 @@
 import json
 import os
 import requests
-
+from server.handler import util
 
 def read_from_file(dir_folder='./data/'):
     text_data = []
@@ -64,6 +64,10 @@ def send_to_solr(body_payload, core_name):
                       data='{}'.format(json.dumps(body_payload)))
     print(r.json())
 
+
+def test():
+    # print(config.SOLR_BASE_URL)
+    return util.read_json_data('china')
 
 if __name__ == '__main__':
     text_data = read_from_file('./')

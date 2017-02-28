@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify
 
+from server.core.solr import post_data_solr as pds
 from server import config
 from . import util
 import requests
@@ -33,13 +34,13 @@ def indexing_country_database(country):
     return "Country not exist"
 
 
-@db_manager.route('/update/')
-def update_database():
+@db_manager.route('/delete/')
+def delete_table():
     return "send data to solr"
 
 
-@db_manager.route('/delete/')
-def delete_table():
+@db_manager.route('/delete/page_name')
+def delete_table_name():
     return "send data to solr"
 
 
@@ -59,5 +60,6 @@ def read_data(country):
     return "Country does not exist"
 
 
-def reindex_database():
-    pass
+@db_manager.route('/test/')
+def test():
+    return jsonify(pds.test())
