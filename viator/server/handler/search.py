@@ -8,11 +8,15 @@ search_page = Blueprint('search', __name__)
 
 @search_page.route('/', methods=['POST'])
 def search_query():
-    query_params = request.data
+    query_params = {}
+
+    query_params['q'] = request.json[u'query']
+    query_params['hl'] = 'true'
+    query_params['hl.fl'] = 'message_t'
+
     response = solr_interface.search(query_params)
 
     return jsonify(response)
-
 
 class SearchResult(object):
 

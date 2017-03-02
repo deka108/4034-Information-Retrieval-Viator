@@ -26,7 +26,7 @@
         <md-tabs md-dynamic-height md-border-bottom>
             <!-- Search UI -->
             <md-tab label="User">
-                <md-tab-content class="md-padding" ng-controller="SearchController">
+                <md-content class="md-padding" ng-controller="SearchController">
                     <div layout="row" layout-align="center center">
                         <div flex="80" layout-padding>
                             <md-card>
@@ -76,7 +76,7 @@
                                     </div>
                                 </md-card-content>
                             </md-card>
-                            <div>
+                            <div ng-if="postData">
                                 <md-card ng-repeat="post in postData | orderBy: currOrder">
                                     <md-card-title>
                                         <md-card-title-text>
@@ -91,8 +91,28 @@
                                     </md-card-title>
                                 </md-card>
                             </div>
+                            <div ng-if="postSearchResult">
+                                <md-card ng-repeat="(key, value) in postSearchResult | orderBy: currOrder">
+                                    <md-card-title>
+                                        <md-card-title-text>
+                                            <span class="md-subhead">{{ value.message_t[0] }}</span>
+                                            <md-card-title-media>
+                                                <div class='md-media-lg card-media'>
+                                                </div>
+                                            </md-card-title-media>
+                                            <!--md-button class="md-accent md-raised" ng-click='sendToService()'>Trigger</md-button>
+                                <span ng-if="data">Data: {{data}}</span-->
+                                        </md-card-title-text>
+                                    </md-card-title>
+                                </md-card>
+                            </div>
                         </div>
                     </div>
+                </md-content>
+            </md-tab>
+            <!-- Admin UI -->
+            <md-tab label="Admin">
+                <md-content>
                     <div layout="row" layout-align="center center" ng-controller="AdminController">
                         <div flex=80 layout-padding>
                             <h2>Manage Solr Database</h2>
@@ -167,12 +187,8 @@
                             </md-card>
                         </div>
                     </div>
-                </md-tab-content>
+                </md-content>
             </md-tab>
-            <!-- Admin UI -->
-            <!--<md-tab label="Admin">
-                <md-tab-content> paste here</md-tab-content>
-            </md-tab>-->
         </md-tabs>
     </md-content>
 
