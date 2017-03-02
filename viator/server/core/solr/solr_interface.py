@@ -71,8 +71,8 @@ def delete_all_index():
     return str(r.status_code)
 
 
-def delete_index_by_page(page_name):
-    r = s.get("{url}/update?stream.body=<delete><query>page_name_s:{page_name}</query></delete>&commit=true".format(url=config.SOLR_BASE_URL, page_name=page_name))
+def delete_index_by_page(page_id):
+    r = s.get("{url}/update?stream.body=<delete><query>page_id_s:{page_id}</query></delete>&commit=true".format(url=config.SOLR_BASE_URL, page_id=page_id))
     return str(r.status_code)
 
 def get_core():
@@ -83,27 +83,26 @@ def get_schema():
     r = s.get("{url}/schema".format(url=config.SOLR_BASE_URL))
     return r.json()
 
-def index_specific(country):
-    temp_json = util.read_json_data(country)
+def index_specific(page_id):
+    temp_json = util.read_json_data(page_id)
     if temp_json:
-        for branch in temp_json:
-            for post in branch['data']:
-                to_be_posted = add_to_dict(post)
-                to_be_posted['page_name_s'] = country
-                payload = json.loads(''' {
-                    "add": {"doc" : %s,
-                    "commitWithin": 1000
-                }}''' % json.dumps(to_be_posted))
-                send_to_solr(payload)
-        return "Successfully indexed {}".format(country)
-    return "Country does not exist"
+        for post in temp_json:
+            to_be_posted = add_to_dict(post)
+            to_be_posted['page_id_s'] = page_id
+            payload = json.loads(''' {
+                "add": {"doc" : %s,
+                "commitWithin": 1000
+            }}''' % json.dumps(to_be_posted))
+            send_to_solr(payload)
+        return "Successfully indexed {}".format(page_id)
+    return "Page ID does not exist"
 
 
 def index_all():
     delete_all_index()
     data_names = util.get_data_names()
-    for name in data_names:
-        index_specific(name)
+    for page_id in data_names:
+        index_specific(page_id)
     return "Success"
 
 
