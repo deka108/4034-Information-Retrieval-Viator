@@ -22,6 +22,9 @@ def get_file_path(country):
     if country in DATA_MAP:
         return config.get_data_path(DATA_MAP[country])
 
+def get_json_file_path(page_id):
+    return config.get_data_path(JSON_FILE_NAME) % page_id
+
 def get_file_name(country):
     if country in DATA_MAP:
         return DATA_MAP[country]

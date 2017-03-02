@@ -1,4 +1,3 @@
-import os
 import facebook
 import requests
 import json
@@ -7,11 +6,9 @@ import time
 import datetime
 
 from server import config
+from server import util
 
-access_token = 'EAACEdEose0cBAIVoIaZAajt0ZBAVZBLE9Gl4cxJhDSXh1r7WqDN6lut0UiEpHMbJdytQnMpUaNoKuXpnXFa2nidNvkP3xkwmsAywdcXxxgySsyhH3VQwGTapY8lSL4B9tda2bT4jutbkl9L0d5GedCavVLdaZA6SZCaTa4zHhqjMrt3Pk4KTuZB3SyZAAHhK0ZAfDtkjfRLT4gZDZD'
-page_id = 'visitchinanow'
-
-base = "https://graph.facebook.com/v2.8"
+'''base = "https://graph.facebook.com/v2.8"
 page_id = 'visitchinanow'
 node = "/%s/posts" % page_id
 fields = "/?fields=message,link,created_time,type,name,id," + \
@@ -19,7 +16,7 @@ fields = "/?fields=message,link,created_time,type,name,id," + \
          ".limit(0).summary(true)"
 parameters = "&limit=%s&access_token=%s" % (100, access_token)
 url = base + node + fields + parameters
-
+'''
 
 def request_until_succeed(url):
     req = urllib.request.Request(url)
@@ -61,17 +58,17 @@ def crawl_page(page_id, access_token):
         else:
             has_next_page = False
             print(num_processed)
-            file = open('records.txt', 'a')
+            file = open(config.RECORDS_DATA_PATH, 'a')
             file.write("%s" % page_id + ": " + "%s" % num_processed + "\n")
             file.close()
 
-    with open('%s_facebook.json' % page_id, 'a', newline='', encoding='utf-8') as outfile:
+    with open(util.get_json_file_path(page_id), 'w', newline='', encoding='utf-8') as outfile:
         json.dump(list, outfile, sort_keys=True, indent=4)
 
 def crawl_all(access_token):
-    fo = open("records.txt", "w")
+    fo = open(config.RECORDS_DATA_PATH, "w")
     fo.truncate()
-    with open("page_id.txt") as f:
+    with open(config.INITIAL_PAGEID_PATH) as f:
         line = f.readlines()
         content = [x.strip() for x in line]
     for page in content:
