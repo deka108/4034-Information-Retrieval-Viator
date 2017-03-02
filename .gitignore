@@ -157,3 +157,6 @@ angular.js.tmproj
 bower/bower-*
 npm-debug.log
 /tmp/
+
+.idea
+*.workspace.xml

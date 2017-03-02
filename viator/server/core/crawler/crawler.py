@@ -6,6 +6,7 @@ import urllib.request
 import time
 import datetime
 
+from server import config
 
 access_token = 'EAACEdEose0cBAIVoIaZAajt0ZBAVZBLE9Gl4cxJhDSXh1r7WqDN6lut0UiEpHMbJdytQnMpUaNoKuXpnXFa2nidNvkP3xkwmsAywdcXxxgySsyhH3VQwGTapY8lSL4B9tda2bT4jutbkl9L0d5GedCavVLdaZA6SZCaTa4zHhqjMrt3Pk4KTuZB3SyZAAHhK0ZAfDtkjfRLT4gZDZD'
 page_id = 'visitchinanow'
@@ -36,7 +37,7 @@ def request_until_succeed(url):
     return response.read().decode(response.headers.get_content_charset())
 
 
-def crawl_data(page_id, access_token):
+def crawl_page(page_id, access_token):
     has_next_page = True
     num_processed = 0
     graph = facebook.GraphAPI(access_token)
@@ -67,13 +68,23 @@ def crawl_data(page_id, access_token):
     with open('%s_facebook.json' % page_id, 'a', newline='', encoding='utf-8') as outfile:
         json.dump(list, outfile, sort_keys=True, indent=4)
 
-
-
-#if __name__ == '__main__':
-def crawl_main():
-    crawl_data(page_id, access_token)
+def crawl_all(access_token):
+    fo = open("records.txt", "w")
+    fo.truncate()
+    with open("page_id.txt") as f:
+        line = f.readlines()
+        content = [x.strip() for x in line]
+    for page in content:
+        crawl_page(page, access_token)
+        # print (page)
     return "yay"
 
 
+
+#if __name__ == '__main__':
+'''def crawl_main():
+    crawl_data(page_id, access_token)
+    return "yay"
 def test():
     return "test"
+'''
