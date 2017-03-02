@@ -45,8 +45,8 @@ def crawl_data(page_id, access_token):
 
     list = []
     while has_next_page:
-        list.append(posts)
         for post in posts['data']:
+            list.append(post)
             print(post['created_time'])
             num_processed += 1
             if num_processed % 100 == 0:
