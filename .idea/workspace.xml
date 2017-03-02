@@ -2,14 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3132a3b1-81d4-454c-9fcf-9877bf3fe9ef" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/viator/visitchinanow_facebook.json" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/core/crawler/crawler.py" afterPath="$PROJECT_DIR$/viator/server/core/crawler/crawler.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/data/DiscoverHongKong_facebook.json" afterPath="$PROJECT_DIR$/viator/server/data/DiscoverHongKong_facebook.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/data/TheSmartLocal_facebook.json" afterPath="$PROJECT_DIR$/viator/server/data/TheSmartLocal_facebook.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/data/Tripviss_facebook.json" afterPath="$PROJECT_DIR$/viator/server/data/Tripviss_facebook.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/data/goturkeytourism_facebook.json" afterPath="$PROJECT_DIR$/viator/server/data/goturkeytourism_facebook.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/data/incredibleindia_facebook.json" afterPath="$PROJECT_DIR$/viator/server/data/incredibleindia_facebook.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/data/indonesia.travel_facebook.json" afterPath="$PROJECT_DIR$/viator/server/data/indonesia.travel_facebook.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/data/itsmorefuninthePhilippines_facebook.json" afterPath="$PROJECT_DIR$/viator/server/data/itsmorefuninthePhilippines_facebook.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/data/koreatourism_facebook.json" afterPath="$PROJECT_DIR$/viator/server/data/koreatourism_facebook.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/data/malaysia.travel.sg_facebook.json" afterPath="$PROJECT_DIR$/viator/server/data/malaysia.travel.sg_facebook.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/data/records.txt" afterPath="$PROJECT_DIR$/viator/server/data/records.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/data/visitchinanow_facebook.json" afterPath="$PROJECT_DIR$/viator/server/data/visitchinanow_facebook.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/data/visitjapaninternational_facebook.json" afterPath="$PROJECT_DIR$/viator/server/data/visitjapaninternational_facebook.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/data/wonderfulplacesindo_facebook.json" afterPath="$PROJECT_DIR$/viator/server/data/wonderfulplacesindo_facebook.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/handler/crawl.py" afterPath="$PROJECT_DIR$/viator/server/handler/crawl.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viator/server/util.py" afterPath="$PROJECT_DIR$/viator/server/util.py" />
     </list>
     <ignored path="cz4034-information-retrieval.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -22,7 +29,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/cz4034-information-retrieval$crawler.coverage" NAME="crawler Coverage Results" MODIFIED="1488429637966" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/viator" />
+    <SUITE FILE_PATH="coverage/cz4034-information-retrieval$crawler.coverage" NAME="crawler Coverage Results" MODIFIED="1488430966951" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/viator" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -53,16 +60,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="goturkeytourism_facebook.json" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/viator/server/data/goturkeytourism_facebook.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="run.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/viator/run.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -71,6 +68,16 @@
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="schema.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/viator/server/data/schema.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -90,8 +97,8 @@
       <file leaf-file-name="crawler.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/viator/server/core/crawler/crawler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-108">
-              <caret line="64" column="50" selection-start-line="64" selection-start-column="50" selection-end-line="64" selection-end-column="50" />
+            <state relative-caret-position="232">
+              <caret line="68" column="8" selection-start-line="68" selection-start-column="8" selection-end-line="68" selection-end-column="8" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -102,8 +109,8 @@
       <file leaf-file-name="crawl.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/viator/server/handler/crawl.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="21" column="8" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
+            <state relative-caret-position="-8">
+              <caret line="5" column="222" selection-start-line="5" selection-start-column="222" selection-end-line="5" selection-end-column="222" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -111,21 +118,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Tripviss_facebook.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/viator/server/data/Tripviss_facebook.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1309119">
-              <caret line="77007" column="0" selection-start-line="77007" selection-start-column="0" selection-end-line="77007" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="records.txt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="records.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/viator/server/data/records.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+            <state relative-caret-position="170">
+              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -157,10 +154,10 @@
         <option value="$PROJECT_DIR$/viator/server/data/initial_pageid.txt" />
         <option value="$PROJECT_DIR$/viator/server/util.py" />
         <option value="$PROJECT_DIR$/viator/server/data/tripviss_facebook.json" />
-        <option value="$PROJECT_DIR$/viator/server/data/records.txt" />
+        <option value="$PROJECT_DIR$/viator/server/data/goturkeytourism_facebook.json" />
         <option value="$PROJECT_DIR$/viator/server/handler/crawl.py" />
         <option value="$PROJECT_DIR$/viator/server/core/crawler/crawler.py" />
-        <option value="$PROJECT_DIR$/viator/server/data/goturkeytourism_facebook.json" />
+        <option value="$PROJECT_DIR$/viator/server/data/records.txt" />
       </list>
     </option>
   </component>
@@ -760,38 +757,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/viator/server/util.py">
+    <entry file="file://$PROJECT_DIR$/viator/server/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="24" column="22" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/viator/server/data/records.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/viator/server/handler/crawl.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="21" column="8" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/viator/server/data/initial_pageid.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="15" selection-start-line="0" selection-start-column="15" selection-end-line="0" selection-end-column="15" />
+        <state relative-caret-position="159">
+          <caret line="15" column="19" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="19" />
           <folding />
         </state>
       </provider>
@@ -804,10 +773,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/viator/server/config.py">
+    <entry file="file://$PROJECT_DIR$/viator/server/util.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="15" column="19" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="19" />
+        <state relative-caret-position="113">
+          <caret line="24" column="22" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viator/server/handler/crawl.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8">
+          <caret line="5" column="222" selection-start-line="5" selection-start-column="222" selection-end-line="5" selection-end-column="222" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viator/server/core/crawler/crawler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="68" column="8" selection-start-line="68" selection-start-column="8" selection-end-line="68" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viator/server/data/goturkeytourism_facebook.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viator/server/data/malaysia.travel.sg_facebook.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viator/server/data/initial_pageid.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="15" selection-start-line="0" selection-start-column="15" selection-end-line="0" selection-end-column="15" />
           <folding />
         </state>
       </provider>
@@ -822,20 +837,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/viator/server/core/crawler/crawler.py">
+    <entry file="file://$PROJECT_DIR$/viator/server/data/schema.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-108">
-          <caret line="64" column="50" selection-start-line="64" selection-start-column="50" selection-end-line="64" selection-end-column="50" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/viator/server/data/goturkeytourism_facebook.json">
+    <entry file="file://$PROJECT_DIR$/viator/server/data/records.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
+        <state relative-caret-position="170">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding />
         </state>
       </provider>

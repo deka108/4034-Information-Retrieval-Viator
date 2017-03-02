@@ -41,6 +41,7 @@ def crawl_page(page_id, access_token):
     profile = graph.get_object(page_id)
     posts = graph.get_connections(profile['id'], 'posts')
 
+    print("Start crawling" + page_id + "\n")
     list = []
     while has_next_page:
         for post in posts['data']:
@@ -62,8 +63,10 @@ def crawl_page(page_id, access_token):
             file.write("%s" % page_id + ": " + "%s" % num_processed + "\n")
             file.close()
 
+
     with open(util.get_json_file_path(page_id), 'w', newline='', encoding='utf-8') as outfile:
         json.dump(list, outfile, sort_keys=True, indent=4)
+        print("Done crawling " + page_id + "\n")
 
 def crawl_all(access_token):
     fo = open(config.RECORDS_DATA_PATH, "w")
