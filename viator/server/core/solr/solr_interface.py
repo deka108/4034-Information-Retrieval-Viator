@@ -13,6 +13,8 @@ def add_to_dict(posting):
     try:
         post_dict['id'] = posting['id']
 
+        post_dict['page_id_s'] = posting['from']['id']
+
         try:
             post_dict['name_t'] = posting['name']
         except LookupError:
@@ -88,7 +90,6 @@ def index_specific(page_id):
     if temp_json:
         for post in temp_json:
             to_be_posted = add_to_dict(post)
-            to_be_posted['page_id_s'] = page_id
             payload = json.loads(''' {
                 "add": {"doc" : %s,
                 "commitWithin": 1000
