@@ -43,8 +43,15 @@ function SearchController($scope, PostDataService, EVENTS, _) {
     });
 
     $scope.$on(EVENTS.SEARCH_RESULTS_RECEIVED, function() {
-        $scope.searchResult = PostDataService.getSearchResult();
-        console.log($scope.searchResult);
+        let postDataTemp = PostDataService.getSearchResult();
+
+        if ("response" in postDataTemp) {
+            // $scope.searchResult = _.flatMap(postDataTemp.response, data => data.docs);
+            // console.log($scope.searchResult);
+            // $scope.postSearchResult = postDataTemp.response.docs;
+            $scope.postSearchResult = postDataTemp.highlighting;
+        }
+
     });
 
 }

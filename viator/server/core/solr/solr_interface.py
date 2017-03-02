@@ -75,7 +75,6 @@ def delete_index_by_page(page_name):
     r = s.get("{url}/update?stream.body=<delete><query>page_name_s:{page_name}</query></delete>&commit=true".format(url=config.SOLR_BASE_URL, page_name=page_name))
     return str(r.status_code)
 
-
 def get_core():
     r = s.get("{url}/cores?action=STATUS&wt=json".format(url=config.SOLR_ADMIN_URL))
     return r.json()
@@ -106,6 +105,7 @@ def index_all():
     for name in data_names:
         index_specific(name)
     return "Success"
+
 
 def search(query_params):
     r = s.get("{url}/query/".format(url=config.SOLR_BASE_URL), params=query_params)
