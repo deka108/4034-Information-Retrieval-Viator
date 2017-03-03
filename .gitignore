@@ -148,9 +148,9 @@ typings/
 .env
 
 .DS_Store
-/build/
+build/
 angular.js.tmproj
-.vscode
+.vscode/
 *.log
 *.stackdump
 
