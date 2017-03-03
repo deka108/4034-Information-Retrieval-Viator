@@ -19,6 +19,7 @@ System.config({
     "angular": "github:angular/bower-angular@1.6.2",
     "angular-animate": "github:angular/bower-angular-animate@1.6.2",
     "angular-aria": "github:angular/bower-angular-aria@1.6.2",
+    "angular-busy": "npm:angular-busy@4.1.4",
     "angular-loading-bar": "github:chieffancypants/angular-loading-bar@0.9.0",
     "angular-material": "github:angular/bower-material@1.1.3",
     "angular-material-data-table": "npm:angular-material-data-table@0.10.10",
@@ -60,6 +61,9 @@ System.config({
     },
     "github:jspm/nodelibs-vm@0.1.0": {
       "vm-browserify": "npm:vm-browserify@0.0.4"
+    },
+    "npm:angular-busy@4.1.4": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:angular-material-data-table@0.10.10": {
       "angular": "npm:angular@1.6.2",

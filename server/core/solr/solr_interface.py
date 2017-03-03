@@ -47,10 +47,11 @@ def add_to_dict(posting):
             post_dict['desc_t'] = posting['description']
         except LookupError:
             print('no description in this post')
-
+        
+        return post_dict
     except LookupError:
         print('invalid post')
-    return post_dict
+    
 
 
 def send_to_solr(body_payload):
@@ -82,25 +83,33 @@ def get_schema():
 
 
 def index_specific(page_id):
-    temp_json = data_util.get_json_data_by_page_id(page_id)
-    if temp_json:
-        for post in temp_json:
-            to_be_posted = add_to_dict(post)
-            to_be_posted['page_id_s'] = page_id
+    try:
+        temp_json = data_util.get_json_data_by_page_id(page_id)
+        if temp_json:
+            for post in temp_json:
+                to_be_posted = add_to_dict(post)
+                to_be_posted['page_id_s'] = page_id
 
-            payload = json.loads(''' {
-                "add": {"doc" : %s,
-                "commitWithin": 1000
-            }}''' % json.dumps(to_be_posted))
-            send_to_solr(payload)
-        return "Successfully indexed {}".format(page_id)
+                payload = json.loads(''' {
+                    "add": {"doc" : %s,
+                    "commitWithin": 1000
+                }}''' % json.dumps(to_be_posted))
+                send_to_solr(payload)
+            print("Successfully indexed {}".format(page_id))
+        return True
+    except:
+        return False
 
 
 def index_all():
-    delete_all_index()
-    page_ids = data_util.get_page_ids()
-    for page_id in page_ids:
-        index_specific(page_id)
+    try:
+        delete_all_index()
+        page_ids = data_util.get_page_ids()
+        for page_id in page_ids:
+            index_specific(page_id)
+        return True
+    except:
+        return False
 
 
 def search(query_params):

@@ -12,12 +12,16 @@ solr_manager = Blueprint('solr_manager', __name__, static_folder='../data')
 
 @solr_manager.route('/indexing/', methods=['GET'])
 def indexing_all_database():
-    return solr_interface.index_all()
+    if solr_interface.index_all():
+        return jsonify(success=True)
+    abort(404)
 
 
 @solr_manager.route('/indexing/<page_id>', methods=['GET'])
 def indexing_country_database(page_id):
-    return solr_interface.index_specific(page_id)
+    if solr_interface.index_specific(page_id):
+        return jsonify(success=True)
+    abort(404)
 
 
 @solr_manager.route('/delete/', methods=['DELETE'])

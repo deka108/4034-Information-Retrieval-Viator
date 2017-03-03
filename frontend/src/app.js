@@ -7,7 +7,7 @@ import 'angular-aria';
 import 'angular-material';
 import 'angular-material-data-table';
 import 'angular-utils-pagination';
-import 'angular-loading-bar';
+import 'angular-busy';
 
 import SearchController from 'src/controllers/SearchController';
 import AdminController from 'src/controllers/AdminController';
@@ -18,7 +18,7 @@ import SolrDataService from 'src/services/SolrDataService';
 import URL from 'src/constants/URL';
 import EVENTS from 'src/constants/EVENTS';
 
-export default angular.module('viator-app', ['ngMaterial', 'md.data.table', 'angularUtils.directives.dirPagination', 'angular-loading-bar', 'ngAnimate'])
+export default angular.module('viator-app', ['ngMaterial', 'md.data.table', 'angularUtils.directives.dirPagination', 'cgBusy', 'ngAnimate'])
     .config(function($mdThemingProvider) {
         $mdThemingProvider.theme('default')
             .primaryPalette('orange')

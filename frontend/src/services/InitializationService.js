@@ -1,7 +1,7 @@
 function InitializationService($q, $rootScope, DbDataService, SolrDataService, URL, EVENTS) {
     function _on_initialized() {
         $rootScope.$broadcast(EVENTS.INITIALIZATION_FINISHED);
-        console.log("finished");
+        console.log("Initialized");
     }
 
     function _on_error(err) {
