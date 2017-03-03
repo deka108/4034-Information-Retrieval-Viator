@@ -10,10 +10,9 @@ search_page = Blueprint('search', __name__)
 def search_query():
     query_params = {}
 
-    if request.data:
-        query_params['q'] = request.data.get('q')
-    elif request.json:
-        query_params['q'] = request.json.get('q')
+    request_data = json.loads(request.get_data())
+    if request_data:
+        query_params['q'] = request_data.get('q')
     
     query_params['hl'] = 'true'
     query_params['hl.fl'] = 'message_t'

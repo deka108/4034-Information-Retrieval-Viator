@@ -11,6 +11,7 @@ import 'angular-loading-bar';
 
 import SearchController from 'src/controllers/SearchController';
 import AdminController from 'src/controllers/AdminController';
+import InitializationService from 'src/services/InitializationService';
 import DbDataService from 'src/services/DbDataService';
 import SearchDataService from 'src/services/SearchDataService';
 import SolrDataService from 'src/services/SolrDataService';
@@ -30,4 +31,5 @@ export default angular.module('viator-app', ['ngMaterial', 'md.data.table', 'ang
     .controller('AdminController', AdminController)
     .service('SearchDataService', SearchDataService)
     .service('DbDataService', DbDataService)
+    .service('InitializationService', InitializationService)
     .service('SolrDataService', SolrDataService)

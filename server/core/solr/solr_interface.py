@@ -113,7 +113,7 @@ def add_schema_field():
 
 
 def get_all_page_ids():
-    r = s.get("{url}/select?q=*:*&rows=0&facet=on&facet.field=page_id_s".format(url=config.SOLR_BASE_URL))
+    r = s.get("{url}/select?q=*%3A*&rows=0&facet=on&facet.field=page_id_s&wt=json".format(url=config.SOLR_BASE_URL))
     return r.json()
 
 

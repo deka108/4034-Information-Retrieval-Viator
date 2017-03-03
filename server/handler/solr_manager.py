@@ -10,7 +10,7 @@ import json
 solr_manager = Blueprint('solr_manager', __name__, static_folder='../data')
 
 
-@solr_manager.route('/indexing', methods=['GET'])
+@solr_manager.route('/indexing/', methods=['GET'])
 def indexing_all_database():
     return solr_interface.index_all()
 
@@ -20,7 +20,7 @@ def indexing_country_database(page_id):
     return solr_interface.index_specific(page_id)
 
 
-@solr_manager.route('/delete', methods=['DELETE'])
+@solr_manager.route('/delete/', methods=['DELETE'])
 def delete_table():
     status_code = solr_interface.delete_all_index()
     if status_code < 400:
@@ -36,12 +36,12 @@ def delete_table_name(page_id):
     abort(status_code)
 
 
-@solr_manager.route('/read', methods=['GET'])
+@solr_manager.route('/read/', methods=['GET'])
 def get_all_index_data():
-    return solr_interface.get_all_page_ids()
+    return jsonify(solr_interface.get_all_page_ids())
 
 
-@solr_manager.route('/core', methods=['GET'])
+@solr_manager.route('/core/', methods=['GET'])
 def get_core():
     return solr_interface.get_core()
 

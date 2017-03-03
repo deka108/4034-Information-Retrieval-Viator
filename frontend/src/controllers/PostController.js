@@ -8,7 +8,7 @@ function PostController($scope, DbDataService, EVENTS, _) {
     });
 
     $scope.getPostsByPostId = function() {
-        DbDataService.retrievePostByPageId($scope.)
+        // DbDataService.retrievePostByPageId($scope.)
     }
 
 }

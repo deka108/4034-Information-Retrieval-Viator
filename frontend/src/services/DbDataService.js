@@ -7,20 +7,8 @@ function DbDataService($http, $rootScope, URL, EVENTS) {
         $rootScope.$broadcast(EVENTS.POST_DATA_RECEIVED);
     }
 
-    function _on_all_pages_crawled() {
-        $rootScope.$broadcast(EVENTS.CRAWL_ALL_PAGES);
-    }
-
-    function _on_page_crawled() {
-        $rootScope.$broadcast(EVENTS.CRAWL_PAGE);
-    }
-
-    function _on_all_pages_deleted() {
-        $rootScope.$broadcast(EVENTS.DELETE_ALL_PAGES);
-    }
-
-    function _on_page_deleted() {
-        $rootScope.$broadcast(EVENTS.DELETE_PAGE);
+    function _on_page_modified() {
+        $rootScope.$broadcast(EVENTS.PAGE_MODIFIED);
     }
 
     function _update_post_data(newData) {
@@ -70,8 +58,8 @@ function DbDataService($http, $rootScope, URL, EVENTS) {
         )
     }
 
-    this.retrievePostByPageId = function(page_id) {
-        return $http.get(URL.DB_READ + page_id).then(
+    this.retrievePostByPageId = function(pageId) {
+        return $http.get(URL.DB_READ + pageId).then(
             function success(response) {
                 _update_post_data(response.data);
                 _on_post_data_received();
@@ -82,22 +70,33 @@ function DbDataService($http, $rootScope, URL, EVENTS) {
         );
     }
 
-    this.crawlAllPages = function(data) {
+    this.crawlAllPages = function(token) {
         // send token
+        let data = {
+            token: token
+        };
+
         return $http.post(URL.CRAWL, data).then(
             function success(response) {
-                _on_all_pages_crawled();
+                console.log(response.data);
+                _on_page_modified();
             },
             function error(response) {
                 _on_error(response);
             });
     };
 
-    this.crawlFacebookPage = function(data) {
+    this.crawlFacebookPage = function(token, pageId) {
         // send token
-        return $http.post(URL.CRAWL + page_id, data).then(
+        let data = {
+            page_id: pageId,
+            token: token
+        };
+
+        return $http.post(URL.CRAWL, data).then(
             function success(response) {
-                _on_page_crawled();
+                console.log(response.data);
+                _on_page_modified();
             },
             function error(response) {
                 _on_error(response);
@@ -107,7 +106,7 @@ function DbDataService($http, $rootScope, URL, EVENTS) {
     this.deleteAllData = function() {
         return $http.get(URL.DB_DELETE).then(
             function success(response) {
-                _on_all_pages_deleted();
+                _on_page_modified();
             },
             function error(response) {
                 _on_error(response);
@@ -117,7 +116,7 @@ function DbDataService($http, $rootScope, URL, EVENTS) {
     this.deleteFacebookPageData = function(page_id) {
         return $http.get(URL.DB_DELETE).then(
             function success(response) {
-                _on_page_deleted();
+                _on_page_modified();
             },
             function error(response) {
                 _on_error(response);

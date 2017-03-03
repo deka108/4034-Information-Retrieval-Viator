@@ -1,12 +1,12 @@
 import os
 
-from flask_api import FlaskAPI
+from flask import Flask
 from .handler.search import search_page
 from .handler.index import index_page
 from .handler.solr_manager import solr_manager
 from .handler.db_manager import db_manager
 
-app = FlaskAPI(__name__)
+app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
 # Registers Blueprints
