@@ -1,5 +1,5 @@
 const EVENTS = {
-    SEARCH_RESULTS_RECEIVED: 'search-result',
+    SEARCH_RESULT_RECEIVED: 'search-result',
 
     PAGE_ID_RECEIVED: 'page-id-received',
     POST_DATA_RECEIVED: 'post-data-received',

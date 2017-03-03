@@ -94,7 +94,6 @@ def index_specific(page_id):
             }}''' % json.dumps(to_be_posted))
             send_to_solr(payload)
         return "Successfully indexed {}".format(page_id)
-    return "Page ID does not exist"
 
 
 def index_all():
@@ -102,7 +101,6 @@ def index_all():
     page_ids = data_util.get_page_ids()
     for page_id in page_ids:
         index_specific(page_id)
-    return "Success"
 
 
 def search(query_params):

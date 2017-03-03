@@ -159,7 +159,7 @@ npm-debug.log
 /tmp/
 
 # Pycharm
-.idea
+.idea/
 *.workspace.xml
 
 # python

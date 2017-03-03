@@ -1,14 +1,28 @@
-function AdminController($scope, PostDataService) {
+function AdminController($scope, DbDataService, SolrDataService) {
+    $scope.delay = 0;
+    $scope.minDuration = 0;
+    $scope.message = 'Loading...';
+    $scope.backdrop = true;
 
-    // $scope.getAllIndex = function(){
-    //     PostDataService.getData('indonesia').then(function success (response) {
-    //         $scope.index = response.data;
-    //         $scope.indexLength =  $scope.index.length;
-    //         // console.log(response.data);
-    //     }, function failure (response) {
-    //         console.log(response);
-    //     })
-    // };
+    $scope.setPromise = function(promise) {
+        $scope.myPromise = promise;
+    };
+
+    // initialization
+    if ($scope.isInitial) {
+        // $scope.myPromise = GraphDataFactory.getExampleGraphData();
+        let circularProgressTop = 35;
+        let loadingMessageTop = 50;
+        let h = $window.innerHeight;
+
+        $scope.circularTopPos = {
+            top: Math.round(h * circularProgressTop / 100.0) + 'px'
+        };
+
+        $scope.loadingMessageTopPos = {
+            top: Math.round(h * loadingMessageTop / 100.0) + 'px'
+        };
+    }
 
     $scope.getAllIndex();
 
@@ -22,4 +36,4 @@ function AdminController($scope, PostDataService) {
 
 }
 
-export default ['$scope', 'PostDataService', AdminController];
+export default ['$scope', 'DbDataService', 'SolrDataService', AdminController];

@@ -45,7 +45,6 @@ function DbDataService($http, $rootScope, URL, EVENTS) {
     let pageInfos = null;
     let postData = null;
 
-
     this.getPostData = function() {
         return postData;
     };

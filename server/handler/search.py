@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, abort
 
 from server.core.solr import solr_interface
 
@@ -10,43 +10,16 @@ search_page = Blueprint('search', __name__)
 def search_query():
     query_params = {}
 
-    query_params['q'] = request.json[u'query']
+    if request.data:
+        query_params['q'] = request.data.get('q')
+    elif request.json:
+        query_params['q'] = request.json.get('q')
+    
     query_params['hl'] = 'true'
     query_params['hl.fl'] = 'message_t'
 
-    response = solr_interface.search(query_params)
+    if 'q' in query_params:
+        response = solr_interface.search(query_params)
+        return jsonify(response)
 
-    return jsonify(response)
-
-class SearchResult(object):
-
-    def __init__(self, result):
-        pass
-        # self.url = result['url']
-        # self.title_text = result['title']
-        # self.title = highlight_all(result, 'title')
-        # cls = import_string(result['type'])
-        # self.kind = cls.search_document_kind
-        # self.description = cls.describe_search_result(result)
-    
-
-class SearchResultPage(object):
-
-    def __init__(self, results, page):
-        # self.page = page
-        # if results is None:
-        #     self.results = []
-        #     self.pages = 1
-        #     self.total = 0
-        # else:
-        #     self.results = [SearchResult(r) for r in results]
-        #     self.pages = results.pagecount
-        #     self.total = results.total
-        pass
-
-    def __iter__(self):
-        # return iter(self.results)
-        pass
-
-def search(query):
-    pass
+    return abort(404)

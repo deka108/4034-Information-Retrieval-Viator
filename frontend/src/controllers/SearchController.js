@@ -1,4 +1,4 @@
-function SearchController($scope, PostDataService, EVENTS, _) {
+function SearchController($scope, SolrDataService, EVENTS, _) {
     $scope.curOrder = null;
 
     $scope.searchFilters = [{
@@ -26,34 +26,31 @@ function SearchController($scope, PostDataService, EVENTS, _) {
         $scope.currOrder = order.value ? order.value.toLowerCase() : null;
     };
 
-    $scope.searchQuery = function(query) {
-        PostDataService.retrieveQueryResult(query);
+    $scope.searchQuery = function() {
+        SolrDataService.retrieveQueryResult($scope.searchData.textQuery);
     }
 
-    $scope.getPostByPageId = function(pageId) {
-        PostDataService.retrievePostDataByPageId(pageId);
-    };
+    $scope.$on(EVENTS.SEARCH_RESULT_RECEIVED, function() {
+        let searchResultTemp = SolrDataService.getSearchResults();
 
-    $scope.$on(EVENTS.POST_DATA_RECEIVED, function() {
-        let postDataTemp = PostDataService.getPostData();
-
-        if (postDataTemp instanceof Array) {
-            $scope.postData = _.flatMap(postDataTemp, data => data.data);
-        }
-    });
-
-    $scope.$on(EVENTS.SEARCH_RESULTS_RECEIVED, function() {
-        let postDataTemp = PostDataService.getSearchResult();
-
-        if ("response" in postDataTemp) {
-            // $scope.searchResult = _.flatMap(postDataTemp.response, data => data.docs);
-            // console.log($scope.searchResult);
-            // $scope.postSearchResult = postDataTemp.response.docs;
-            // $scope.postSearchResult = postDataTemp.highlighting;
+        if ("response" in searchResultTemp) {
+            $scope.searchResult = {
+                docs: searchResultTemp.response.docs,
+                docsCount: searchResultTemp.response.numFound,
+                queryTime: searchResultTemp.responseHeader.QTime,
+                highlighting: searchResultTemp.response.highlighting
+            }
+            _reset_form();
         }
 
     });
+
+    function _reset_form() {
+        $scope.searchData = {};
+        $scope.searchForm.$setPristine();
+        $scope.searchForm.$setUntouched();
+    }
 
 }
 
-export default ['$scope', 'PostDataService', 'EVENTS', '_', SearchController];
+export default ['$scope', 'SolrDataService', 'EVENTS', '_', SearchController];

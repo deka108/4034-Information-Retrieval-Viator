@@ -22,8 +22,8 @@
         <h1 flex class="page-title">Viator App</h1>
     </md-toolbar>
 
-    <md-content>
-        <div layout="row" layout-align="center center" ng-controller="AdminController">
+    <md-content ng-controller="AdminController">
+        <div layout="row" layout-align="center center" cg-busy="{promise:myPromise,templateUrl:'loading.html'}">
             <div flex=80 layout-padding>
                 <h2>Manage Solr Database</h2>
                 <md-card>

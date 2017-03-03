@@ -3,6 +3,10 @@ function SolrDataService($http, $rootScope, URL, EVENTS) {
         $rootScope.$broadcast(EVENTS.PAGE_INDEX_RECEIVED);
     }
 
+    function _on_search_result_received() {
+        $rootScope.$broadcast(EVENTS.SEARCH_RESULT_RECEIVED);
+    }
+
     function _on_all_page_reindexed() {
         $rootScope.$broadcast(EVENTS.REINDEX_ALL_PAGES);
     }
@@ -23,6 +27,10 @@ function SolrDataService($http, $rootScope, URL, EVENTS) {
         pageIndexes = newData;
     }
 
+    function _update_search_results(newData) {
+        searchResults = newData;
+    }
+
     function _on_error(response) {
         if (response.status > 0) {
             console.error(response);
@@ -30,8 +38,30 @@ function SolrDataService($http, $rootScope, URL, EVENTS) {
     }
 
     let pageIndexes = null;
+    let searchResults = null;
 
     // solr related
+    this.getSearchResults = function() {
+        return searchResults;
+    }
+
+    this.retrieveQueryResult = function(query) {
+        let data = {
+            'q': query
+        }
+
+        return $http.post(URL.SEARCH_URL, data).then(
+            function success(response) {
+                console.log(response.data);
+                _update_search_results(response.data);
+                _on_search_result_received();
+            },
+            function error(response) {
+                _on_error(response);
+            }
+        )
+    }
+
     this.getPageIndexes = function() {
         return pageIndexes;
     }

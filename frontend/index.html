@@ -22,74 +22,72 @@
         <h1 flex class="page-title">Viator App</h1>
     </md-toolbar>
 
-    <md-content>
-        <md-content class="md-padding" ng-controller="SearchController">
-            <div layout="row" layout-align="center center">
-                <div flex="80" layout-padding>
-                    <md-card>
+    <md-content class="md-padding" ng-controller="SearchController">
+        <div layout="row" layout-align="center center">
+            <div flex="80" layout-padding>
+                <md-card>
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">Where do you want to go?</span>
+                            <span class="md-subhead">Place to eat in Bali, find hotel in Kuala Lumpur</span>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <md-card-content>
+                        <div layout="column">
+                            <form name="searchForm" ng-submit="searchQuery()">
+                                <md-input-container class="md-block md-accent" md-no-float>
+                                    <input aria-label="textQuery" name="textQuery" ng-model="searchData.textQuery" placeholder="Enter search query" ng-enter="searchQuery()" required>
+                                    <div ng-messages="searchForm.textQuery.$error">
+                                        <div ng-message="required">Please enter your search query.</div>
+                                    </div>
+                                </md-input-container>
+                                <div layout="row" layout-align="start center">
+                                    <div flex="50">
+                                        <md-input-container>
+                                            <label>Order By</label>
+                                            <md-select class="md-accent" ng-model="searchData.orderOptions" ng-change="sortBy(orderOptions)">
+                                                <md-option class="md-accent" ng-repeat="order in searchOrders" ng-value="order">
+                                                    {{order.value}}
+                                                </md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                    </div>
+                                    <div flex="50">
+                                        <md-input-container>
+                                            <label>Filter By</label>
+                                            <md-select class="md-accent" ng-model="searchData.selectedFilter">
+                                                <md-option><em>None</em></md-option>
+                                                <md-optgroup ng-repeat="filterOption in searchFilters" label="{{filterOption.category}}">
+                                                    <md-option class="md-accent" ng-value="filter" ng-repeat="filter in filterOption.values">{{filter}}</md-option>
+                                                </md-optgroup>
+                                            </md-select>
+                                        </md-input-container>
+                                    </div>
+                                </div>
+                                <div layout="row" layout-align="end" flex>
+                                    <md-button type="submit" class="md-accent md-raised">Search</md-button>
+                                </div>
+                            </form>
+                        </div>
+                    </md-card-content>
+                </md-card>
+                <div ng-if="searchResult">
+                    <span>Query Time: {{ searchResult.queryTime }}</span>
+                    <span>Search Results: {{ searchResult.docsCount }} posts</span>
+                    <md-card ng-repeat="(key, value) in searchResult.docs | orderBy: currOrder">
                         <md-card-title>
                             <md-card-title-text>
-                                <span class="md-headline">Where do you want to go?</span>
-                                <span class="md-subhead">Place to eat in Bali, find hotel in Kuala Lumpur</span>
+                                Post #{{ $index }}: {{value.id}}
                             </md-card-title-text>
                         </md-card-title>
-                        <md-card-content>
-                            <div layout="column">
-                                <form name="searchForm">
-                                    <md-input-container class="md-block md-accent" md-no-float>
-                                        <input aria-label="textQuery" name="textQuery" ng-model="textQuery" placeholder="Enter search query" ng-enter="searchQuery(textQuery)" required>
-                                        <div ng-messages="searchForm.textQuery.$error">
-                                            <div ng-message="required">Please enter your search query.</div>
-                                        </div>
-                                    </md-input-container>
-                                    <div layout="row" layout-align="start center">
-                                        <div flex="50">
-                                            <md-input-container>
-                                                <label>Order By</label>
-                                                <md-select class="md-accent" ng-model="orderOptions" ng-change="sortBy(orderOptions)">
-                                                    <md-option class="md-accent" ng-repeat="order in searchOrders" ng-value="order">
-                                                        {{order.value}}
-                                                    </md-option>
-                                                </md-select>
-                                            </md-input-container>
-                                        </div>
-                                        <div flex="50">
-                                            <md-input-container>
-                                                <label>Filter By</label>
-                                                <md-select class="md-accent" ng-model="selectedFilter">
-                                                    <md-option><em>None</em></md-option>
-                                                    <md-optgroup ng-repeat="filterOption in searchFilters" label="{{filterOption.category}}">
-                                                        <md-option class="md-accent" ng-value="filter" ng-repeat="filter in filterOption.values">{{filter}}</md-option>
-                                                    </md-optgroup>
-                                                </md-select>
-                                            </md-input-container>
-                                        </div>
-                                    </div>
-                                    <div layout="row" layout-align="end" flex>
-                                        <md-button class="md-accent md-raised" ng-click="searchQuery(textQuery)">Search</md-button>
-                                    </div>
-                                </form>
-                            </div>
+                        <md-card-content layout="column">
+                            <span class="md-subhead">{{ value.message_t[0] }}</span>
+                            <span class="md-subhead">Source: {{ value.from_s }}</span>
                         </md-card-content>
                     </md-card>
-                    <div ng-if="searchResult">
-                        <md-card ng-repeat="(key, value) in searchResult | orderBy: currOrder">
-                            <md-card-title>
-                                <md-card-title-text>
-                                    <span class="md-subhead">{{ value.message_t[0] }}</span>
-                                    <md-card-title-media>
-                                        <div class='md-media-lg card-media'>
-                                        </div>
-                                    </md-card-title-media>
-                                    <!--md-button class="md-accent md-raised" ng-click='sendToService()'>Trigger</md-button>
-                                <span ng-if="data">Data: {{data}}</span-->
-                                </md-card-title-text>
-                            </md-card-title>
-                        </md-card>
-                    </div>
                 </div>
             </div>
-        </md-content>
+        </div>
     </md-content>
 
     <script src="jspm_packages/system.js" type="text/javascript"></script>

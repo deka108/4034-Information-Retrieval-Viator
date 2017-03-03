@@ -2,10 +2,24 @@ For debuggin purpose: semua pisah dulu sementara
     search pisah
     admin
     Post viewer
+
 Object oriented:
     - for forms, related object
-Perbagus UI for Facebook: test di post viewer, klo uda oke discuss with felix butuh data apa aja biar nanti search result jg jd bs mirip facebook terutama pake img, jumlah likes, etc. 
-    - inspect data fb
-Dialog: button link ke facebook buat generate token, submit event dr dialognya terus nanti bakal post ke server
-Progress dialog: promise
-Search: diskusi ma felix mau bs ngapain aja
+
+Search Results: komunikasi ma felik
+    - QTime
+    - Number of retrieved Results
+    - paginate
+    - kasi post link
+    - Perbagus UI for Facebook: test di post viewer, klo uda oke discuss with felix butuh data apa aja biar nanti search result jg jd bs mirip facebook terutama pake img, jumlah likes, etc. 
+        - inspect data fb
+    - coba2 highlighting: jd di responsenya tu ada key map to text, 
+
+Dialog: 
+    - button link ke facebook buat generate token, submit event dr dialognya terus nanti bakal post ke server
+
+Progress dialog: 
+    - promise
+    
+Search Filter / sort:
+- diskusi ma felix mau bs ngapain aja, ui modificationnya perlu apa aja

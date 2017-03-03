@@ -43,30 +43,35 @@ def crawl_page(page_id, access_token):
 
     print("Start crawling" + page_id + "\n")
     list = []
-    while has_next_page:
-        for post in posts['data']:
-            list.append(post)
-            print(post['created_time'])
-            num_processed += 1
-            if num_processed % 100 == 0:
-                print("%s Statuses Processed: %s" % \
-                      (num_processed, datetime.datetime.now()))
+    try:
+        while has_next_page:
+            for post in posts['data']:
+                list.append(post)
+                print(post['created_time'])
+                num_processed += 1
+                if num_processed % 100 == 0:
+                    print("%s Statuses Processed: %s" % \
+                        (num_processed, datetime.datetime.now()))
 
-        # request next page
-        if 'paging' in posts.keys():
-            posts = json.loads(request_until_succeed(posts['paging']['next']))
+            # request next page
+            if 'paging' in posts.keys():
+                posts = json.loads(request_until_succeed(posts['paging']['next']))
 
-        else:
-            has_next_page = False
-            print(num_processed)
-            file = open(config.RECORDS_DATA_PATH, 'a')
-            file.write("%s" % page_id + ": " + "%s" % num_processed + "\n")
-            file.close()
+            else:
+                has_next_page = False
+                print(num_processed)
+                file = open(config.RECORDS_DATA_PATH, 'a')
+                file.write("%s" % page_id + ": " + "%s" % num_processed + "\n")
+                file.close()
 
 
-    with open(data_util.get_json_file_path(page_id), 'w', newline='', encoding='utf-8') as outfile:
-        json.dump(list, outfile, sort_keys=True, indent=4)
-        print("Done crawling " + page_id + "\n")
+        with open(data_util.get_json_file_path(page_id), 'w', newline='', encoding='utf-8') as outfile:
+            json.dump(list, outfile, sort_keys=True, indent=4)
+            print("Done crawling " + page_id + "\n")
+            return True
+    except:
+        return False
+    
 
 def crawl_all(access_token):
     try:
