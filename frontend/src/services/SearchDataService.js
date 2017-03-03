@@ -1,4 +1,4 @@
-function PostDataService($http, $rootScope, URL, EVENTS) {
+function SearchDataService($http, $rootScope, URL, EVENTS) {
     function _on_receive_data() {
         $rootScope.$broadcast(EVENTS.POST_DATA_RECEIVED);
     }
@@ -56,4 +56,4 @@ function PostDataService($http, $rootScope, URL, EVENTS) {
     };
 }
 
-export default ['$http', '$rootScope', 'URL', 'EVENTS', PostDataService]
+export default ['$http', '$rootScope', 'URL', 'EVENTS', SearchDataService]

@@ -6,7 +6,7 @@ import time
 import datetime
 
 from server import config
-from server import util
+from server import data_util
 
 '''base = "https://graph.facebook.com/v2.8"
 page_id = 'visitchinanow'
@@ -64,27 +64,20 @@ def crawl_page(page_id, access_token):
             file.close()
 
 
-    with open(util.get_json_file_path(page_id), 'w', newline='', encoding='utf-8') as outfile:
+    with open(data_util.get_json_file_path(page_id), 'w', newline='', encoding='utf-8') as outfile:
         json.dump(list, outfile, sort_keys=True, indent=4)
         print("Done crawling " + page_id + "\n")
 
 def crawl_all(access_token):
-    fo = open(config.RECORDS_DATA_PATH, "w")
-    fo.truncate()
-    with open(config.INITIAL_PAGEID_PATH) as f:
-        line = f.readlines()
-        content = [x.strip() for x in line]
-    for page in content:
-        crawl_page(page, access_token)
-        # print (page)
-    return "yay"
-
-
-
-#if __name__ == '__main__':
-'''def crawl_main():
-    crawl_data(page_id, access_token)
-    return "yay"
-def test():
-    return "test"
-'''
+    try:
+        fo = open(config.RECORDS_DATA_PATH, "w")
+        fo.truncate()
+        with open(config.INITIAL_PAGEID_PATH) as f:
+            line = f.readlines()
+            content = [x.strip() for x in line]
+        for page in content:
+            crawl_page(page, access_token)
+            # print (page)
+        return True
+    except:
+        return False

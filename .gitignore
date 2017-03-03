@@ -158,5 +158,13 @@ bower/bower-*
 npm-debug.log
 /tmp/
 
+# Pycharm
 .idea
 *.workspace.xml
+
+# python
+*.pyc
+
+# JS-related
+etc/
+jspm_packages/

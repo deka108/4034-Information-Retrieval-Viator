@@ -1,6 +1,6 @@
 import json
 import requests
-from server import util, config
+from server import data_util, config
 
 
 s = requests.Session()
@@ -12,8 +12,6 @@ def add_to_dict(posting):
     post_dict = {}
     try:
         post_dict['id'] = posting['id']
-
-        post_dict['page_id_s'] = posting['from']['id']
 
         try:
             post_dict['name_t'] = posting['name']
@@ -63,33 +61,33 @@ def send_to_solr(body_payload):
     print(r.json())
 
 
-def test():
-    # print(config.SOLR_BASE_URL)
-    return util.read_json_data('china')
-
-
 def delete_all_index():
     r = s.get("{url}/update?stream.body=<delete><query>*:*</query></delete>&commit=true".format(url=config.SOLR_BASE_URL))
-    return str(r.status_code)
+    return r.status_code
 
 
 def delete_index_by_page(page_id):
     r = s.get("{url}/update?stream.body=<delete><query>page_id_s:{page_id}</query></delete>&commit=true".format(url=config.SOLR_BASE_URL, page_id=page_id))
-    return str(r.status_code)
+    return r.status_code
+
 
 def get_core():
     r = s.get("{url}/cores?action=STATUS&wt=json".format(url=config.SOLR_ADMIN_URL))
     return r.json()
 
+
 def get_schema():
     r = s.get("{url}/schema".format(url=config.SOLR_BASE_URL))
     return r.json()
 
+
 def index_specific(page_id):
-    temp_json = util.read_json_data(page_id)
+    temp_json = data_util.get_json_data_by_page_id(page_id)
     if temp_json:
         for post in temp_json:
             to_be_posted = add_to_dict(post)
+            to_be_posted['page_id_s'] = page_id
+
             payload = json.loads(''' {
                 "add": {"doc" : %s,
                 "commitWithin": 1000
@@ -101,8 +99,8 @@ def index_specific(page_id):
 
 def index_all():
     delete_all_index()
-    data_names = util.get_data_names()
-    for page_id in data_names:
+    page_ids = data_util.get_page_ids()
+    for page_id in page_ids:
         index_specific(page_id)
     return "Success"
 
@@ -114,5 +112,10 @@ def search(query_params):
 
 def add_schema_field():
     return "Success"
+
+
+def get_all_page_ids():
+    r = s.get("{url}/select?q=*:*&rows=0&facet=on&facet.field=page_id_s".format(url=config.SOLR_BASE_URL))
+    return r.json()
 
 

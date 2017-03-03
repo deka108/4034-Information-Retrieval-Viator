@@ -10,7 +10,7 @@ function AdminController($scope, PostDataService) {
     //     })
     // };
 
-    // $scope.getAllIndex();
+    $scope.getAllIndex();
 
     $scope.selected = [];
 

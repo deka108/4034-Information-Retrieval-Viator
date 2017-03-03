@@ -9,8 +9,11 @@ import 'angular-material-data-table';
 
 
 import SearchController from 'src/controllers/SearchController';
+import PostController from 'src/controllers/PostController';
 import AdminController from 'src/controllers/AdminController';
-import PostDataService from 'src/services/PostDataService';
+import DbDataService from 'src/services/DbDataService';
+import SearchDataService from 'src/services/SearchDataService';
+import SolrDataService from 'src/services/SolrDataService';
 import URL from 'src/constants/URL';
 import EVENTS from 'src/constants/EVENTS';
 
@@ -25,4 +28,6 @@ export default angular.module('viator-app', ['ngMaterial', 'md.data.table'])
     .constant('_', _)
     .controller('SearchController', SearchController)
     .controller('AdminController', AdminController)
-    .service('PostDataService', PostDataService)
+    .service('SearchDataService', SearchDataService)
+    .service('DbDataService', DbDataService)
+    .service('SolrDataService', SolrDataService)

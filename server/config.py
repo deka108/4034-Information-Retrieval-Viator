@@ -25,6 +25,5 @@ CSRF_SESSION_KEY = "secret"
 # Secret key for signing cookies
 SECRET_KEY = "secret"
 
-
 def get_data_path(file_name):
     return os.path.join(DATA_DIR, file_name)

@@ -49,7 +49,7 @@ function SearchController($scope, PostDataService, EVENTS, _) {
             // $scope.searchResult = _.flatMap(postDataTemp.response, data => data.docs);
             // console.log($scope.searchResult);
             // $scope.postSearchResult = postDataTemp.response.docs;
-            $scope.postSearchResult = postDataTemp.highlighting;
+            // $scope.postSearchResult = postDataTemp.highlighting;
         }
 
     });
