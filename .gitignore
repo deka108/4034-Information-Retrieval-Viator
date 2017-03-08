@@ -148,9 +148,9 @@ typings/
 .env
 
 .DS_Store
-/build/
+build/
 angular.js.tmproj
-.vscode
+.vscode/
 *.log
 *.stackdump
 
@@ -158,5 +158,13 @@ bower/bower-*
 npm-debug.log
 /tmp/
 
-.idea
+# Pycharm
+.idea/
 *.workspace.xml
+
+# python
+*.pyc
+
+# JS-related
+etc/
+jspm_packages/

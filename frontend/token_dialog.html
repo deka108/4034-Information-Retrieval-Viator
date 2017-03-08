@@ -1,0 +1,23 @@
+<div class="md-dialog-container" id="tokenDialog">
+    <md-dialog layout-padding class="token-dialog">
+        <form name="tokenForm" ng-submit="crawl(token)">
+            <md-dialog-content>
+                <div layout="column">
+                    <md-button class="md-accent md-raised" ng-click="getTokenFromFacebook()">Get Token from Facebook</md-button>
+                    <md-input-container>
+                        <label>Facebook Page Token</label>
+                        <input name="token" ng-model="token" placeholder="Copy and paste your token here" required>
+                        <div ng-messages="tokenForm.token.$error">
+                            <div ng-message="required">Please enter the facebook token.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </md-dialog-content>
+            <md-dialog-actions>
+                <div>
+                    <md-button class="md-accent md-raised" type="submit">CRAWL</md-button>
+                </div>
+            </md-dialog-actions>
+        </form>
+    </md-dialog>
+</div>

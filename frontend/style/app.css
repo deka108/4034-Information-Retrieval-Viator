@@ -1,0 +1,46 @@
+.page-title {
+    color: white;
+}
+
+.card-layout {
+    width: 100%;
+}
+
+md-input-container:not(.md-input-invalid).md-input-focused .md-input {
+    border-color: lightgreen;
+}
+
+md-input-container .md-errors-spacer {
+    display: none;
+}
+
+md-input-container {
+    margin-bottom: 0;
+}
+
+.scretch-btn {
+    width: 80%;
+}
+
+.token-dialog {
+    width: 50%;
+}
+
+#loading-container {
+    width: 100%;
+    height: 100%;
+}
+
+#loading-message {
+    text-align: center;
+    /*position: absolute;*/
+    top: 50%;
+    width: 100%;
+    font-size: 26px;
+}
+
+#progress-circular {
+    /*position: absolute;*/
+    top: 40%;
+    left: 47%;
+}
