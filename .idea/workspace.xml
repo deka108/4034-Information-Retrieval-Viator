@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3132a3b1-81d4-454c-9fcf-9877bf3fe9ef" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/data/records.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/config.py" afterPath="$PROJECT_DIR$/server/config.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/core/crawler/crawler.py" afterPath="$PROJECT_DIR$/server/core/crawler/crawler.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/handler/db_manager.py" afterPath="$PROJECT_DIR$/server/handler/db_manager.py" />
-    </list>
+    <list default="true" id="3132a3b1-81d4-454c-9fcf-9877bf3fe9ef" name="Default" comment="" />
     <ignored path="cz4034-information-retrieval.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
