@@ -3,7 +3,7 @@ import json
 
 JSON_FILE_NAME = "%s_facebook.json"
 
-PAGE_MAP = {}
+RECORDS = {}
 
 def update_page_map():
     global PAGE_MAP
@@ -53,3 +53,8 @@ def get_schema_data(file_name=None):
 
     with open(schema_path, mode='r') as file_handler:
         return json.load(file_handler)
+
+# READ
+def write_records_to_json(data, file_name=None):
+    with open(data_path, config.RECORDS_DATA_PATH, 'w') as file_handler:
+

@@ -10,7 +10,6 @@ function PostController($scope, DbDataService, EVENTS, _) {
     $scope.getPostsByPostId = function() {
         // DbDataService.retrievePostByPageId($scope.)
     }
-
 }
 
 export default ['$scope', 'DbDataService', 'EVENTS', '_', SearchController];
