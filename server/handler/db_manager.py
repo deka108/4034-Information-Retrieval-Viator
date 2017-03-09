@@ -9,7 +9,7 @@ import json
 
 db_manager = Blueprint('db_manager', __name__, static_folder='static')
 
-@db_manager.route('/crawl/', methods=['POST', 'GET'])
+@db_manager.route('/crawl/', methods=['POST','GET'])
 def crawl():
     try:
         if request.method == 'GET':
@@ -21,11 +21,11 @@ def crawl():
             page_id = request_data.get("page_id")
             access_token = request_data.get("token")
 
-        if access_token:
-             if not page_id:
-                 crawler.crawl_all(access_token)
-             else:
-                 crawler.crawl_page(page_id, access_token)
+        # if access_token:
+        #      if not page_id:
+        #          crawler.crawl_all(access_token)
+        #      else:
+        #          crawler.crawl_page(page_id, access_token)
 
         return jsonify({
             "page_id": page_id,

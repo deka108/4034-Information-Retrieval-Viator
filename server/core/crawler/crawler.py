@@ -28,22 +28,22 @@ def request_until_succeed(url):
 def crawl_page(page_id, access_token):
     has_next_page = True
     num_processed = 0
-    fields = "posts?fields=id,created_time,message,message_tags,link,likes.limit(0).summary(true)," + \
-             "reactions.limit(0).summary(total_count),shares,story,story_tags,actions,from," + \
-             "type,status_type,name,object_id,picture,updated_time,comments.summary(true)&filter=toplevel"
+    fields = "posts?fields=id,created_time,message,message_tags,caption,description,icon,link,likes.limit(0).summary(true)," + \
+             "reactions.limit(0).summary(total_count),shares,story,story_tags,actions,from, " + \
+             "type,status_type,name,parent_id,place,source,object_id,picture,updated_time,comments.summary(true)&filter=toplevel"
 
     graph = facebook.GraphAPI(access_token, version='2.7')
     profile = graph.get_object(page_id)
     posts = graph.get_connections(profile['id'], fields)
     print("Start crawling " + page_id + "\n")
-    list = []
+    post_list = []
     records = data_util.get_records()
     print(records)
 
     try:
         while has_next_page:
             for post in posts['data']:
-                list.append(post)
+                post_list.append(post)
                 print(post['created_time'])
                 num_processed += 1
                 if num_processed % 100 == 0:
@@ -60,6 +60,7 @@ def crawl_page(page_id, access_token):
                 print(num_processed)
                 records[page_id] = num_processed
 
+        data_util.write_page_data_to_json(post_list,page_id)
         data_util.write_records_to_json(records)
 
         print("Done crawling " + page_id + "\n")
@@ -72,7 +73,6 @@ def crawl_all(access_token):
     try:
         data_util.init_records()
         records = data_util.get_records()
-
         for page_id in records:
             crawl_page(page_id, access_token)
         return True

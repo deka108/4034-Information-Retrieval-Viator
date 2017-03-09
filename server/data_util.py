@@ -70,7 +70,9 @@ def write_records_to_json(data, file_name=None):
     RECORDS = data
 
     with open(data_path, mode='w',  encoding='utf-8') as file_handler:
-        json.dump(data, file_handler)
+        json.dump(data, file_handler, indent=2, sort_keys=True)
 
-
+def write_page_data_to_json(data,page_id):
+    with open(get_page_json_file_path(page_id),mode='w',encoding='utf-8') as file_handler:
+        json.dump(data,file_handler, indent=2, sort_keys=True)
 update_records()
