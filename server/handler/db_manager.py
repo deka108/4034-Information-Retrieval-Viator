@@ -45,7 +45,7 @@ def get_all_data():
 
 @db_manager.route('/read/<page_id>', methods=['GET'])
 def read_data(page_id):
-    file_name = data_util.get_json_filename(page_id)
+    file_name = data_util.get_page_json_filename(page_id)
     if file_name:
         return db_manager.send_static_file(file_name)
     return "Page Id does not exist"
@@ -61,7 +61,7 @@ def delete_all_data():
 
 @db_manager.route('/delete/<page_id>', methods=['DELETE'])
 def delete_data(page_id):
-    file_name = data_util.get_json_filename(page_id)
+    file_name = data_util.get_page_json_filename(page_id)
     if file_name:
         return db_manager.send_static_file(file_name)
     return "Page Id does not exist"

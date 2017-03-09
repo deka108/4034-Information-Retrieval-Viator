@@ -13,7 +13,7 @@ DATA_DIR = os.path.join(BASE_DIR, 'data')
 JSON_DATA_PATH = os.path.join(DATA_DIR, '%s')
 RECORDS_DATA_PATH = os.path.join(DATA_DIR, 'records.json')
 SCHEMA_DATA_PATH = os.path.join(DATA_DIR, 'schema.json')
-INITIAL_PAGEID_PATH = os.path.join(DATA_DIR,'initial_pageid.txt')
+INITIAL_RECORDS_DATA_PATH = os.path.join(DATA_DIR, 'initial_records.json')
 
 # Enable protection agains *Cross-site Request Forgery (CSRF)*
 CSRF_ENABLED = True
@@ -27,3 +27,7 @@ SECRET_KEY = "secret"
 
 def get_data_path(file_name):
     return os.path.join(DATA_DIR, file_name)
+
+
+def check_data_path(file_path):
+    return os.is_file(file_path)
