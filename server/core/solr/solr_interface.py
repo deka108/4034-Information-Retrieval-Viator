@@ -1,7 +1,9 @@
 import json
-import requests
-from server import data_util, config
 
+import requests
+
+from server import config
+from server.utils import data_util
 
 s = requests.Session()
 s.mount('http://', requests.adapters.HTTPAdapter(max_retries=5))

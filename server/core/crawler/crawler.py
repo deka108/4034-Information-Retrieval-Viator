@@ -1,12 +1,11 @@
-import facebook
-import requests
-import json
-import urllib.request
-import time
 import datetime
+import json
+import time
+import urllib.request
 
-from server import config
-from server import data_util
+import facebook
+
+from server.utils import data_util
 
 
 def request_until_succeed(url):
@@ -60,7 +59,7 @@ def crawl_page(page_id, access_token):
                 print(num_processed)
                 records[page_id] = num_processed
 
-        data_util.write_page_data_to_json(post_list,page_id)
+        data_util.write_page_data_to_json(post_list, page_id)
         data_util.write_records_to_json(records)
 
         print("Done crawling " + page_id + "\n")

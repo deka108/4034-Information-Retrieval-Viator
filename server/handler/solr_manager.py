@@ -1,11 +1,6 @@
-import requests
-
 from flask import Blueprint, abort, jsonify, make_response
 
 from server.core.solr import solr_interface
-from server import config, data_util
-import json
-
 
 solr_manager = Blueprint('solr_manager', __name__, static_folder='../data')
 
