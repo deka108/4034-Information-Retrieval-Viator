@@ -2,80 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3132a3b1-81d4-454c-9fcf-9877bf3fe9ef" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/frontend/admin.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/frontend/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/frontend/loading.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/frontend/post_data_viewer.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/frontend/src/constants/EVENTS.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/frontend/src/constants/URL.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/frontend/src/controllers/AdminController.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/frontend/src/controllers/PostController.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/frontend/src/controllers/SearchController.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/frontend/src/services/DbDataService.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/frontend/src/services/InitializationService.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/frontend/src/services/SolrDataService.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/frontend/todo_ui.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/frontend/token_dialog.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/core/crawler/crawler.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/data_util.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/handler/db_manager.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/handler/search.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/handler/solr_manager.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/cz4034-information-retrieval.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/viator/frontend/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/viator/frontend/src/constants/EVENTS.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/viator/frontend/src/constants/URL.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/viator/frontend/src/controllers/AdminController.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/viator/frontend/src/controllers/SearchController.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/viator/frontend/src/services/SolrDataService.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/viator/requirements.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/viator/server/core/crawler/crawler.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/viator/server/handler/crawl.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/viator/server/handler/db_manager.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/viator/server/handler/search.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/viator/server/util.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/viator/test.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/data/records.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/requirements.txt" afterPath="$PROJECT_DIR$/requirements.txt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/create_core.sh" afterPath="$PROJECT_DIR$/create_core.sh" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/frontend/config.js" afterPath="$PROJECT_DIR$/frontend/config.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/frontend/package.json" afterPath="$PROJECT_DIR$/frontend/package.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/frontend/src/app.js" afterPath="$PROJECT_DIR$/frontend/src/app.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/frontend/src/boot/boot.js" afterPath="$PROJECT_DIR$/frontend/src/boot/boot.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/frontend/src/services/PostDataService.js" afterPath="$PROJECT_DIR$/frontend/src/services/SearchDataService.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/frontend/style/app.css" afterPath="$PROJECT_DIR$/frontend/style/app.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/managed-schema" afterPath="$PROJECT_DIR$/managed-schema" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/run.py" afterPath="$PROJECT_DIR$/run.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/__init__.py" afterPath="$PROJECT_DIR$/server/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/config.py" afterPath="$PROJECT_DIR$/server/config.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/core/__init__.py" afterPath="$PROJECT_DIR$/server/core/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/core/crawler/__init__.py" afterPath="$PROJECT_DIR$/server/core/crawler/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/core/solr/__init__.py" afterPath="$PROJECT_DIR$/server/core/solr/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/core/solr/solr_interface.py" afterPath="$PROJECT_DIR$/server/core/solr/solr_interface.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/data/DiscoverHongKong_facebook.json" afterPath="$PROJECT_DIR$/server/data/DiscoverHongKong_facebook.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/data/TheSmartLocal_facebook.json" afterPath="$PROJECT_DIR$/server/data/TheSmartLocal_facebook.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/data/Tripviss_facebook.json" afterPath="$PROJECT_DIR$/server/data/Tripviss_facebook.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/data/goturkeytourism_facebook.json" afterPath="$PROJECT_DIR$/server/data/goturkeytourism_facebook.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/data/incredibleindia_facebook.json" afterPath="$PROJECT_DIR$/server/data/incredibleindia_facebook.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/data/indonesia.travel_facebook.json" afterPath="$PROJECT_DIR$/server/data/indonesia.travel_facebook.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/data/initial_pageid.txt" afterPath="$PROJECT_DIR$/server/data/initial_pageid.txt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/data/itsmorefuninthePhilippines_facebook.json" afterPath="$PROJECT_DIR$/server/data/itsmorefuninthePhilippines_facebook.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/data/koreatourism_facebook.json" afterPath="$PROJECT_DIR$/server/data/koreatourism_facebook.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/data/malaysia.travel.sg_facebook.json" afterPath="$PROJECT_DIR$/server/data/malaysia.travel.sg_facebook.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/data/records.txt" afterPath="$PROJECT_DIR$/server/data/records.txt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/data/schema.json" afterPath="$PROJECT_DIR$/server/data/schema.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/data/visitchinanow_facebook.json" afterPath="$PROJECT_DIR$/server/data/visitchinanow_facebook.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/data/visitjapaninternational_facebook.json" afterPath="$PROJECT_DIR$/server/data/visitjapaninternational_facebook.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/data/wonderfulplacesindo_facebook.json" afterPath="$PROJECT_DIR$/server/data/wonderfulplacesindo_facebook.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/handler/__init__.py" afterPath="$PROJECT_DIR$/server/handler/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/handler/index.py" afterPath="$PROJECT_DIR$/server/handler/index.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/handler/static/index.html" afterPath="$PROJECT_DIR$/server/handler/static/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viator/server/server_app.py" afterPath="$PROJECT_DIR$/server/server_app.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/config.py" afterPath="$PROJECT_DIR$/server/config.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/core/crawler/crawler.py" afterPath="$PROJECT_DIR$/server/core/crawler/crawler.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/handler/db_manager.py" afterPath="$PROJECT_DIR$/server/handler/db_manager.py" />
     </list>
     <ignored path="cz4034-information-retrieval.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -88,7 +19,8 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/cz4034-information-retrieval$crawler.coverage" NAME="crawler Coverage Results" MODIFIED="1488430966951" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/viator" />
+    <SUITE FILE_PATH="coverage/cz4034-information-retrieval$run.coverage" NAME="run Coverage Results" MODIFIED="1489050729759" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/cz4034-information-retrieval$crawler.coverage" NAME="crawler Coverage Results" MODIFIED="1489049320572" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/server/core/crawler" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -99,14 +31,42 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="crawler.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="crawler.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/core/crawler/crawler.py">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="571">
+              <caret line="71" column="18" selection-start-line="71" selection-start-column="18" selection-end-line="71" selection-end-column="55" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="data_util.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/server/data_util.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="155">
+              <caret line="13" column="54" selection-start-line="13" selection-start-column="54" selection-end-line="13" selection-end-column="54" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="records.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/data/records.json">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
+              <caret line="0" column="17" selection-start-line="0" selection-start-column="17" selection-end-line="0" selection-end-column="17" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -117,6 +77,30 @@
             <state relative-caret-position="0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="run.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/run.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#33#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="db_manager.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/handler/db_manager.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="459">
+              <caret line="27" column="58" selection-start-line="27" selection-start-column="58" selection-end-line="27" selection-end-column="58" />
+              <folding>
+                <element signature="e#0#52#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -151,6 +135,12 @@
         <option value="$PROJECT_DIR$/viator/server/core/crawler/crawler.py" />
         <option value="$PROJECT_DIR$/viator/server/data/records.txt" />
         <option value="$PROJECT_DIR$/viator/server/config.py" />
+        <option value="$PROJECT_DIR$/server/config.py" />
+        <option value="$PROJECT_DIR$/server/core/crawler/records.json" />
+        <option value="$PROJECT_DIR$/server/data/records.json" />
+        <option value="$PROJECT_DIR$/server/handler/db_manager.py" />
+        <option value="$PROJECT_DIR$/server/data/records.txt" />
+        <option value="$PROJECT_DIR$/server/core/crawler/crawler.py" />
       </list>
     </option>
   </component>
@@ -163,8 +153,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="1358" />
     <option name="y" value="-8" />
-    <option name="width" value="1296" />
-    <option name="height" value="696" />
+    <option name="width" value="1616" />
+    <option name="height" value="876" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -221,10 +211,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="viator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="server" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -239,29 +225,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="viator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="server" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cz4034-information-retrieval" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cz4034-information-retrieval" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
+              <option name="myItemId" value="handler" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -301,6 +269,42 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cz4034-information-retrieval" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cz4034-information-retrieval" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="crawler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cz4034-information-retrieval" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cz4034-information-retrieval" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -312,7 +316,48 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
   </component>
-  <component name="RunManager">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Github\cz4034-information-retrieval\server\core\crawler" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.run">
+    <configuration default="false" name="run" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="cz4034-information-retrieval" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/run.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="crawler" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/server/core/crawler" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="cz4034-information-retrieval" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/server/core/crawler/crawler.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -521,6 +566,16 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Python.run" />
+      <item index="1" class="java.lang.String" itemvalue="Python.crawler" />
+    </list>
+    <recent_temporary>
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="Python.run" />
+        <item index="1" class="java.lang.String" itemvalue="Python.crawler" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
@@ -536,27 +591,27 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1358" y="-8" width="1296" height="696" extended-state="7" />
+    <frame x="1358" y="-8" width="1616" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29453126" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.145625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27284595" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -577,18 +632,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/server/core/crawler/crawler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/viator/server/core/crawler/crawler.py" />
-    <entry file="file://$PROJECT_DIR$/viator/run.py" />
     <entry file="file://$PROJECT_DIR$/viator/server/handler/index.py" />
     <entry file="file://$PROJECT_DIR$/viator/server/config.py" />
     <entry file="file://$PROJECT_DIR$/viator/server/__init__.py" />
@@ -623,6 +666,118 @@
     <entry file="file://$PROJECT_DIR$/viator/server/data/records.txt" />
     <entry file="file://$PROJECT_DIR$/viator/server/data/initial_pageid.txt" />
     <entry file="file://$PROJECT_DIR$/viator/server/config.py" />
+    <entry file="file://C:/Python/Python36-32/Lib/site-packages/werkzeug/wrappers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-429">
+          <caret line="447" column="8" selection-start-line="447" selection-start-column="8" selection-end-line="447" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/handler/search.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#52#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/handler/solr_manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#15#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/handler/index.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python/Python36-32/Lib/json/decoder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="356" column="0" selection-start-line="356" selection-start-column="0" selection-end-line="356" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/server_app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#9#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/core/crawler/records.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="45" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/data/Tripviss_facebook.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="34298" column="77" selection-start-line="34298" selection-start-column="73" selection-end-line="34298" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/data/goturkeytourism_facebook.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="43095" column="41" selection-start-line="43095" selection-start-column="34" selection-end-line="43095" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python/Python36-32/Lib/json/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="353" column="0" selection-start-line="353" selection-start-column="0" selection-end-line="353" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/handler/db_manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="58" selection-start-line="27" selection-start-column="58" selection-end-line="27" selection-end-column="58" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/core/crawler/crawler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="571">
+          <caret line="71" column="18" selection-start-line="71" selection-start-column="18" selection-end-line="71" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/data/records.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="17" selection-start-line="0" selection-start-column="17" selection-end-line="0" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server/data/records.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -631,13 +786,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/core/crawler/crawler.py">
+    <entry file="file://$PROJECT_DIR$/server/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="13" column="54" selection-start-line="13" selection-start-column="54" selection-end-line="13" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/run.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#33#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/data_util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>
