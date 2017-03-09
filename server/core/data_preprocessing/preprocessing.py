@@ -32,10 +32,14 @@ def preprocess_page_json(page_id):
         entry["link"] = post["link"]
 
         # might be available
-        entry["name"] = post.get("name")
-        entry["message"] = post.get("message")
-        entry["caption"] = post.get("caption")
-        entry["picture"] = post.get("picture")
+        if "name" in post:
+            entry["name"] = post["name"].encode('utf-8')
+        if "message" in post:
+            entry["message"] = post["message"].encode('utf-8')
+        if "caption" in post:
+            entry["caption"] = post["caption"].encode('utf-8')
+        if "picture" in post:
+            entry["picture"] = post["picture"].encode('utf-8')
 
         if "likes" in post:
             entry["likes_cnt"] = int(post["likes"]["summary"]["total_count"])
