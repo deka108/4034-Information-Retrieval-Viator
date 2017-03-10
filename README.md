@@ -1,5 +1,4 @@
 # cz4034-information-retrieval
-=======
 ## Notes:
 * Use pycharm and python 3.6
     * You may not use pycharm, but you'll have to configure the PYTHONPATH yourself.
@@ -48,7 +47,7 @@ data_util.write_data_to_json(data, file_name)
     * Change directory to frontend
         * Run ```jspm install``` from command line
 * Run ```live-server .``` from command line
-
+* Develop (or testing)!
 
 ## Project Structure Directory
 * requirements.txt: package dependencies
@@ -110,23 +109,8 @@ data_util.write_data_to_json(data, file_name)
 - wonderfulplacesindo: 989
 - goturkeytourism: 794
 
-=======
-
-## Server
-python run.py [--host hostname --port port_number] 
-* --host and --port_number are optional
-
-## Front end
-- Dependency: Node.js, npm, jspm, live-server
-- Install jspm: npm install jspm --save-dev
-- "jspm install" in directory with config.js and package.json
-- Run "live-server ."
-- Develop!
-
-node.js dependencies will be removed after front end dev is done and combined with server
-
-
-
 ## Solr Search
 - query: [example](https://gist.github.com/felixputera/1d90ea9e3f929ec300511bbd8db605bf)
 - result: [result](https://gist.github.com/felixputera/e9870a3335396cbdeb4b5b804bdcdc0f)
+
+=======
