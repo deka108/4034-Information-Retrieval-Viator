@@ -1,16 +1,17 @@
 # cz4034-information-retrieval
 ## Notes:
 * Use pycharm and python 3.6
-    * With pycharm, you can run from anywhere without having to cd or type `python some_script.py`. You can not use pycharm, but there'll be errors with the syspath.
+    * With pycharm, you can run from anywhere without having to cd or type `python some_script.py`. It is not compulsory, but sometimes there might be errors with the system path if you aren't using pycharm.
 * **Generates preprocessed data** first before anything!!
-    * Preprocessed data won't and shouldn't be included in github, so you'll have to run it first
+    * Preprocessed data won't and shouldn't be included in github, so you'll have to run the preprocessing script first
 
-## Generates Preprocessed File
-* Run run_script.py from the top module `python run_script.py` or run it from server/core/data_preprocessing/preprocessing.py
+## Generates Preprocessed Files
+* Run run_script.py from the top module: `python run_script.py` 
+   * alternative: run it from preprocessing.py (server/core/data_preprocessing/preprocessing.py)
 
 ## Reading or writing data
 * Use **data_util** module under server.utils
-    * Read the method name to know what it's doing and the required parameters
+    * Read the method names from the module to know what they're doing and the required parameters
     * Example of usage
 ```python
 from server.utils import data_util
@@ -18,12 +19,16 @@ from server.utils import data_util
 data_util.get_page_ids()
 
 # read preprocessed data by page id
-page_id="Tripviss"
+page_id = "Tripviss"
 data = data_util.get_preprocessed_json_data_by_page_id(page_id)
 
 # writing data to json
 file_name = "beautiful_data"
-data_util.write_data_to_json(data, file_name)
+# code below will save data as beautiful_data.json into server/data directory
+data_util.write_data_to_json(data, file_name) 
+
+# combine all preprocessed data and read them as 1 json file
+all_page = data_util.get_all_preprocessed_page()
 ```
 
 ## Running any program or server
