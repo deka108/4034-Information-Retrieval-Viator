@@ -1,17 +1,12 @@
 # cz4034-information-retrieval
 ## Notes:
 * Use pycharm and python 3.6
-    * You may not use pycharm, but you'll have to configure the PYTHONPATH yourself.
-    * With pycharm, you can run from anywhere without having to 
-    cd or type ```python some_script.py```
+    * With pycharm, you can run from anywhere without having to cd or type `python some_script.py`. You can not use pycharm, but there'll be errors with the syspath.
 * **Generates preprocessed data** first before anything!!
-    * Preprocessed data wont and shouldnt be included in github
-    * So you'll have to run it yourself
+    * Preprocessed data won't and shouldn't be included in github, so you'll have to run it first
 
 ## Generates Preprocessed File
-* Run run_script.py from the top module
-```python run_script.py``` or run it from 
-server/core/data_preprocessing/preprocessing.py
+* Run run_script.py from the top module `python run_script.py` or run it from server/core/data_preprocessing/preprocessing.py
 
 ## Reading or writing data
 * Use **data_util** module under server.utils
@@ -32,11 +27,10 @@ data_util.write_data_to_json(data, file_name)
 ```
 
 ## Running any program or server
-* Run any program: Just run from pycharm
-* Running server: ```python run.py``` from top level directory
-* Running any program from top level: ```python run_script.py```
-    * Use run_script.py for testing, you can import whatever module that you 
-    want to test here
+* Run any program/module: Just run from pycharm (pycharm can run run.py and run_script.py also)
+* Running server: `python run.py` from top level directory
+* Running modules: `python run_script.py` from top level directory
+    * Use run_script.py for testing, you can import whatever module that you want to test here
     
 ## Running Front-end
 * Dependencies:
@@ -45,8 +39,8 @@ data_util.write_data_to_json(data, file_name)
     * Install jspm globally through npm
     * Install live-server globally through npm
     * Change directory to frontend
-        * Run ```jspm install``` from command line
-* Run ```live-server .``` from command line
+        * Run `jspm install` from command line
+* Run `live-server .` from command line
 * Develop (or testing)!
 
 ## Project Structure Directory
@@ -82,10 +76,8 @@ data_util.write_data_to_json(data, file_name)
             * get_page_ids(): get all the page ids
             * get_preprocessed_json_data_by_page_id(page_id): get preprocessed data in json format (array of posts)
             * get_raw_json_data_by_page(page_id): get raw data in json format
-            * get_csv_data_by_page_id(page_id): returns dataframe of the 
-            preprocesed page_id records csvs
-            * get_all_preprocessed_page(): returns all the preprocessed 
-            pages into 1 dataframe 
+            * get_csv_data_by_page_id(page_id): returns dataframe of the preprocesed page_id records csvs
+            * get_all_preprocessed_page(): returns all the preprocessed pages into 1 dataframe 
         * text_util.py: processing text, text cleaning utilities, extracting
          info from text (like date)
 * frontend
