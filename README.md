@@ -74,27 +74,15 @@ all_page = data_util.get_all_preprocessed_page()
         * search.py: http handler related to searching with solr
         * solr_manager.py: http handler related to the solr database
       * server_app.py: flask app
-      * utils : utilities, functions that gets repeatedly used 
-      everywhere
+      * utils : utilities, methods that get repeatedly used from everywhere
         * data_util.py: reading and writing data from json and csv. The 
         method names are clear enough but for the lazy:
-<<<<<<< HEAD
-            * get_page_ids(): get all the page ids
-            * get_preprocessed_json_data_by_page_id(page_id): get preprocessed data in json format (array of posts)
-            * get_raw_json_data_by_page(page_id): get raw data in json format
-            * get_csv_data_by_page_id(page_id): returns dataframe of the preprocesed page_id records csvs
-            * get_all_preprocessed_page(): returns all the preprocessed pages into 1 dataframe 
-=======
             * `get_page_ids()`: get all the page ids
-            * `get_preprocessed_json_data_by_page_id(page_id)`: get preprocessed data in json format (array of posts)
-            * `get_raw_json_data_by_page(page_id)`: get raw data in json format
-            * `get_csv_data_by_page_id(page_id)`: returns a dataframe of the 
-            preprocesed page_id post csv
-            * `get_preprocessed_csv_page_all()`: combines all the preprocessed 
-            page_id posts into 1 dataframe
-            * `get_preprocessed_json_data_all()`: returns all the preprocessed 
-            pages into 1 json
->>>>>>> c9bcaa1... Fix csv reading and db_manager
+            * `get_preprocessed_json_data_by_page_id(page_id)`: get preprocessed data in dictionary format (array of posts)
+            * `get_raw_json_data_by_page(page_id)`: get raw data in dictionary format
+            * `get_csv_data_by_page_id(page_id)`: returns dataframe of the preprocesed page_id post csv
+            * `get_preprocessed_csv_page_all()`: combines all the preprocessed page_id posts, and returns it as single dataframe
+            * `get_preprocessed_json_data_all()`: combines all the preprocessed pages and returns it as an array of all the available posts
         * text_util.py: processing text, text cleaning utilities, extracting
          info from text (like date)
 * frontend
