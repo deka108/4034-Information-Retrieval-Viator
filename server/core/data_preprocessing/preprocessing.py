@@ -1,7 +1,7 @@
-from server.utils import data_util, text_util
 import pandas as pd
 
-# Headers are ordered
+from server.utils import data_util, text_util
+
 csv_headers = [
     # content
     "id", "type", "name", "message", "link", "caption", "picture",
@@ -17,8 +17,14 @@ csv_headers = [
     "updated_is_weekend"]
 
 
+def preprocess_all_pages():
+    all_pageids = data_util.get_page_ids()
+    for page_id in all_pageids:
+        preprocess_page_json(page_id)
+
+
 def preprocess_page_json(page_id):
-    postdata = data_util.get_json_data_by_page_id(page_id)
+    postdata = data_util.get_raw_json_data_by_page_id(page_id)
     data = []
 
     # must extract data
@@ -29,17 +35,25 @@ def preprocess_page_json(page_id):
         # must be available
         entry["id"] = post["id"]
         entry["type"] = post["type"]
-        entry["link"] = post["link"]
 
         # might be available
-        if "name" in post:
-            entry["name"] = post["name"].encode('utf-8')
-        if "message" in post:
-            entry["message"] = post["message"].encode('utf-8')
-        if "caption" in post:
-            entry["caption"] = post["caption"].encode('utf-8')
-        if "picture" in post:
-            entry["picture"] = post["picture"].encode('utf-8')
+        entry["link"] = post.get("link")
+
+        # might be available and unicode
+        entry["name"] = post.get("name")
+        entry["message"] = post.get("message")
+        entry["caption"] = post.get("caption")
+        entry["picture"] = post.get("picture")
+
+        # use these below if the above 4 lines does not work
+        # if "name" in post:
+        #     entry["name"] = post["name"].encode('utf-8')
+        # if "message" in post:
+        #     entry["message"] = post["message"].encode('utf-8')
+        # if "caption" in post:
+        #     entry["caption"] = post["caption"].encode('utf-8')
+        # if "picture" in post:
+        #     entry["picture"] = post["picture"].encode('utf-8')
 
         if "likes" in post:
             entry["likes_cnt"] = int(post["likes"]["summary"]["total_count"])
@@ -50,6 +64,9 @@ def preprocess_page_json(page_id):
             entry["shares_cnt"] = int(post["shares"]["count"])
         else:
             entry["shares_cnt"] = 0
+        if "comments" in post:
+            entry["comments_cnt"] = int(post["comments"]["summary"][
+                                            "total_count"])
 
         # LOCATION
         if "place" in post:
@@ -71,11 +88,12 @@ def preprocess_page_json(page_id):
 
         data.append(entry)
 
-    data_util.write_dict_to_csv(data, csv_headers, page_id)
+    file_name = data_util.PAGE_CSV_FILE_NAME.format(page_id)
+    data_util.write_dict_to_csv(data, csv_headers, file_name)
+    print("Successfully written preprocessed data to {}.csv".format(file_name))
 
 
-def compute_words(page_id):
-    df = read_csv_by_pageid(page_id)
+def compute_words(df):
     df["message_cleaned"] = df["message"].apply(
         lambda x: text_util.clean_text(x) if pd.notnull(x) else "")
     # print(df["message_cleaned"])
@@ -84,5 +102,18 @@ def compute_words(page_id):
 
 def read_csv_by_pageid(page_id):
     df = data_util.get_csv_data_by_page_id(page_id)
-    # print(df)
+    print(df)
     return df
+
+
+if __name__ == "__main__":
+    # Example proccessing one page_id
+    # page_id = "Tripviss"
+    # preprocess_page_json(page_id)
+    # compute_words(page_id)
+
+    # get all preprocessed page data in 1 dataframe:
+    # data = data_util.get_all_preprocessed_page()
+    # compute_words(data)
+
+    preprocess_all_pages()

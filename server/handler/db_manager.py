@@ -1,6 +1,7 @@
 import json
 
 from flask import Blueprint, abort, jsonify, request
+from flask import make_response
 
 from server.utils import data_util
 
@@ -8,12 +9,9 @@ from server.utils import data_util
 
 db_manager = Blueprint('db_manager', __name__, static_folder='static')
 
-@db_manager.route('/crawl/', methods=['POST','GET'])
+@db_manager.route('/crawl/', methods=['POST'])
 def crawl():
     try:
-        if request.method == 'GET':
-            return "hello"
-
         request_data = json.loads(request.get_data())
 
         if request_data:
@@ -31,23 +29,23 @@ def crawl():
             "access_token": access_token
         })
     except Exception as e:
-        abort(404)
+        make_response(str(e), 404)
 
 
 @db_manager.route('/read/', methods=['GET'])
 def get_all_data():
-    file_infos = data_util.get_all_json_info()
+    file_infos = data_util.get_records()
     if file_infos:
         return jsonify(file_infos)
-    return "Data does not exist"
+    return make_response("Data does not exist", 404)
 
 
 @db_manager.route('/read/<page_id>', methods=['GET'])
 def read_data(page_id):
-    file_name = data_util.get_page_json_filename(page_id)
-    if file_name:
-        return db_manager.send_static_file(file_name)
-    return "Page Id does not exist"
+    data = data_util.get_preprocessed_json_data_by_page_id(page_id)
+    if data:
+        return jsonify(data)
+    return make_response("Page Id does not exist", 404)
 
 
 @db_manager.route('/delete/', methods=['DELETE'])
@@ -55,7 +53,7 @@ def delete_all_data():
     file_names = data_util.get_page_ids()
     if file_names:
         return jsonify(file_names)
-    return "Data does not exist"
+    return make_response("Data does not exist", 404)
 
 
 @db_manager.route('/delete/<page_id>', methods=['DELETE'])
@@ -63,4 +61,4 @@ def delete_data(page_id):
     file_name = data_util.get_page_json_filename(page_id)
     if file_name:
         return db_manager.send_static_file(file_name)
-    return "Page Id does not exist"
+    return make_response("Page Id does not exist", 404)

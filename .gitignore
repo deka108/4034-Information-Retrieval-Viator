@@ -168,3 +168,5 @@ npm-debug.log
 # JS-related
 etc/
 jspm_packages/
+
+server/data/*facebook.csv
