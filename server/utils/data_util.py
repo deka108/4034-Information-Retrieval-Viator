@@ -48,14 +48,20 @@ def update_records():
 
 
 def get_preprocessed_json_data_by_page_id(page_id):
-    """"Get JSON data by page id"""
-    df = get_csv_data_by_page_id(page_id)
+    """"Get preprocessed JSON data by page id"""
+    df = get_csv_data(get_page_csv_filename(page_id))
+    df = df.fillna("")
+    return df.to_dict("records")
+
+
+def get_preprocessed_json_data_all():
+    df = get_preprocessed_csv_page_all()
     df = df.fillna("")
     return df.to_dict("records")
 
 
 def get_raw_json_data_by_page_id(page_id):
-    """"Get JSON data by page id"""
+    """"Get non preprocessed JSON data by page id"""
     data_path = get_json_filepath(get_page_json_filename(page_id))
     if config.check_data_path(data_path):
         with open(data_path, mode='r') as file_handler:
@@ -66,21 +72,21 @@ def get_raw_json_data_by_page_id(page_id):
                 page_id))
 
 
-def get_csv_data_by_page_id(page_id):
-    data_path = get_csv_filepath(get_page_csv_filename(page_id))
+def get_csv_data(file_name):
+    data_path = get_csv_filepath(file_name)
     if config.check_data_path(data_path):
         df = pd.read_csv(data_path, encoding='utf-8')
         return df
     else:
         raise FileNotFoundError(
-            "Csv of the requested page_id: {} does not exist.".format(page_id))
+            "Csv of the requested page_id: {} does not exist.".format(data_path))
 
 
-def get_all_preprocessed_page():
+def get_preprocessed_csv_page_all():
     all_pageids = get_page_ids()
     data = []
     for page_id in all_pageids:
-        data.append(get_csv_data_by_page_id(page_id))
+        data.append(get_csv_data(get_page_csv_filename(page_id)))
     result = pd.concat(data)
     return result
 

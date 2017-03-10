@@ -78,11 +78,23 @@ all_page = data_util.get_all_preprocessed_page()
       everywhere
         * data_util.py: reading and writing data from json and csv. The 
         method names are clear enough but for the lazy:
+<<<<<<< HEAD
             * get_page_ids(): get all the page ids
             * get_preprocessed_json_data_by_page_id(page_id): get preprocessed data in json format (array of posts)
             * get_raw_json_data_by_page(page_id): get raw data in json format
             * get_csv_data_by_page_id(page_id): returns dataframe of the preprocesed page_id records csvs
             * get_all_preprocessed_page(): returns all the preprocessed pages into 1 dataframe 
+=======
+            * `get_page_ids()`: get all the page ids
+            * `get_preprocessed_json_data_by_page_id(page_id)`: get preprocessed data in json format (array of posts)
+            * `get_raw_json_data_by_page(page_id)`: get raw data in json format
+            * `get_csv_data_by_page_id(page_id)`: returns a dataframe of the 
+            preprocesed page_id post csv
+            * `get_preprocessed_csv_page_all()`: combines all the preprocessed 
+            page_id posts into 1 dataframe
+            * `get_preprocessed_json_data_all()`: returns all the preprocessed 
+            pages into 1 json
+>>>>>>> c9bcaa1... Fix csv reading and db_manager
         * text_util.py: processing text, text cleaning utilities, extracting
          info from text (like date)
 * frontend

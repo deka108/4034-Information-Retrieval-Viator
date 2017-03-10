@@ -32,20 +32,28 @@ def crawl():
         make_response(str(e), 404)
 
 
-@db_manager.route('/read/', methods=['GET'])
+@db_manager.route('/records/', methods=['GET'])
 def get_all_data():
     file_infos = data_util.get_records()
     if file_infos:
         return jsonify(file_infos)
-    return make_response("Data does not exist", 404)
+    return make_response("Record does not exist", 404)
 
 
+@db_manager.route('/read/', defaults={'page_id': None})
 @db_manager.route('/read/<page_id>', methods=['GET'])
 def read_data(page_id):
-    data = data_util.get_preprocessed_json_data_by_page_id(page_id)
-    if data:
-        return jsonify(data)
-    return make_response("Page Id does not exist", 404)
+    if page_id:
+        data = data_util.get_preprocessed_json_data_by_page_id(page_id)
+        if data:
+            return jsonify(data)
+        return make_response("Page Id does not exist", 404)
+    else:
+        # not recommended, data is too big
+        data = data_util.get_preprocessed_json_data_all()
+        if data:
+            return jsonify(data)
+        return make_response("Unable to retrieve data", 404)
 
 
 @db_manager.route('/delete/', methods=['DELETE'])

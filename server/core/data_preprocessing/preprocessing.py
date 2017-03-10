@@ -4,7 +4,7 @@ from server.utils import data_util, text_util
 
 csv_headers = [
     # content
-    "id", "type", "name", "message", "link", "caption", "picture",
+    "id", "page_id", "type", "name", "message", "link", "caption", "picture",
     # user preference
     "likes_cnt", "shares_cnt", "reactions_cnt", "comments_cnt",
     "comments_sentiment",
@@ -33,6 +33,7 @@ def preprocess_page_json(page_id):
 
         # CONTENT
         # must be available
+        entry["page_id"] = page_id
         entry["id"] = post["id"]
         entry["type"] = post["type"]
 
@@ -101,7 +102,7 @@ def compute_words(df):
 
 
 def read_csv_by_pageid(page_id):
-    df = data_util.get_csv_data_by_page_id(page_id)
+    df = data_util.get_csv_data(page_id)
     print(df)
     return df
 
