@@ -4,7 +4,7 @@ from server.utils import data_util, text_util
 
 csv_headers = [
     # content
-    "id", "page_id", "type", "name", "message", "link", "caption", "picture",
+    "id", "page_id", "type", "name", "message", "link", "caption", "picture", "description",
     # user preference
     "likes_cnt", "shares_cnt", "reactions_cnt", "comments_cnt",
     "comments_sentiment",
@@ -14,7 +14,7 @@ csv_headers = [
     "created_time", "created_year", "created_month", "created_day",
     "created_is_weekend",
     "updated_time", "updated_year", "updated_month", "updated_day",
-    "updated_is_weekend"]
+    "updated_is_weekend",]
 
 
 def preprocess_all_pages():
@@ -56,6 +56,8 @@ def preprocess_page_json(page_id):
         # if "picture" in post:
         #     entry["picture"] = post["picture"].encode('utf-8')
 
+        if "description" in post:
+            entry["description"] = post["description"]
         if "likes" in post:
             entry["likes_cnt"] = int(post["likes"]["summary"]["total_count"])
         if "reactions" in post:
