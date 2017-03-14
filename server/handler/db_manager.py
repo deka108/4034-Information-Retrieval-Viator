@@ -4,6 +4,7 @@ from flask import Blueprint, abort, jsonify, request
 from flask import make_response
 
 from server.utils import data_util
+from server.core.solr import solr_interface
 
 # access_token = 'EAACEdEose0cBAP9s5lDmTubZAGr2KBKnAaQulX54mUvVV0mniQrhvbRDG3xcvzmsaMfMQFbkF2UFpluEX18kP7w5dgFjNjORmy7xJenpP8j4AbXZBD2DNfh4VsGTEgP0S5I5tChl7mY4UmtRt9pzvWBAyMEsz3LR63aTmscU0uVURQQUxIsO7a8lg77o5ZBHH5oyzif7wZDZD'
 
@@ -70,3 +71,15 @@ def delete_data(page_id):
     if file_name:
         return db_manager.send_static_file(file_name)
     return make_response("Page Id does not exist", 404)
+
+
+@db_manager.route('/index/', defaults={'page_id': None})
+@db_manager.route('/index/<page_id>', methods=['GET'])
+def index_data(page_id):
+    if page_id:
+        if solr_interface.index_specific(page_id):
+            return "Success indexed {}".format(page_id)
+        return make_response("Page Id does not exist", 404)
+    else:
+        solr_interface.index_all()
+        return "Success"
