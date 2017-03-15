@@ -55,6 +55,12 @@ def add_to_dict(posting):
         except LookupError:
             print('no update time in this post')
 
+
+        try:
+            post_dict['is_weeekend_b'] = posting['updated_is_weekend']
+        except LookupError:
+            print('no update time in this post')
+
         
         return post_dict
     except LookupError:
