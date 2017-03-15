@@ -72,14 +72,3 @@ def delete_data(page_id):
         return db_manager.send_static_file(file_name)
     return make_response("Page Id does not exist", 404)
 
-
-@db_manager.route('/index/', defaults={'page_id': None})
-@db_manager.route('/index/<page_id>', methods=['GET'])
-def index_data(page_id):
-    if page_id:
-        if solr_interface.index_specific(page_id):
-            return "Success indexed {}".format(page_id)
-        return make_response("Page Id does not exist", 404)
-    else:
-        solr_interface.index_all()
-        return "Success"

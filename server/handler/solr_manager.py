@@ -1,22 +1,8 @@
-from flask import Blueprint, abort, jsonify, make_response
+from flask import Blueprint, abort, jsonify, make_response, request
 
 from server.core.solr import solr_interface
 
 solr_manager = Blueprint('solr_manager', __name__, static_folder='../data')
-
-
-@solr_manager.route('/indexing/', methods=['GET'])
-def indexing_all_database():
-    if solr_interface.index_all():
-        return jsonify(success=True)
-    abort(404)
-
-
-@solr_manager.route('/indexing/<page_id>', methods=['GET'])
-def indexing_country_database(page_id):
-    if solr_interface.index_specific(page_id):
-        return jsonify(success=True)
-    abort(404)
 
 
 @solr_manager.route('/delete/', methods=['DELETE'])
@@ -42,10 +28,28 @@ def get_all_index_data():
 
 @solr_manager.route('/core/', methods=['GET'])
 def get_core():
-    return solr_interface.get_core()
+    return jsonify(solr_interface.get_core())
 
 
 @solr_manager.route('/schema', defaults={'path': ''})
 @solr_manager.route('/schema/<path:path>')
 def get_schema(path):
     return jsonify(solr_interface.get_schema())
+
+
+@solr_manager.route('/indexing/', defaults={'page_id': None})
+@solr_manager.route('/indexing/<page_id>', methods=['GET'])
+def index_data(page_id):
+    if page_id:
+        if solr_interface.index_specific(page_id):
+            return "Success indexed {}".format(page_id)
+        return make_response("Page Id does not exist", 404)
+    else:
+        solr_interface.index_all()
+        return "Success"
+
+
+@solr_manager.route('/query/', methods=['GET'])
+def get_query():
+    query = request.args.get('q')
+    return jsonify(solr_interface.search(query))
