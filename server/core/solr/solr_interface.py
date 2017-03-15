@@ -76,7 +76,7 @@ def delete_all_index():
 
 
 def delete_index_by_page(page_id):
-    r = s.get("{url}/update?stream.body=<delete><query>page_id_s:{page_id}</query></delete>&commit=true".format(url=config.SOLR_BASE_URL, page_id=page_id))
+    r = s.get("{url}/update?stream.body=<delete><query>page_idss:{page_id}</query></delete>&commit=true".format(url=config.SOLR_BASE_URL, page_id=page_id))
     return r.status_code
 
 
@@ -129,7 +129,7 @@ def add_schema_field():
 
 
 def get_all_page_ids():
-    r = s.get("{url}/select?q=*%3A*&rows=0&facet=on&facet.field=page_id_s&wt=json".format(url=config.SOLR_BASE_URL))
+    r = s.get("{url}/select?q=*%3A*&rows=0&facet=on&facet.field=page_id&wt=json".format(url=config.SOLR_BASE_URL))
     return r.json()
 
 

@@ -28,7 +28,7 @@ function AdminController($scope, $q, $window, $mdDialog, DbDataService, SolrData
     });
 
     $scope.updatePageIndexes = function(response) {
-        let tmpPageIndexes = response.facet_counts.facet_fields.page_id_s;
+        let tmpPageIndexes = response.facet_counts.facet_fields.page_ids;
         $scope.pageIndexes = {};
         let prev = "";
 
