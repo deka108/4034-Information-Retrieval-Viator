@@ -5,7 +5,7 @@ import re
 def extract_date(time_info):
     data_obj = datetime.strptime(time_info, "%Y-%m-%dT%H:%M:%S%z")
 
-    return data_obj.year, data_obj.month, data_obj.strftime("%A"), \
+    return data_obj.year, data_obj.strftime("%B"), data_obj.strftime("%A"), \
            (lambda x: (x % 6) == 0)(int(data_obj.strftime("%w")))
 
 

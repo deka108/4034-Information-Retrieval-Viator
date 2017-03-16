@@ -31,7 +31,7 @@ def add_to_dict(posting):
             print('no message in this post')
 
         try:
-            post_dict['type_s'] = posting['type']
+            post_dict['type'] = posting['type']
         except LookupError:
             print('no type in this post')
 
@@ -41,27 +41,41 @@ def add_to_dict(posting):
             print('no publisher in this post')
 
         try:
-            post_dict['share_count_i'] = posting['shares_cnt']
+            post_dict['shares_count'] = posting['shares_cnt']
         except LookupError:
             print('no share count in this post')
 
         try:
-            post_dict['likes_count_i'] = posting['likes_cnt']
+            post_dict['likes_count'] = posting['likes_cnt']
         except LookupError:
-            print('no share count in this post')
+            print('no like count in this post')
 
         try:
-            post_dict['time_dt'] = posting['updated_time']
+            post_dict['reactions_count'] = posting['reactions_cnt']
+        except LookupError:
+            print('no reaction count in this post')
+
+        try:
+            post_dict['comments_count'] = posting['comments_cnt']
+        except LookupError:
+            print('no comment count in this post')
+
+        try:
+            post_dict['time'] = posting['updated_time']
         except LookupError:
             print('no update time in this post')
 
+        try:
+            post_dict['link'] = posting['link']
+        except LookupError:
+            print('no link in this post')
 
         try:
             post_dict['is_weeekend_b'] = posting['updated_is_weekend']
         except LookupError:
             print('no update time in this post')
 
-        
+
         return post_dict
     except LookupError:
         print('invalid post')
