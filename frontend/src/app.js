@@ -21,7 +21,7 @@ import EVENTS from 'src/constants/EVENTS';
 export default angular.module('viator-app', ['ngMaterial', 'md.data.table', 'angularUtils.directives.dirPagination', 'cgBusy', 'ngAnimate'])
     .config(function($mdThemingProvider) {
         $mdThemingProvider.theme('default')
-            .primaryPalette('orange')
+            .primaryPalette('blue')
             .accentPalette('light-green');
     })
     .constant('URL', URL)

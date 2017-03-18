@@ -134,7 +134,7 @@ function AdminController($scope, $q, $window, $mdDialog, DbDataService, SolrData
         $scope.getTokenFromFacebook = function() {
             // $window.open('https://facebook.com', '_blank');
             // change to facebook  page for generating token
-            $window.open('http://reddit.com', '_blank');
+            $window.open('https://developers.facebook.com/tools/explorer/', '_blank');
         }
 
         $scope.crawl = function(token) {

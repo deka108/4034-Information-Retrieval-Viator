@@ -41,7 +41,7 @@ function SolrDataService($http, $rootScope, URL, EVENTS) {
         let data = {
             'q': query
         }
-
+        
         return $http.post(URL.SEARCH_URL, data).then(
             function success(response) {
                 console.log(response.data);

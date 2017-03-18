@@ -40,6 +40,7 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
                 queryTime: searchResultTemp.responseHeader.QTime,
                 highlighting: searchResultTemp.response.highlighting
             }
+            console.log($scope.searchResult);
             _reset_form();
         }
 

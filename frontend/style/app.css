@@ -44,3 +44,24 @@ md-input-container {
     top: 40%;
     left: 47%;
 }
+
+.results-link {
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+a.md-headline:link,
+a.md-headline:visited,
+a.md-headline:hover,
+a.md-headline:active {
+    color: #2200CC;
+    text-decoration: none;
+    overflow:hidden !important;
+    text-overflow: ellipsis;
+}
+
+a.md-headline:hover,
+a.md-headline:active {
+    color: #2200CC;
+    text-decoration: underline;
+}
