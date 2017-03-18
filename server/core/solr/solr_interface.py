@@ -71,6 +71,11 @@ def add_to_dict(posting):
             print('no link in this post')
 
         try:
+            post_dict['picture'] = posting['picture']
+        except LookupError:
+            print('no picture in this post')
+
+        try:
             post_dict['is_weeekend_b'] = posting['updated_is_weekend']
         except LookupError:
             print('no update time in this post')
