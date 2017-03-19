@@ -41,11 +41,32 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
                 queryTime: searchResultTemp.responseHeader.QTime,
                 highlighting: searchResultTemp.response.highlighting
             }
+
+            updateHighlight($scope.searchResult.docs, searchResultTemp.highlighting);
+
             console.log($scope.searchResult);
             _reset_form();
         }
 
     });
+
+    function updateHighlight(docs, highlighting) {
+        docs.forEach(function (i) {
+            // console.log(i);
+            console.log(highlighting[i.id]);
+            if(highlighting[i.id]){
+                if(highlighting[i.id].message){
+                    i.message = highlighting[i.id].message;
+                }
+                if(highlighting[i.id].name){
+                    i.name = highlighting[i.id].name;
+                }
+                if(highlighting[i.id].desc){
+                    i.desc = highlighting[i.id].desc;
+                }
+            }
+        })
+    }
 
     function _reset_form() {
         $scope.searchData = {};

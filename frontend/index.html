@@ -90,8 +90,8 @@
                     <md-card ng-repeat="(key, value) in searchResult.docs | orderBy: currOrder" class="results-card">
                         <md-card-title>
                             <md-card-title-text class="results-text">
-                                <a ng-if="value.desc" class="md-headline" ng-href="{{value.link}}">{{value.desc[0]}}</a>
-                                <a ng-if="!value.desc" class="md-headline" ng-href="{{value.link}}">{{value.name[0]}}</a>
+                                <a ng-if="value.desc" class="md-headline" ng-href="{{value.link}}" ng-bind-html="value.desc[0]"></a>
+                                <a ng-if="!value.desc" class="md-headline" ng-href="{{value.link}}" ng-bind-html="value.name[0]"></a>
                             </md-card-title-text>
                             <md-card-title-media>
                                 <div class="md-media-lg card-media" ng-if="value.picture">
@@ -100,8 +100,8 @@
                             </md-card-title-media>
                         </md-card-title>
                         <md-card-content layout="column">
-                            <span class="md-subhead results-link">Source: {{ value.link }}</span>
-                            <span class="md-subhead">{{ value.message[0] }}</span>
+                            <span class="md-subhead results-link">Source: <span ng-bind-html="value.link"></span></span>
+                            <span class="md-subhead" ng-bind-html="value.message[0]"></span>
                         </md-card-content>
                     </md-card>
                 </div>
