@@ -147,7 +147,9 @@ def index_all():
 def search(query_params):
     payload = {'hl':'true', 'hl.fl':'message,name,desc'}
     payload['q'] = query_params
+    print(payload)
     r = s.get("{url}/query".format(url=config.SOLR_BASE_URL), params=payload)
+    print(r.url)
     return r.json()
 
 

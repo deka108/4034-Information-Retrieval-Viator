@@ -27,6 +27,7 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
     };
 
     $scope.searchQuery = function() {
+        // console.log($scope.searchData.textQuery);
         SolrDataService.retrieveQueryResult($scope.searchData.textQuery);
     }
 
