@@ -24,10 +24,10 @@
     </md-toolbar>
 
     <md-content ng-controller="AdminController">
-        <div layout="row" layout-align="center center" cg-busy="{promise:loadingPromise,templateUrl:'loading.html'}">
+        <div layout="row" layout-align="center center">
             <div flex=80 layout-padding>
                 <h2>Manage Solr Database</h2>
-                <md-card>
+                <md-card  cg-busy="{promise:loadingPromise,templateUrl:'loading.html', minDuration:3000}">
                     <md-card-title>
                         <md-card-title-text>
                             <span class="md-headline">Crawl</span>

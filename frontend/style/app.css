@@ -27,22 +27,32 @@ md-input-container {
 }
 
 #loading-container {
+    display: table;
+    position:absolute;
     width: 100%;
     height: 100%;
 }
 
+#loading {
+    display: table-cell;
+    vertical-align: middle;
+}
+
 #loading-message {
     text-align: center;
-    /*position: absolute;*/
-    top: 50%;
-    width: 100%;
+    width:150px;
+    margin-left: auto;
+    margin-right: auto;
     font-size: 26px;
+    padding-left:10px;
+    margin-top:10px;
 }
 
 #progress-circular {
     /*position: absolute;*/
-    top: 40%;
-    left: 47%;
+    width: 50px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .results-link {
