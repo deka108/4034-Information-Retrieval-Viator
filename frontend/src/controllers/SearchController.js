@@ -52,8 +52,7 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
 
     function updateHighlight(docs, highlighting) {
         docs.forEach(function (i) {
-            // console.log(i);
-            console.log(highlighting[i.id]);
+
             if(highlighting[i.id]){
                 if(highlighting[i.id].message){
                     i.message = highlighting[i.id].message;

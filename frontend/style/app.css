@@ -70,3 +70,7 @@ em {
     font-weight: bold;
     font-style: normal;
 }
+
+.page-index-column {
+    min-width:180px;
+}

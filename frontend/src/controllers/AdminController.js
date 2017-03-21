@@ -13,6 +13,7 @@ function AdminController($scope, $q, $window, $mdDialog, DbDataService, SolrData
         $scope.isInitial = false;
         $scope.pageIds = DbDataService.getPageIds();
         $scope.updatePageIndexes(SolrDataService.getPageIndexes());
+        // $scope.displayPageIndexes();
         console.log($scope.pageIds);
         console.log($scope.pageIndexes);
     });
@@ -24,28 +25,45 @@ function AdminController($scope, $q, $window, $mdDialog, DbDataService, SolrData
 
     $scope.$on(EVENTS.PAGE_INDEX_RECEIVED, function() {
         $scope.updatePageIndexes(SolrDataService.getPageIndexes());
-
     });
 
     $scope.updatePageIndexes = function(response) {
-        let tmpPageIndexes = response.facet_counts.facet_fields.page_ids;
+        $scope.tmpPageIndexes = response.facet_counts.facet_fields.page_id;
+        $scope.pageIndexCounts = $scope.tmpPageIndexes.length/2;
+        
+        $scope.displayPageIndexes();
+
+        // for (let i = 0; i < tmpPageIndexes.length; i++) {
+        //     if (i % 2 == 0) {
+        //         prev = tmpPageIndexes[i];
+        //         // console.log(prev);
+        //     } else {
+        //         $scope.pageIndexes[prev] = tmpPageIndexes[i];
+        //     }
+        // }
+
+        // $scope.pageIndexCounts = _.size($scope.pageIndexes);
+    }
+
+    $scope.displayPageIndexes = function(){
         $scope.pageIndexes = {};
         let prev = "";
 
-        for (let i = 0; i < tmpPageIndexes.length; i++) {
+        for (let i = ($scope.query.page-1)*$scope.query.limit*2; i < ($scope.query.page * $scope.query.limit)*2 && i < $scope.tmpPageIndexes.length; i++) {
             if (i % 2 == 0) {
-                prev = tmpPageIndexes[i];
+                prev = $scope.tmpPageIndexes[i];
+                // console.log(prev);
             } else {
-                $scope.pageIndexes[prev] = tmpPageIndexes[i];
+                $scope.pageIndexes[prev] = $scope.tmpPageIndexes[i];
             }
         }
-
-        $scope.pageIndexCounts = _.size($scope.pageIndexes);
     }
 
     $scope.$on(EVENTS.PAGE_MODIFIED, function() {
         $scope.dbPromise = DbDataService.retrievePageIds();
     });
+
+    // $scope.solrPromise = SolrDataService.retrievePageIndexes();
 
     $scope.$on(EVENTS.PAGE_INDEX_MODIFIED, function() {
         $scope.solrPromise = SolrDataService.retrievePageIndexes();

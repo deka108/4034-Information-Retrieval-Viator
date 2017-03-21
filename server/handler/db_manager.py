@@ -18,6 +18,8 @@ def crawl():
         if request_data:
             page_id = request_data.get("page_id")
             access_token = request_data.get("token")
+            print(page_id)
+            print(access_token)
 
         # if access_token:
         #      if not page_id:
