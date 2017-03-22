@@ -5,7 +5,7 @@ from flask import make_response
 
 from server.utils import data_util
 from server.core.solr import solr_interface
-
+from server.core.crawler import crawler
 # access_token = 'EAACEdEose0cBAP9s5lDmTubZAGr2KBKnAaQulX54mUvVV0mniQrhvbRDG3xcvzmsaMfMQFbkF2UFpluEX18kP7w5dgFjNjORmy7xJenpP8j4AbXZBD2DNfh4VsGTEgP0S5I5tChl7mY4UmtRt9pzvWBAyMEsz3LR63aTmscU0uVURQQUxIsO7a8lg77o5ZBHH5oyzif7wZDZD'
 
 db_manager = Blueprint('db_manager', __name__, static_folder='static')
@@ -21,18 +21,19 @@ def crawl():
             print(page_id)
             print(access_token)
 
-        # if access_token:
-        #      if not page_id:
-        #          crawler.crawl_all(access_token)
-        #      else:
-        #          crawler.crawl_page(page_id, access_token)
-
+        if access_token:
+            if not page_id:
+                crawler.crawl_all(access_token)
+                print("success")
+            else:
+                crawler.crawl_page(page_id, access_token)
+                print("success crawl")
         return jsonify({
             "page_id": page_id,
             "access_token": access_token
         })
     except Exception as e:
-        make_response(str(e), 404)
+        return make_response(str(e), 404)
 
 
 @db_manager.route('/records/', methods=['GET'])

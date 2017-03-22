@@ -29,7 +29,7 @@ def crawl_page(page_id, access_token):
     num_processed = 0
     fields = "posts?fields=id,created_time,message,message_tags,caption,description,icon,link,likes.limit(0).summary(true)," + \
              "reactions.limit(0).summary(total_count),shares,story,story_tags,actions,from, " + \
-             "type,status_type,name,parent_id,place,source,object_id,picture,updated_time,comments.summary(true)&filter=toplevel"
+             "type,status_type,name,parent_id,place,source,object_id,picture,full_picture,updated_time,comments.summary(true)&filter=toplevel"
 
     graph = facebook.GraphAPI(access_token, version='2.7')
     profile = graph.get_object(page_id)
