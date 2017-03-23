@@ -46,11 +46,6 @@ def add_to_dict(posting):
             print('no share count in this post')
 
         try:
-            post_dict['likes_count'] = posting['likes_cnt']
-        except LookupError:
-            print('no like count in this post')
-
-        try:
             post_dict['reactions_count'] = posting['reactions_cnt']
         except LookupError:
             print('no reaction count in this post')
@@ -76,7 +71,27 @@ def add_to_dict(posting):
             print('no picture in this post')
 
         try:
-            post_dict['is_weeekend_b'] = posting['updated_is_weekend']
+            post_dict['full_picture'] = posting['full_picture']
+        except LookupError:
+            print('no full sized picture in this post')
+
+        try:
+            post_dict['day'] = posting['updated_day']
+        except LookupError:
+            print('no update day in this post')
+
+        try:
+            post_dict['month'] = posting['updated_month']
+        except LookupError:
+            print('no update month in this post')
+
+        try:
+            post_dict['year'] = posting['updated_year']
+        except LookupError:
+            print('no update year in this post')
+
+        try:
+            post_dict['is_weekend'] = posting['updated_is_weekend']
         except LookupError:
             print('no update time in this post')
 

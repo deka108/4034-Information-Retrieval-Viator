@@ -4,4 +4,4 @@ Flask_API==0.6.9
 Flask_Cors==3.0.2
 requests==2.13.0
 facebook==0.0
-pandas==0.13.1
+pandas==0.19.2

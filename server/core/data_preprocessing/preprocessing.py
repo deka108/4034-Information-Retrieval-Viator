@@ -45,6 +45,7 @@ def preprocess_page_json(page_id):
         entry["message"] = post.get("message")
         entry["caption"] = post.get("caption")
         entry["picture"] = post.get("picture")
+        entry["full_picture"] = post.get("full_picture")
 
         # use these below if the above 4 lines does not work
         # if "name" in post:
