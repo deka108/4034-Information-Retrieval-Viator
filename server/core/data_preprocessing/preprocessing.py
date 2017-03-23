@@ -55,21 +55,24 @@ def preprocess_page_json(page_id):
         #     entry["caption"] = post["caption"].encode('utf-8')
         # if "picture" in post:
         #     entry["picture"] = post["picture"].encode('utf-8')
-
         if "description" in post:
             entry["description"] = post["description"]
         if "likes" in post:
-            entry["likes_cnt"] = int(post["likes"]["summary"]["total_count"])
+            entry["likes_cnt"] = int(post["likes"]["summary"].get("total_count",0))
+        else:
+            entry["likes_cnt"] = 0
         if "reactions" in post:
-            entry["reactions_cnt"] = int(post["reactions"]["summary"][
-                "total_count"])
+            entry["reactions_cnt"] = int(post["reactions"]["summary"].get("total_count",0))
+        else:
+            entry["reactions_cnt"] = 0
         if "shares" in post:
             entry["shares_cnt"] = int(post["shares"]["count"])
         else:
             entry["shares_cnt"] = 0
         if "comments" in post:
-            entry["comments_cnt"] = int(post["comments"]["summary"][
-                                            "total_count"])
+            entry["comments_cnt"] = int(post["comments"]["summary"].get("total_count",0))
+        else:
+            entry["comments_cnt"] = 0
 
         # LOCATION
         if "place" in post:
