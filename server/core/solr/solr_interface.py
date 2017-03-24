@@ -159,13 +159,21 @@ def index_all():
         return False
 
 
-def search(query_params):
-    payload = {'hl':'true', 'hl.fl':'message,name,desc'}
-    payload['q'] = query_params
+def search(query, page):
+    rows = 10
+    page = int(page)
+    start_num = rows*(page-1)
+    payload = {'hl':'true', 
+               'hl.fl':'message,name,desc',
+               'rows': rows,
+               'start': start_num}
+    payload['q'] = query
     print(payload)
     r = s.get("{url}/query".format(url=config.SOLR_BASE_URL), params=payload)
     print(r.url)
     result_json = r.json()
+    numFound = result_json['response']['numFound']
+    result_json['next_page'] = bool((page*rows-numFound) < 0)
     return result_json
 
 

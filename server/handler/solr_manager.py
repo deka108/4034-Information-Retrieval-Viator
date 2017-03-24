@@ -52,4 +52,5 @@ def index_data(page_id):
 @solr_manager.route('/query/', methods=['GET'])
 def get_query():
     query = request.args.get('q')
-    return jsonify(solr_interface.search(query))
+    page = request.args.get('p')
+    return jsonify(solr_interface.search(query, page))
