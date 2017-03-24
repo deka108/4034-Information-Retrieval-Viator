@@ -165,7 +165,8 @@ def search(query_params):
     print(payload)
     r = s.get("{url}/query".format(url=config.SOLR_BASE_URL), params=payload)
     print(r.url)
-    return r.json()
+    result_json = r.json()
+    return result_json
 
 
 def add_schema_field():
