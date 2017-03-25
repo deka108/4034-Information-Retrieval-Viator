@@ -54,3 +54,8 @@ def get_query():
     query = request.args.get('q')
     page = request.args.get('p')
     return jsonify(solr_interface.search(query, page))
+
+
+@solr_manager.route('/query/<post_id>', methods=['GET'])
+def get_similar(post_id):
+    return jsonify(solr_interface.more_like_this(post_id))

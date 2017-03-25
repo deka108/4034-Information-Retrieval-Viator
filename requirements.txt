@@ -5,3 +5,4 @@ Flask_Cors==3.0.2
 requests==2.13.0
 facebook==0.0
 pandas==0.19.2
+nltk==3.2.2
