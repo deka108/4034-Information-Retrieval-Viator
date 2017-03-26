@@ -55,7 +55,7 @@ def get_preprocessed_json_data_by_page_id(page_id):
 
 
 def get_preprocessed_json_data_all():
-    df = get_preprocessed_csv_page_all()
+    df = get_all_posts()
     df = df.fillna("")
     return df.to_dict("records")
 
@@ -86,13 +86,17 @@ def get_csv_data_by_pageid(page_id):
     return get_csv_data(get_page_csv_filename(page_id))
 
 
-def get_preprocessed_csv_page_all():
+def get_csv_data_all():
     all_pageids = get_page_ids()
     data = []
     for page_id in all_pageids:
         data.append(get_csv_data_by_pageid(page_id))
     result = pd.concat(data)
     return result
+
+
+def get_all_posts():
+    return get_csv_data("all_posts")
 
 
 def get_schema_data(file_name=None):
@@ -138,10 +142,15 @@ def write_data_to_json(data, file_name):
 
 
 def write_dict_to_csv(data, headers, file_name):
-    data_path = config.get_data_path(get_csv_filename(file_name))
     df = pd.DataFrame(data)
+    write_df_to_csv(df, headers, file_name)
+
+
+def write_df_to_csv(df, headers, file_name):
+    data_path = config.get_data_path(get_csv_filename(file_name))
     df.to_csv(data_path, columns=headers, index=False, index_label="no",
               encoding='utf-8')
+
 
 update_records()
 

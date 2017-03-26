@@ -1,8 +1,8 @@
-import spacy
-import pandas as pd
 import en_core_web_md
+import pandas as pd
 
 from server.utils import data_util as du
+from server.utils import text_util as tu
 
 LOC_COLUMNS = ['GPE', 'FACILITY', 'LOC']
 OTHER_COLUMNS = ['PRODUCT', 'WORK_OF_ART', 'EVENT']
@@ -10,9 +10,9 @@ nlp = en_core_web_md.load()
 
 
 def _recognise_cols(row, rel_columns, col_name):
-    msg = row['message']
-    if not pd.isnull(msg):
-        doc = nlp(msg)
+    text = row['full_text']
+    if not pd.isnull(text):
+        doc = nlp(text)
         ents = {}
         contents = []
 
@@ -37,16 +37,6 @@ def _recognise_cols(row, rel_columns, col_name):
     return row
 
 
-def get_text(row):
-    name = row["name"]
-    caption = row["caption"]
-    message = row["message"]
-    row['full_text'] = "{} {} {}".format(name if pd.notnull(name) else "",
-                             caption if pd.notnull(caption) else "",
-                             message if pd.notnull(message) else "")
-    return row
-
-
 def recognise_loc(row):
     return _recognise_cols(row, LOC_COLUMNS, "loc")
 
@@ -55,15 +45,18 @@ def recognise_others(row):
     return _recognise_cols(row, OTHER_COLUMNS, "others")
 
 
-def extract_ner_in_posts(page_id):
-    data = du.get_csv_data_by_pageid(page_id)
-    data = data.apply(get_text, axis=1)
-    data = data.apply(recognise_loc, axis=1)
-    data = data.apply(recognise_others, axis=1)
-    print(data[['full_text', 'loc_stat', 'loc', 'others', 'others_stat']])
-
+def extract_ner_in_posts(page_id=None):
+    if page_id:
+        text_data = tu.get_text_data_by_page_id(page_id)
+    else:
+        text_data = tu.get_text_data_all()
+    text_data = text_data.apply(recognise_loc, axis=1)
+    text_data = text_data.apply(recognise_others, axis=1)
+    print(text_data[['full_text', 'loc_stat', 'loc', 'others', 'others_stat']])
 
 if __name__ == "__main__":
     all_page_ids = du.get_page_ids()
+    # extract_ner_in_posts() # too slow!
+
     for page_id in all_page_ids:
         extract_ner_in_posts(page_id)

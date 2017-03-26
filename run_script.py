@@ -1,5 +1,4 @@
 from server.core.data_preprocessing import preprocessing
-from server.utils import data_util
 
 
 def run():

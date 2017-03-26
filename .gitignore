@@ -170,3 +170,5 @@ etc/
 jspm_packages/
 
 server/data/*facebook.csv
+/server/core/auto_categorisation/tmp/
+/server/data/all_posts.csv
