@@ -1,12 +1,13 @@
 import pandas as pd
 
 from server.utils import data_util, text_util
+from server.core.data_preprocessing import sentiment
 
 csv_headers = [
     # content
     "id", "page_id", "type", "name", "message", "link", "caption", "picture", "description",
     # user preference
-    "likes_cnt", "shares_cnt", "reactions_cnt", "comments_cnt",
+    "likes_cnt", "shares_cnt", "reactions_cnt", "comments_cnt", "comments",
     "comments_sentiment",
     # location
     "loc_city", "loc_country", "loc_lat", "loc_long", "loc_street", "loc_zip",
@@ -26,7 +27,8 @@ def preprocess_all_pages():
 def preprocess_page_json(page_id):
     postdata = data_util.get_raw_json_data_by_page_id(page_id)
     data = []
-
+    i = 0
+    ave_sentiment = sentiment.get_sentiment(page_id)
     # must extract data
     for post in postdata:
         entry = {}
@@ -71,8 +73,19 @@ def preprocess_page_json(page_id):
             entry["shares_cnt"] = 0
         if "comments" in post:
             entry["comments_cnt"] = int(post["comments"]["summary"].get("total_count",0))
+            comment_data = post["comments"]["data"]
+            message_list = []
+            sentiment_list=[]
+            for message in comment_data:
+                message_list.append(message["message"])
+            entry["comments"] = message_list
+            entry["comments_sentiment"] = ave_sentiment[i]
+            i += 1
+
         else:
             entry["comments_cnt"] = 0
+            entry["comments"] = ""
+            entry["comments_sentiment"] = 0
 
         # LOCATION
         if "place" in post:
