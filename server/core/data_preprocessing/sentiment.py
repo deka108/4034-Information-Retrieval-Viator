@@ -1,5 +1,5 @@
 from textblob import TextBlob
-from server.utils import data_util, text_util
+from server.utils import data_util
 
 def get_sentiment(page_id):
     data= []
@@ -24,6 +24,6 @@ def get_sentiment(page_id):
     return data
 
 
-if __name__ == "__main__":
-     page_id = "Tripviss"
-     get_sentiment(page_id)
+# if __name__ == "__main__":
+#      page_id = "Tripviss"
+#      get_sentiment(page_id)
