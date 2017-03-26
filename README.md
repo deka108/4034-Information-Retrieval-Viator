@@ -2,10 +2,10 @@
 ## Notes:
 * Use pycharm and python 3.6
     * With pycharm, you can run from anywhere without having to cd or type `python some_script.py`. It is not compulsory, but sometimes there might be errors with the system path if you aren't using pycharm.
-* **Generates preprocessed data** first before anything!!
+* **Generate preprocessed data** first before anything!!
     * Preprocessed data won't and shouldn't be included in github, so you'll have to run the preprocessing script first
 
-## Generates Preprocessed Files
+## Generate Preprocessed Files
 * Run run_script.py from the top module: `python run_script.py` 
    * alternative: run it from preprocessing.py (server/core/data_preprocessing/preprocessing.py)
 

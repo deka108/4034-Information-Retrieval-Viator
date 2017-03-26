@@ -46,18 +46,8 @@ def preprocess_page_json(page_id):
         entry["caption"] = post.get("caption")
         entry["picture"] = post.get("picture")
         entry["full_picture"] = post.get("full_picture")
+        entry["description"] = post.get("description")
 
-        # use these below if the above 4 lines does not work
-        # if "name" in post:
-        #     entry["name"] = post["name"].encode('utf-8')
-        # if "message" in post:
-        #     entry["message"] = post["message"].encode('utf-8')
-        # if "caption" in post:
-        #     entry["caption"] = post["caption"].encode('utf-8')
-        # if "picture" in post:
-        #     entry["picture"] = post["picture"].encode('utf-8')
-        if "description" in post:
-            entry["description"] = post["description"]
         if "likes" in post:
             entry["likes_cnt"] = int(post["likes"]["summary"].get("total_count",0))
         else:

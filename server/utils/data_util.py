@@ -82,11 +82,15 @@ def get_csv_data(file_name):
             "Csv of the requested page_id: {} does not exist.".format(data_path))
 
 
+def get_csv_data_by_pageid(page_id):
+    return get_csv_data(get_page_csv_filename(page_id))
+
+
 def get_preprocessed_csv_page_all():
     all_pageids = get_page_ids()
     data = []
     for page_id in all_pageids:
-        data.append(get_csv_data(get_page_csv_filename(page_id)))
+        data.append(get_csv_data_by_pageid(page_id))
     result = pd.concat(data)
     return result
 
