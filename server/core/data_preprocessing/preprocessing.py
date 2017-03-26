@@ -5,7 +5,8 @@ from server.core.data_preprocessing import sentiment
 
 csv_headers = [
     # content
-    "id", "page_id", "type", "name", "message", "link", "caption", "picture", "description",
+    "id", "page_id", "type", "name", "message", "link", "caption", "picture",
+    "description", "story",
     # user preference
     "likes_cnt", "shares_cnt", "reactions_cnt", "comments_cnt", "comments",
     "comments_sentiment",
@@ -47,18 +48,10 @@ def preprocess_page_json(page_id):
         entry["message"] = post.get("message")
         entry["caption"] = post.get("caption")
         entry["picture"] = post.get("picture")
+        entry["full_picture"] = post.get("full_picture")
+        entry["description"] = post.get("description")
+        entry["story"] = post.get("story")
 
-        # use these below if the above 4 lines does not work
-        # if "name" in post:
-        #     entry["name"] = post["name"].encode('utf-8')
-        # if "message" in post:
-        #     entry["message"] = post["message"].encode('utf-8')
-        # if "caption" in post:
-        #     entry["caption"] = post["caption"].encode('utf-8')
-        # if "picture" in post:
-        #     entry["picture"] = post["picture"].encode('utf-8')
-        if "description" in post:
-            entry["description"] = post["description"]
         if "likes" in post:
             entry["likes_cnt"] = int(post["likes"]["summary"].get("total_count",0))
         else:
@@ -126,13 +119,15 @@ def read_csv_by_pageid(page_id):
 
 
 if __name__ == "__main__":
+    preprocess_all_pages()
+    all_posts = data_util.get_csv_data_all()
+    data_util.write_df_to_csv(all_posts, csv_headers, "all_posts")
+
     # Example proccessing one page_id
     # page_id = "Tripviss"
     # preprocess_page_json(page_id)
     # compute_words(page_id)
 
     # get all preprocessed page data in 1 dataframe:
-    # data = data_util.get_all_preprocessed_page()
+    # data = data_util.get_all_posts()
     # compute_words(data)
-
-    preprocess_all_pages()

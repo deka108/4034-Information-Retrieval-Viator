@@ -1,6 +1,7 @@
 import json
 
 import requests
+from nltk.stem.porter import *
 
 from server import config
 from server.utils import data_util
@@ -9,6 +10,7 @@ s = requests.Session()
 s.mount('http://', requests.adapters.HTTPAdapter(max_retries=5))
 s.mount('https://', requests.adapters.HTTPAdapter(max_retries=5))
 
+stemmer = PorterStemmer()
 
 def add_to_dict(posting):
     post_dict = {}
@@ -17,16 +19,19 @@ def add_to_dict(posting):
         
         try:
             post_dict['desc'] = posting['description']
+            post_dict['descU'] = posting['description']
         except LookupError:
             print('no description in this post')
 
         try:
             post_dict['name'] = posting['name']
+            post_dict['nameU'] = posting['name']
         except LookupError:
             print('no name in this post')
 
         try:
             post_dict['message'] = posting['message']
+            post_dict['messageU'] = posting['message']
         except LookupError:
             print('no message in this post')
 
@@ -44,11 +49,6 @@ def add_to_dict(posting):
             post_dict['shares_count'] = posting['shares_cnt']
         except LookupError:
             print('no share count in this post')
-
-        try:
-            post_dict['likes_count'] = posting['likes_cnt']
-        except LookupError:
-            print('no like count in this post')
 
         try:
             post_dict['reactions_count'] = posting['reactions_cnt']
@@ -76,7 +76,27 @@ def add_to_dict(posting):
             print('no picture in this post')
 
         try:
-            post_dict['is_weeekend_b'] = posting['updated_is_weekend']
+            post_dict['full_picture'] = posting['full_picture']
+        except LookupError:
+            print('no full sized picture in this post')
+
+        try:
+            post_dict['day'] = posting['updated_day']
+        except LookupError:
+            print('no update day in this post')
+
+        try:
+            post_dict['month'] = posting['updated_month']
+        except LookupError:
+            print('no update month in this post')
+
+        try:
+            post_dict['year'] = posting['updated_year']
+        except LookupError:
+            print('no update year in this post')
+
+        try:
+            post_dict['is_weekend'] = posting['updated_is_weekend']
         except LookupError:
             print('no update time in this post')
 
@@ -144,13 +164,37 @@ def index_all():
         return False
 
 
-def search(query_params):
-    payload = {'hl':'true', 'hl.fl':'message,name,desc'}
-    payload['q'] = query_params
+def search(query, page):
+    rows = 10
+    try:
+        page = int(page)
+    except TypeError:
+        page = 0
+    start_num = rows*page
+    payload = {'rows': rows,
+               'start': start_num}
+    payload['q'] = query
     print(payload)
     r = s.get("{url}/query".format(url=config.SOLR_BASE_URL), params=payload)
     print(r.url)
-    return r.json()
+    result_json = r.json()
+    numFound = result_json['response']['numFound']
+    result_json['next_page'] = bool(((page+1)*rows-numFound) < 0)
+
+    query_bag = query.split()
+    query_bag_stemmed = [stemmer.stem(query_unstemmed) for query_unstemmed in query_bag]
+    pop_list = []
+
+    for i in range(0, len(result_json['spellcheck']['suggestions']), 2):
+        if result_json['spellcheck']['suggestions'][i] not in (query_bag + query_bag_stemmed):
+            pop_list.append(i)
+
+    while len(pop_list):
+        delete_index = pop_list.pop()
+        del result_json['spellcheck']['suggestions'][delete_index+1]
+        del result_json['spellcheck']['suggestions'][delete_index]
+
+    return result_json
 
 
 def add_schema_field():
@@ -162,3 +206,10 @@ def get_all_page_ids():
     return r.json()
 
 
+def more_like_this(post_id):
+    payload = {'q': 'id:{0}'.format(post_id),
+               'mlt': 'true',
+               'mlt.fl': 'mlt_field'}
+    r = s.get("{url}/query".format(url=config.SOLR_BASE_URL), params=payload)
+    return r.json()
+    

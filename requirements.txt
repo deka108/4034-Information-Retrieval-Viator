@@ -1,7 +1,9 @@
+en_core_web_md==1.2.1
 facebook_sdk==2.0.0
 Flask==0.12
-Flask_API==0.6.9
 Flask_Cors==3.0.2
+pandas==0.19.2
 requests==2.13.0
+spacy==1.7.2
 facebook==0.0
-pandas==0.13.1
+nltk==3.2.2
