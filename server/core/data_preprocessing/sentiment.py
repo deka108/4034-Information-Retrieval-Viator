@@ -2,7 +2,7 @@ from textblob import TextBlob
 from server.utils import data_util
 import pandas as pd
 
-csv_headers = ["comments_sentiment",]
+csv_headers = ["comments_sentiment","comments_subjectivity",]
 def get_sentiment(page_id):
     data= []
     counter = 0
@@ -12,7 +12,7 @@ def get_sentiment(page_id):
     for comment in comments:
         entry = {}
         sentiment =[]
-        subjectivity=[]
+        subjectivity_list=[]
         if (isinstance(comment, str)):
             comment = comment.split(",")
         else:
@@ -21,12 +21,15 @@ def get_sentiment(page_id):
             comment_data = TextBlob(sentence)
             polarity = comment_data.sentiment.polarity
             subjectivity = comment_data.subjectivity
-            #print(subjectivity)
+            print(subjectivity)
             sentiment.append(polarity)
+            subjectivity_list.append(subjectivity)
         ave_sentiment = sum(sentiment)/(len(sentiment))
+        ave_subjectivity = sum(subjectivity_list)/(len(subjectivity_list))
         # data.append(ave_sentiment)
         counter += 1
         entry["comments_sentiment"] = ave_sentiment
+        entry["comments_subjectivity"] = ave_subjectivity
         data.append(entry)
     print(counter)
     # print(data)
