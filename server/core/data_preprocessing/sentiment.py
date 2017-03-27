@@ -1,7 +1,9 @@
 from textblob import TextBlob
 from server.utils import data_util
+import pandas as pd
+from guess_language import guess_language
 
-csv_headers = ["comments_sentiment",]
+csv_headers = ["comments_sentiment","comments_subjectivity",]
 def get_sentiment(page_id):
     data= []
     counter = 0
@@ -10,28 +12,39 @@ def get_sentiment(page_id):
     comments = df["comments"]
     for comment in comments:
         entry = {}
-        sentiment =[]
-        subjectivity=[]
-        if (isinstance(comment, str)):
-            comment = comment.split(",")
-        else:
-            comment = " "
-        for sentence in comment:
-            comment_data = TextBlob(sentence)
-            polarity = comment_data.sentiment.polarity
-            subjectivity = comment_data.subjectivity
-            #print(subjectivity)
-            sentiment.append(polarity)
-        ave_sentiment = sum(sentiment)/(len(sentiment))
-        # data.append(ave_sentiment)
-        counter += 1
-        entry["comments_sentiment"] = ave_sentiment
-        data.append(entry)
+        sentiment = []
+        subjectivity_list = []
+        if type(comment) is not float:
+            if(guess_language(comment) == 'en'):
+                #print(guess_language(comment))
+                if (isinstance(comment, str)):
+                    comment = comment.split(",")
+                else:
+                    comment = " "
+                for sentence in comment:
+                    comment_data = TextBlob(sentence)
+                    polarity = comment_data.sentiment.polarity
+                    subjectivity = comment_data.subjectivity
+                    # print(subjectivity)
+                    sentiment.append(polarity)
+                    subjectivity_list.append(subjectivity)
+                ave_sentiment = sum(sentiment)/(len(sentiment))
+                ave_subjectivity = sum(subjectivity_list)/(len(subjectivity_list))
+                # data.append(ave_sentiment)
+                counter += 1
+                entry["comments_sentiment"] = ave_sentiment
+                entry["comments_subjectivity"] = ave_subjectivity
+            else:
+                entry["comments_sentiment"] = 0
+                entry["comments_subjectivity"] = 0
+            data.append(entry)
     print(counter)
     # print(data)
     #return data
     filename = data_util.PAGE_CSV_FILE_NAME.format(page_id)
-    data_util.write_dict_to_csv(data, csv_headers, filename)
+    # data_util.write_dict_to_csv(data, csv_headers, filename)
+    df = pd.DataFrame(data)
+    data_util.write_df_to_existing_csv(df,csv_headers,filename)
 
 if __name__ == "__main__":
      page_id = "Tripviss"

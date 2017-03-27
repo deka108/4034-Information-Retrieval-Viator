@@ -24,7 +24,7 @@ def preprocess_all_pages():
     for page_id in all_pageids:
         preprocess_page_json(page_id)
 
-
+#Clean all post without message or description
 def preprocess_page_json(page_id):
     postdata = data_util.get_raw_json_data_by_page_id(page_id)
     data = []
