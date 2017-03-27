@@ -1,14 +1,17 @@
 from textblob import TextBlob
 from server.utils import data_util
 
+csv_headers = ["comments_sentiment",]
 def get_sentiment(page_id):
     data= []
     counter = 0
-    df = data_util.get_csv_data(data_util.get_page_csv_filename(page_id))
+    # df = data_util.get_csv_data(data_util.get_csv_data_by_pageid(page_id))
+    df = data_util.get_csv_data_by_pageid(page_id)
     comments = df["comments"]
-
     for comment in comments:
+        entry = {}
         sentiment =[]
+        subjectivity=[]
         if (isinstance(comment, str)):
             comment = comment.split(",")
         else:
@@ -16,14 +19,20 @@ def get_sentiment(page_id):
         for sentence in comment:
             comment_data = TextBlob(sentence)
             polarity = comment_data.sentiment.polarity
+            subjectivity = comment_data.subjectivity
+            #print(subjectivity)
             sentiment.append(polarity)
         ave_sentiment = sum(sentiment)/(len(sentiment))
-        data.append(ave_sentiment)
+        # data.append(ave_sentiment)
         counter += 1
-    print (counter)
-    return data
+        entry["comments_sentiment"] = ave_sentiment
+        data.append(entry)
+    print(counter)
+    # print(data)
+    #return data
+    filename = data_util.PAGE_CSV_FILE_NAME.format(page_id)
+    data_util.write_dict_to_csv(data, csv_headers, filename)
 
-
-# if __name__ == "__main__":
-#      page_id = "Tripviss"
-#      get_sentiment(page_id)
+if __name__ == "__main__":
+     page_id = "Tripviss"
+     get_sentiment(page_id)

@@ -28,77 +28,78 @@ def preprocess_all_pages():
 def preprocess_page_json(page_id):
     postdata = data_util.get_raw_json_data_by_page_id(page_id)
     data = []
-    i = 0
-    ave_sentiment = sentiment.get_sentiment(page_id)
+    #i = 0
+
+    #ave_sentiment = sentiment.get_sentiment(page_id)
     # must extract data
     for post in postdata:
         entry = {}
+        if post.get("message") or post.get("description") :
+            # CONTENT
+            # must be available
+            entry["page_id"] = page_id
+            entry["id"] = post["id"]
+            entry["type"] = post["type"]
 
-        # CONTENT
-        # must be available
-        entry["page_id"] = page_id
-        entry["id"] = post["id"]
-        entry["type"] = post["type"]
+            # might be available
+            entry["link"] = post.get("link")
 
-        # might be available
-        entry["link"] = post.get("link")
+            # might be available and unicode
+            entry["name"] = post.get("name")
+            entry["message"] = post.get("message")
+            entry["caption"] = post.get("caption")
+            entry["picture"] = post.get("picture")
+            entry["full_picture"] = post.get("full_picture")
+            entry["description"] = post.get("description")
+            entry["story"] = post.get("story")
 
-        # might be available and unicode
-        entry["name"] = post.get("name")
-        entry["message"] = post.get("message")
-        entry["caption"] = post.get("caption")
-        entry["picture"] = post.get("picture")
-        entry["full_picture"] = post.get("full_picture")
-        entry["description"] = post.get("description")
-        entry["story"] = post.get("story")
+            if "likes" in post:
+                entry["likes_cnt"] = int(post["likes"]["summary"].get("total_count",0))
+            else:
+                entry["likes_cnt"] = 0
+            if "reactions" in post:
+                entry["reactions_cnt"] = int(post["reactions"]["summary"].get("total_count",0))
+            else:
+                entry["reactions_cnt"] = 0
+            if "shares" in post:
+                entry["shares_cnt"] = int(post["shares"]["count"])
+            else:
+                entry["shares_cnt"] = 0
+            if "comments" in post:
+                entry["comments_cnt"] = int(post["comments"]["summary"].get("total_count",0))
+                comment_data = post["comments"]["data"]
+                message_list = []
+                for message in comment_data:
+                    message_list.append(message["message"])
+                entry["comments"] = message_list
+                #entry["comments_sentiment"] = ave_sentiment[i]
+                #i += 1
+            else:
+                entry["comments_cnt"] = 0
+                entry["comments"] = ""
+                entry["comments_sentiment"] = 0
 
-        if "likes" in post:
-            entry["likes_cnt"] = int(post["likes"]["summary"].get("total_count",0))
+            # LOCATION
+            if "place" in post:
+                entry["loc_city"] = post["place"].get("city")
+                entry["loc_country"] = post["place"].get("country")
+                entry["loc_lat"] = post["place"].get("latitude")
+                entry["loc_long"] = post["place"].get("longitude")
+                entry["loc_street"] = post["place"].get("street")
+                entry["loc_zip"] = post["place"].get("zip")
+
+            # DATE TIME INFO
+            entry["created_time"] = post["created_time"]
+            entry["created_year"], entry["created_month"], entry["created_day"], \
+            entry["created_is_weekend"] = text_util.extract_date(post["created_time"])
+
+            entry["updated_time"] = post["updated_time"]
+            entry["updated_year"], entry["updated_month"], entry["updated_day"], \
+            entry["updated_is_weekend"] = text_util.extract_date(post["updated_time"])
+
+            data.append(entry)
         else:
-            entry["likes_cnt"] = 0
-        if "reactions" in post:
-            entry["reactions_cnt"] = int(post["reactions"]["summary"].get("total_count",0))
-        else:
-            entry["reactions_cnt"] = 0
-        if "shares" in post:
-            entry["shares_cnt"] = int(post["shares"]["count"])
-        else:
-            entry["shares_cnt"] = 0
-        if "comments" in post:
-            entry["comments_cnt"] = int(post["comments"]["summary"].get("total_count",0))
-            comment_data = post["comments"]["data"]
-            message_list = []
-            sentiment_list=[]
-            for message in comment_data:
-                message_list.append(message["message"])
-            entry["comments"] = message_list
-            entry["comments_sentiment"] = ave_sentiment[i]
-            i += 1
-
-        else:
-            entry["comments_cnt"] = 0
-            entry["comments"] = ""
-            entry["comments_sentiment"] = 0
-
-        # LOCATION
-        if "place" in post:
-            entry["loc_city"] = post["place"].get("city")
-            entry["loc_country"] = post["place"].get("country")
-            entry["loc_lat"] = post["place"].get("latitude")
-            entry["loc_long"] = post["place"].get("longitude")
-            entry["loc_street"] = post["place"].get("street")
-            entry["loc_zip"] = post["place"].get("zip")
-
-        # DATE TIME INFO
-        entry["created_time"] = post["created_time"]
-        entry["created_year"], entry["created_month"], entry["created_day"], \
-        entry["created_is_weekend"] = text_util.extract_date(post["created_time"])
-
-        entry["updated_time"] = post["updated_time"]
-        entry["updated_year"], entry["updated_month"], entry["updated_day"], \
-        entry["updated_is_weekend"] = text_util.extract_date(post["updated_time"])
-
-        data.append(entry)
+            continue
 
     file_name = data_util.PAGE_CSV_FILE_NAME.format(page_id)
     data_util.write_dict_to_csv(data, csv_headers, file_name)
