@@ -88,7 +88,7 @@ toWrite = np.column_stack((postId, post))
 toWrite = np.concatenate((toWrite, count_food, count_events, count_nature,
 	count_accommodation, count_attraction, count_others, class_label), axis=1)
 df2 = pd.DataFrame(toWrite, columns = col)
-df2.to_csv('topic_labelled.csv')
+df2.to_csv('topic_labelled.csv', encoding='utf-8')
 
 
 
