@@ -1,5 +1,6 @@
 from textblob import TextBlob
 from server.utils import data_util
+import pandas as pd
 
 csv_headers = ["comments_sentiment",]
 def get_sentiment(page_id):
@@ -31,8 +32,10 @@ def get_sentiment(page_id):
     # print(data)
     #return data
     filename = data_util.PAGE_CSV_FILE_NAME.format(page_id)
-    data_util.write_dict_to_csv(data, csv_headers, filename)
-
+    # data_util.write_dict_to_csv(data, csv_headers, filename)
+    df = pd.DataFrame(data)
+    data_util.write_df_to_existing_csv(df,csv_headers,filename)
+    
 if __name__ == "__main__":
      page_id = "Tripviss"
      get_sentiment(page_id)
