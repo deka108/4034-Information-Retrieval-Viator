@@ -53,7 +53,7 @@ def split_csv():
  
     for i in range(len(data)):
         df3 = pd.DataFrame(data[i], columns = csv_column)
-        df3.to_csv('./server/core/data_preprocessing/split_csvs/train_data' + str(i) + '.csv', encoding='utf-8')
+        df3.to_csv('./server/core/data_preprocessing/train_data' + str(i) + '.csv', encoding='utf-8')
 
     print("csvs successfully splitted")
 
