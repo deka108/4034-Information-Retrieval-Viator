@@ -1,5 +1,8 @@
 function SearchController($scope, SolrDataService, EVENTS, _) {
+
     $scope.curOrder = null;
+    $scope.curPage = 0;
+    $scope.existNextPage = false;
 
     $scope.searchFilters = [{
             category: 'Emotions',
@@ -27,8 +30,21 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
     };
 
     $scope.searchQuery = function() {
-        // console.log($scope.searchData.textQuery);
-        SolrDataService.retrieveQueryResult($scope.searchData.textQuery);
+        $scope.curPage = 0;
+        SolrDataService.retrieveQueryResult($scope.searchData.textQuery, 0);
+    }
+
+    $scope.searchQueryNextPage = function() {
+        if($scope.existNextPage) {
+            $scope.curPage++;
+            SolrDataService.retrieveQueryResult($scope.searchData.textQuery, $scope.curPage);
+        }
+    }
+    $scope.searchQueryPrevPage = function() {
+        if($scope.curPage > 0) {
+            $scope.curPage--;
+            SolrDataService.retrieveQueryResult($scope.searchData.textQuery, $scope.curPage);
+        }
     }
 
     $scope.$on(EVENTS.SEARCH_RESULT_RECEIVED, function() {
@@ -42,9 +58,11 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
                 highlighting: searchResultTemp.response.highlighting
             }
 
+            $scope.existNextPage = searchResultTemp.next_page;
+
             updateHighlight($scope.searchResult.docs, searchResultTemp.highlighting);
 
-            console.log($scope.searchResult);
+            // console.log($scope.searchResult);
             _reset_form();
         }
 
@@ -68,7 +86,7 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
     }
 
     function _reset_form() {
-        $scope.searchData = {};
+        // $scope.searchData = {};
         $scope.searchForm.$setPristine();
         $scope.searchForm.$setUntouched();
     }

@@ -37,14 +37,15 @@ function SolrDataService($http, $rootScope, URL, EVENTS) {
         return pageIndexes;
     }
 
-    this.retrieveQueryResult = function(query) {
+    this.retrieveQueryResult = function(query, page) {
         let data = {
-            'q': query
+            'q': query,
+            'p': page
         }
         
         return $http.post(URL.SEARCH_URL, data).then(
             function success(response) {
-                console.log(response.data);
+                // console.log(response.data);
                 _update_search_results(response.data);
                 _on_search_result_received();
             },
