@@ -1,7 +1,8 @@
 import pandas as pd
 
 from server.utils import data_util, text_util
-from server.core.data_preprocessing import sentiment
+from server.core.nlp import sentiment
+from guess_language import guess_language
 
 csv_headers = [
     # content
@@ -70,7 +71,10 @@ def preprocess_page_json(page_id):
                 comment_data = post["comments"]["data"]
                 message_list = []
                 for message in comment_data:
-                    message_list.append(message["message"])
+                    #print(message["message"])
+                    if type(message["message"]) is str:
+                        if(guess_language(message["message"]) == 'en'):
+                            message_list.append(message["message"])
                 entry["comments"] = message_list
                 #entry["comments_sentiment"] = ave_sentiment[i]
                 #i += 1
