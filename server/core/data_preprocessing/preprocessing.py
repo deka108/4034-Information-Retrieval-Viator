@@ -3,6 +3,8 @@ import pandas as pd
 from server.utils import data_util, text_util
 from server.core.nlp import sentiment
 from guess_language import guess_language
+import numpy as np
+import ast
 
 csv_headers = [
     # content
@@ -24,6 +26,9 @@ def preprocess_all_pages():
     all_pageids = data_util.get_page_ids()
     for page_id in all_pageids:
         preprocess_page_json(page_id)
+    all_posts = data_util.get_csv_data_all()
+    data_util.write_df_to_csv(all_posts, csv_headers, "all_posts")
+    generate_all_posts_with_comment()
 
 #Clean all post without message or description
 def preprocess_page_json(page_id):
@@ -75,7 +80,7 @@ def preprocess_page_json(page_id):
                     if type(message["message"]) is str:
                         if(guess_language(message["message"]) == 'en'):
                             message_list.append(message["message"])
-                entry["comments"] = message_list
+                entry["comments"] = '$$'.join(message_list)
                 #entry["comments_sentiment"] = ave_sentiment[i]
                 #i += 1
             else:
@@ -120,11 +125,16 @@ def read_csv_by_pageid(page_id):
     print(df)
     return df
 
+def generate_all_posts_with_comment():
+    df = data_util.get_csv_data("all_posts")
+    df = df[pd.notnull(df.comments)]
+    data_util.write_df_to_csv(df,csv_headers,"all_posts_with_comments")
 
 if __name__ == "__main__":
     preprocess_all_pages()
-    all_posts = data_util.get_csv_data_all()
-    data_util.write_df_to_csv(all_posts, csv_headers, "all_posts")
+    generate_all_posts_with_comment()
+    # all_posts = data_util.get_csv_data_all()
+    # data_util.write_df_to_csv(all_posts, csv_headers, "all_posts")
 
     # Example proccessing one page_id
     # page_id = "Tripviss"

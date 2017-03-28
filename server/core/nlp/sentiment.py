@@ -16,7 +16,6 @@ def get_sentiment(page_id):
         subjectivity_list = []
         if type(comment) is not float:
             if(guess_language(comment) == 'en'):
-                #print(guess_language(comment))
                 if (isinstance(comment, str)):
                     comment = comment.split(",")
                 else:
@@ -46,6 +45,12 @@ def get_sentiment(page_id):
     df = pd.DataFrame(data)
     data_util.write_df_to_existing_csv(df,csv_headers,filename)
 
+def get_sentiment_all_pages():
+    all_pageids = data_util.get_page_ids()
+    for page_id in all_pageids:
+        get_sentiment(page_id)
+
 if __name__ == "__main__":
-     page_id = "Tripviss"
-     get_sentiment(page_id)
+    get_sentiment_all_pages()
+    #all_posts = data_util.get_csv_data_all()
+    #data_util.write_df_to_csv(all_posts, csv_headers, "all_posts")
