@@ -170,3 +170,4 @@ etc/
 
 /server/core/auto_categorisation/tmp/
 /server/data/*.csv
+/server/core/data_preprocessing/*.csv
