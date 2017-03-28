@@ -34,7 +34,7 @@ def preprocess_page_json(page_id):
     # must extract data
     for post in postdata:
         entry = {}
-        if post.get("message") or post.get("description") :
+        if post.get("message") and (len((post.get("message")).split(" ")))>3 or post.get("description") and (len((post.get("description")).split(" ")))>3:
             # CONTENT
             # must be available
             entry["page_id"] = page_id
@@ -98,8 +98,6 @@ def preprocess_page_json(page_id):
             entry["updated_is_weekend"] = text_util.extract_date(post["updated_time"])
 
             data.append(entry)
-        else:
-            continue
 
     file_name = data_util.PAGE_CSV_FILE_NAME.format(page_id)
     data_util.write_dict_to_csv(data, csv_headers, file_name)
