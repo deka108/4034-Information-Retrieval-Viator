@@ -99,6 +99,10 @@ def get_all_posts():
     return get_csv_data("all_posts")
 
 
+def get_all_posts_with_comments():
+    return get_csv_data("all_posts_with_comments")
+
+
 def get_schema_data(file_name=None):
     if not file_name:
         schema_path = config.SCHEMA_DATA_PATH
