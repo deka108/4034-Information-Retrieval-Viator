@@ -10,3 +10,9 @@
 		4. Accommodation
 		5. Attraction
 		6. Others
+
+* 0-> dita
+* 1-> deka
+* 2-> grace
+* 3-> luci
+* 4-> felix
