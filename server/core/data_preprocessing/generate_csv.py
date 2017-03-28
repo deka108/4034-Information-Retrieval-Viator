@@ -37,7 +37,7 @@ def shuffle_data():
 
     df = pd.read_csv('./server/core/data_preprocessing/ordered_data.csv')
     matrix = df.as_matrix(csv_column)
-    shuffled = df.sample(frac=1)
+    shuffled = df.sample(frac=1, random_state = 42)
     df2 = pd.DataFrame(shuffled, columns = csv_column)
     df2.to_csv('./server/core/data_preprocessing/shuffled_data.csv', encoding='utf-8')
 
