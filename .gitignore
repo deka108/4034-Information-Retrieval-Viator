@@ -167,8 +167,6 @@ npm-debug.log
 
 # JS-related
 etc/
-jspm_packages/
 
-server/data/*facebook.csv
 /server/core/auto_categorisation/tmp/
-/server/data/all_posts.csv
+/server/data/*.csv

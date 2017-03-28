@@ -12,7 +12,6 @@ csv_headers = [
     "description", "story",
     # user preference
     "likes_cnt", "shares_cnt", "reactions_cnt", "comments_cnt", "comments",
-    "comments_sentiment",
     # location
     "loc_city", "loc_country", "loc_lat", "loc_long", "loc_street", "loc_zip",
     # Time info
@@ -86,7 +85,7 @@ def preprocess_page_json(page_id):
             else:
                 entry["comments_cnt"] = 0
                 entry["comments"] = ""
-                entry["comments_sentiment"] = 0
+                # entry["comments_sentiment"] = 0
 
             # LOCATION
             if "place" in post:
