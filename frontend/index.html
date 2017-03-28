@@ -104,6 +104,11 @@
                             <span class="md-subhead" ng-bind-html="value.message[0]"></span>
                         </md-card-content>
                     </md-card>
+                    <div>
+                        <md-button ng-click="searchQueryPrevPage()">Prev</md-button>
+                        <md-button ng-click="searchQueryNextPage()">Next</md-button>
+                        <span>Current page: {{curPage + 1}}</span>
+                    </div>
                 </div>
             </div>
         </div>
