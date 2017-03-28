@@ -1,5 +1,6 @@
 from server.core.data_preprocessing import preprocessing
-
+from server.core.data_preprocessing import topic_labeling
+from server.core.data_preprocessing import generate_csv
 
 def run():
     preprocessing.preprocess_all_pages()
@@ -12,6 +13,10 @@ def run():
     # is too big)
     # data_util.get_preprocessed_json_data_all()
 
+    generate_csv.csv_to_csv()
+    generate_csv.shuffle_data()
+    topic_labeling.label_data()
+    generate_csv.split_csv()
 
 if __name__ == "__main__":
     run()

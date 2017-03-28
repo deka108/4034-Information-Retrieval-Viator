@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-url = "combined_data.csv"
+url = "./server/core/data_preprocessing/shuffled_data.csv"
 
 dictionary = list()
 dict_food = ['food', 'predilection', 'restaurant', 'gustatory_modality', 'intellectual_nourishment', 'taste_sensation',
@@ -45,50 +45,53 @@ dict_attr = ['bridge_deck', 'fence_in', 'church_service', 'bridge_circuit', 'wal
                'church_building', 'fence', 'bulwark', 'pagoda', 'shrine', 'palace', 'temple', 'common',
                'parking_lot', 'tabernacle', 'synagogue', 'rampart']
 
+def label_data():
+  df = pd.read_csv(url).astype(str)
+  postId = df.iloc[:,1]
+  post = df.iloc[:, 2]
+  comments = df.iloc[:, 3]
 
-df = pd.read_csv(url).astype(str)
-postId = df.iloc[:,1]
-post = df.iloc[:, 2]
 
+  count_food = np.zeros((len(post), 1))
+  count_events = np.zeros((len(post), 1))
+  count_nature = np.zeros((len(post), 1))
+  count_accommodation = np.zeros((len(post), 1))
+  count_attraction = np.zeros((len(post), 1))
+  count_others = np.zeros((len(post), 1))
+  class_label = np.zeros((len(post), 1))
 
+  col = ["id", "message+desc", "comments", "count_food", "count_events", "count_nature", 
+  		"count_accommodation", "count_attraction", "count_others", "class_label"]
 
-count_food = np.zeros((len(post), 1))
-count_events = np.zeros((len(post), 1))
-count_nature = np.zeros((len(post), 1))
-count_accommodation = np.zeros((len(post), 1))
-count_attraction = np.zeros((len(post), 1))
-count_others = np.zeros((len(post), 1))
-class_label = np.empty((len(post), 1))
+  categories = ['food', 'events', 'nature', 'accommodation', 'attraction', 'others']
 
-col = ["id", "message+desc", "count_food", "count_events", "count_nature", 
-		"count_accommodation", "count_attraction", "count_others", "class_label"]
+  i = 0
+  for p in post:
+  	temp = p.split(" ")
+  	#print(temp)
+  	for word in temp:
+  		if word in dict_nature:
+  			count_nature[i][0] += 1
+  		if word in dict_food:
+  			count_food[i][0] += 1
+  		if word in dict_events:
+  			count_events[i][0] += 1
+  		if word in dict_acc:
+  			count_accommodation[i][0] += 1
+  		if word in dict_attr:
+  			count_attraction[i][0] += 1
+  	if count_food[i][0]==0 and count_nature[i][0]==0 and count_events[i][0]==0 and count_accommodation[i][0]==0 and count_attraction[i][0]==0:
+  		count_others[i][0] += 1
+  	i += 1
 
-categories = ['food', 'events', 'nature', 'accommodation', 'attraction', 'others']
+  toWrite = np.column_stack((postId, post))
+  toWrite = np.column_stack((toWrite, comments))
+  toWrite = np.concatenate((toWrite, count_food, count_events, count_nature,
+  	count_accommodation, count_attraction, count_others, class_label), axis=1)
+  df2 = pd.DataFrame(toWrite, columns = col)
+  df2.to_csv('./server/core/data_preprocessing/topic_labelled.csv', encoding='utf-8')
 
-i = 0
-for p in post:
-	temp = p.split(" ")
-	#print(temp)
-	for word in temp:
-		if word in dict_nature:
-			count_nature[i][0] += 1
-		if word in dict_food:
-			count_food[i][0] += 1
-		if word in dict_events:
-			count_events[i][0] += 1
-		if word in dict_acc:
-			count_accommodation[i][0] += 1
-		if word in dict_attr:
-			count_attraction[i][0] += 1
-	if count_food[i][0]==0 and count_nature[i][0]==0 and count_events[i][0]==0 and count_accommodation[i][0]==0 and count_attraction[i][0]==0:
-		count_others[i][0] += 1
-	i += 1
-
-toWrite = np.column_stack((postId, post))
-toWrite = np.concatenate((toWrite, count_food, count_events, count_nature,
-	count_accommodation, count_attraction, count_others, class_label), axis=1)
-df2 = pd.DataFrame(toWrite, columns = col)
-df2.to_csv('topic_labelled.csv', encoding='utf-8')
+  print("topic_labelled.csv successfully generated")
 
 
 
