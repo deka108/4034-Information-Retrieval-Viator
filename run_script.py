@@ -1,6 +1,8 @@
 from server.core.data_preprocessing import preprocessing
 from server.core.data_preprocessing import topic_labeling
 from server.core.data_preprocessing import generate_csv
+from server.utils import data_util as du
+
 
 def run():
     preprocessing.preprocess_all_pages()
@@ -19,4 +21,5 @@ def run():
     generate_csv.split_csv()
 
 if __name__ == "__main__":
-    run()
+    # run()
+    print(len(du.get_all_posts_with_comments()))

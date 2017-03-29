@@ -15,17 +15,22 @@ def extract_date(time_info):
 
 
 def clean_text(text):
-    # remove hyperlink
-    text = re.sub(r"https?[^\s]+", " ", text)
-    # text = re.sub(r"[^\s]+\.[^\s]+.[^\s]+", " ", text)
-
-    # replace non alphabets
-    text = re.sub(r"[^a-zA-Z]", " ", text)
+    text = remove_http_symbols(text)
     text = text.lower()
 
     # removes extra space
     text = " ".join(word for word in text.split())
 
+    return text
+
+
+def remove_http_symbols(text):
+    # remove hyperlink
+    text = re.sub(r"https?[^\s]+", " ", text)
+    text = re.sub(r"[^\s]+\.[^\s]+.[^\s]+", " ", text)
+
+    # replace non alphabets
+    text = re.sub(r"[^a-zA-Z]", " ", text)
     return text
 
 

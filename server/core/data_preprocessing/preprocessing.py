@@ -1,10 +1,7 @@
 import pandas as pd
 
 from server.utils import data_util, text_util
-from server.core.nlp import sentiment
 from guess_language import guess_language
-import numpy as np
-import ast
 
 csv_headers = [
     # content

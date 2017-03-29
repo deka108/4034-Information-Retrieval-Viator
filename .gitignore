@@ -171,3 +171,12 @@ etc/
 /server/core/auto_categorisation/tmp/
 /server/data/*.csv
 /server/core/data_preprocessing/*.csv
+/spacy_dir
+/nlp/stanford-ner-2016-10-31
+/server/core/nlp/stanford-postagger-full-2016-10-31.zip
+/server/core/nlp/*.json
+/server/core/nlp/*.pickle
+/server/core/nlp/stanford-ner-2016-10-31.zip
+/server/core/nlp/stanford-ner-2016-10-31/
+/corenlp_dir/
+/server/data/splitted_csv_for_labelling/
