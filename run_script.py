@@ -1,11 +1,11 @@
 from server.core.data_preprocessing import preprocessing
-from server.core.data_preprocessing import topic_labeling
 from server.core.data_preprocessing import generate_csv
 from server.utils import data_util as du
 
 
 def run():
-    # preprocessing.preprocess_all_pages()
+    preprocessing.preprocess_all_pages()
+    generate_csv.generate_splitted_csv_for_labelling()
 
     # Example of getting json based on page_id
     # page_id = "koreatourism"
@@ -14,8 +14,6 @@ def run():
     # Example of combining all the preprocessed pages (not recommended, size
     # is too big)
     # data_util.get_preprocessed_json_data_all()
-
-    generate_csv.generate_splitted_csv_for_labelling()
 
 if __name__ == "__main__":
     run()
