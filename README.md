@@ -110,4 +110,23 @@ all_page = data_util.get_all_preprocessed_page()
 - query: [example](https://gist.github.com/felixputera/1d90ea9e3f929ec300511bbd8db605bf)
 - result: [result](https://gist.github.com/felixputera/e9870a3335396cbdeb4b5b804bdcdc0f)
 
+# TRAIN DATA LABELLING
+
+* Empty out all the '0' in 'class_label' first
+* Label 6x70 samples (70 samples for each class) according to its topic
+* Please read the message+desc (and comments if needed) instead of just reading the 'count_' columns
+* If the samples labelled for any class didn't reach 70, just add the deficit to the other classes
+        1. Food
+        2. Events
+        3. Nature
+        4. Accommodation
+        5. Attraction
+        6. Others (later maybe)
+* 0-> dita
+* 1-> deka
+* 2-> grace
+* 3-> luci
+* 4-> felix
+
+
 =======
