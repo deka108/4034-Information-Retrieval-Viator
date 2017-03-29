@@ -13,7 +13,7 @@ dict_food = ['food', 'predilection', 'restaurant', 'gustatory_modality', 'intell
               'discernment', 'tasting', 'delectable', 'smack', 'preference', 'pleasant-tasting',
               'gustatory_sensation', 'lunch', 'luncheon', 'appreciation', 'sense_of_taste', 'yummy', 'savor', 'eating_house']
 
-dict_nature = ['east_wind', 'exhibit', 'grocery_store', 'case', 'securities_industry', 'show', 'outcome', 'bear_witness',
+dict_events = ['east_wind', 'exhibit', 'grocery_store', 'case', 'securities_industry', 'show', 'outcome', 'bear_witness',
                'evidence', 'market_place', 'read', 'demo', 'usher', 'record', 'fete', 'issue', 'lionise', 'Christmastide',
                'register', 'display', 'depict', 'Noel', 'testify', 'upshot', 'food_market', 'commercialise', 'lionize',
                'evince', 'Yuletide', 'Easter', 'shew', 'Christmas_Day', 'result', 'point', 'present', 'grocery',
@@ -23,7 +23,7 @@ dict_nature = ['east_wind', 'exhibit', 'grocery_store', 'case', 'securities_indu
                'pyrotechnic', 'Dec_25', 'mart', 'event', 'consequence', 'easterly', 'market', 'appearance', 'express',
                'concert', 'Yule']
 
-dict_events = ['J._J._Hill', 'sight', 'timber', 'wad', 'muckle', 'raft', 'hiking', 'lot', 'heyday', 'flock',
+dict_nature = ['J._J._Hill', 'sight', 'timber', 'wad', 'muckle', 'raft', 'hiking', 'lot', 'heyday', 'flock',
                'Benny_Hill', 'woods', 'falls', 'peak', 'afforest', 'tidy_sum', 'efflorescence', 'timberland',
                'Hill', "pitcher's_mound", 'forest', 'wood', 'mess', 'Alfred_Hawthorne', 'quite_a_little', 'tramp',
                'peck', 'blossom', 'bloom', 'mickle', 'deal', 'prime', 'flush', 'slew', 'batch', 'pot', 'canyon',
