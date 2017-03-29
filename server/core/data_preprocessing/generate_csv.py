@@ -25,7 +25,7 @@ def generate_ordered_csv():
 
     df_write = pd.DataFrame(comb, columns =["id", "message+desc", "comments"])
     df_write.to_csv(data_util.get_csv_filepath(data_util.ORDERED_DATA_FILENAME),
-                    encoding='utf-8')
+                    encoding='utf-8', index_label="no")
 
     print("ordered_data.csv successfully generated")
 
@@ -38,7 +38,7 @@ def shuffle_data():
     shuffled = df.sample(frac=1, random_state = 42)
     df2 = pd.DataFrame(shuffled, columns = csv_column)
     df2.to_csv(data_util.get_csv_filepath(data_util.SHUFFLED_DATA_FILENAME),
-               encoding='utf-8')
+               encoding='utf-8', index_label="no")
 
     print("shuffled_data.csv successfully generated")
 
@@ -53,7 +53,8 @@ def split_csv():
  
     for i in range(len(data)):
         df3 = pd.DataFrame(data[i], columns = csv_column)
-        df3.to_csv(data_util.get_splitted_csv_filepath(i), encoding='utf-8')
+        df3.to_csv(data_util.get_splitted_csv_filepath(i), encoding='utf-8',\
+        index_label="no")
 
     print("csvs successfully splitted")
 

@@ -4,7 +4,7 @@ from server.utils import data_util as du
 
 
 def run():
-    preprocessing.preprocess_all_pages()
+    # preprocessing.preprocess_all_pages()
     generate_csv.generate_splitted_csv_for_labelling()
 
     # Example of getting json based on page_id

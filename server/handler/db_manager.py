@@ -1,4 +1,5 @@
 import json
+import os
 
 from flask import Blueprint, abort, jsonify, request
 from flask import make_response
@@ -51,13 +52,12 @@ def read_data(page_id):
         data = data_util.get_preprocessed_json_data_by_page_id(page_id)
         if data:
             return jsonify(data)
-        return make_response("Page Id does not exist", 404)
     else:
         # not recommended, data is too big
         data = data_util.get_preprocessed_json_data_all()
         if data:
             return jsonify(data)
-        return make_response("Unable to retrieve data", 404)
+    return make_response("Unable to retrieve data", 404)
 
 
 @db_manager.route('/delete/', methods=['DELETE'])
@@ -75,3 +75,14 @@ def delete_data(page_id):
         return db_manager.send_static_file(file_name)
     return make_response("Page Id does not exist", 404)
 
+
+@db_manager.route('/read_split/<split_id>', methods=['GET'])
+def retrieve_split_data(split_id):
+    try:
+        csv_path = data_util.get_splitted_csv_filepath(split_id)
+        data = data_util.get_json_data_from_csv(csv_path)
+        if data:
+            return jsonify(data)
+    except:
+        print("Error")
+    return make_response("Split data Id does not exist", 404)
