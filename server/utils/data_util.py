@@ -2,28 +2,35 @@ from server import config
 import json
 import pandas as pd
 
-CSV_FILE_NAME = "{}.csv"
-JSON_FILE_NAME = "{}.json"
-PAGE_JSON_FILE_NAME = "{}_facebook"
-PAGE_CSV_FILE_NAME = "{}_facebook"
+CSV_FILENAME = "{}.csv"
+JSON_FILENAME = "{}.json"
+PAGE_JSON_FILENAME = "{}_facebook"
+PAGE_CSV_FILENAME = "{}_facebook"
+ALL_POSTS_FILENAME = "all_posts"
+ALL_POSTS_COMMENTS_FILENAME = "all_posts_with_comments"
+ORDERED_DATA_FILENAME = "ordered_data"
+SHUFFLED_DATA_FILENAME = "shuffled_data"
+TOPIC_LABELLED_FILENAME = "topic_labelled"
+SPLITTED_DATA_FILENAME = "splitted_data_{}"
+
 
 RECORDS = {}
 
 
 def get_json_filename(file_name):
-    return JSON_FILE_NAME.format(file_name)
+    return JSON_FILENAME.format(file_name)
 
 
 def get_page_json_filename(page_id):
-    return PAGE_JSON_FILE_NAME.format(page_id)
+    return PAGE_JSON_FILENAME.format(page_id)
 
 
 def get_csv_filename(file_name):
-    return CSV_FILE_NAME.format(file_name)
+    return CSV_FILENAME.format(file_name)
 
 
 def get_page_csv_filename(page_id):
-    return PAGE_CSV_FILE_NAME.format(page_id)
+    return PAGE_CSV_FILENAME.format(page_id)
 
 
 def get_json_filepath(file_name):
@@ -32,6 +39,11 @@ def get_json_filepath(file_name):
 
 def get_csv_filepath(file_name):
     return config.get_data_path(get_csv_filename(file_name))
+
+
+def get_splitted_csv_filepath(id):
+    return config.get_splitted_data_path(get_csv_filename(
+        SPLITTED_DATA_FILENAME.format(id)))
 
 
 def init_records():

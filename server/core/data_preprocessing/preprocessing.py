@@ -1,10 +1,7 @@
 import pandas as pd
 
 from server.utils import data_util, text_util
-from server.core.nlp import sentiment
 from guess_language import guess_language
-import numpy as np
-import ast
 
 csv_headers = [
     # content
@@ -107,7 +104,7 @@ def preprocess_page_json(page_id):
 
             data.append(entry)
 
-    file_name = data_util.PAGE_CSV_FILE_NAME.format(page_id)
+    file_name = data_util.PAGE_CSV_FILENAME.format(page_id)
     data_util.write_dict_to_csv(data, csv_headers, file_name)
     print("Successfully written preprocessed data to {}.csv".format(file_name))
 
