@@ -8,8 +8,8 @@ def get_sentiment():
     page_id = data_util.ALL_POSTS_COMMENTS_FILENAME
     data= []
     counter = 0
-    data_path = data_util.get_csv_filepath(page_id)
-    df = data_util.get_csv_data(data_path)
+    df = data_util.get_csv_data_from_path(page_id)
+
     comments = df["comments"]
     for comment in comments:
         # print(comment)

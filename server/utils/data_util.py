@@ -65,7 +65,7 @@ def get_preprocessed_json_data_by_page_id(page_id):
 
 
 def get_json_data_from_csv(csv_path):
-    df = get_csv_data(csv_path)
+    df = get_csv_data_from_path(csv_path)
     df = df.fillna("")
     return df.to_dict("records")
 
@@ -88,7 +88,11 @@ def get_raw_json_data_by_page_id(page_id):
                 page_id))
 
 
-def get_csv_data(data_path):
+def get_csv_data_from_filename(file_name):
+    return get_csv_data_from_path(get_csv_filepath(file_name))
+
+
+def get_csv_data_from_path(data_path):
     if config.check_data_path(data_path):
         df = pd.read_csv(data_path, encoding='utf-8')
         return df
@@ -99,7 +103,7 @@ def get_csv_data(data_path):
 
 def get_csv_data_by_pageid(page_id):
     data_path = get_csv_filepath(get_page_csv_filename(page_id))
-    return get_csv_data(data_path)
+    return get_csv_data_from_path(data_path)
 
 
 def get_csv_data_all():
@@ -112,11 +116,11 @@ def get_csv_data_all():
 
 
 def get_all_posts():
-    return get_csv_data(get_csv_filepath("all_posts"))
+    return get_csv_data_from_path(get_csv_filepath("all_posts"))
 
 
 def get_all_posts_with_comments():
-    return get_csv_data(get_csv_filepath("all_posts_with_comments"))
+    return get_csv_data_from_path(get_csv_filepath("all_posts_with_comments"))
 
 
 def get_schema_data(file_name=None):

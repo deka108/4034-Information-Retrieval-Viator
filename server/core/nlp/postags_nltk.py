@@ -1,6 +1,5 @@
 from server.utils import text_util as tu
 from server.utils import data_util as du
-from nltk.tag import StanfordPOSTagger
 from nltk.tokenize import sent_tokenize
 from nltk.tokenize import word_tokenize
 import nltk
