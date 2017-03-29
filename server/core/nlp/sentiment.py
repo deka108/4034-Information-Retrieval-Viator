@@ -40,7 +40,7 @@ def get_sentiment(page_id):
     print(counter)
     # print(data)
     #return data
-    filename = data_util.PAGE_CSV_FILE_NAME.format(page_id)
+    filename = data_util.PAGE_CSV_FILENAME.format(page_id)
     # data_util.write_dict_to_csv(data, csv_headers, filename)
     df = pd.DataFrame(data)
     data_util.write_df_to_existing_csv(df,csv_headers,filename)

@@ -1,7 +1,8 @@
+from server.utils import data_util
 import numpy as np
 import pandas as pd
 
-url = "./server/core/data_preprocessing/shuffled_data.csv"
+data_path = data_util.get_csv_filepath(data_util.SHUFFLED_DATA_FILENAME)
 
 dictionary = list()
 dict_food = ['food', 'predilection', 'restaurant', 'gustatory_modality', 'intellectual_nourishment', 'taste_sensation',
@@ -46,7 +47,7 @@ dict_attr = ['bridge_deck', 'fence_in', 'church_service', 'bridge_circuit', 'wal
                'parking_lot', 'tabernacle', 'synagogue', 'rampart']
 
 def label_data():
-  df = pd.read_csv(url).astype(str)
+  df = pd.read_csv(data_path).astype(str)
   postId = df.iloc[:,1]
   post = df.iloc[:, 2]
   comments = df.iloc[:, 3]
@@ -89,7 +90,7 @@ def label_data():
   toWrite = np.concatenate((toWrite, count_food, count_events, count_nature,
   	count_accommodation, count_attraction, count_others, class_label), axis=1)
   df2 = pd.DataFrame(toWrite, columns = col)
-  df2.to_csv('./server/core/data_preprocessing/topic_labelled.csv', encoding='utf-8')
+  df2.to_csv(data_util.get_csv_filepath(data_util.TOPIC_LABELLED_FILENAME), encoding='utf-8')
 
   print("topic_labelled.csv successfully generated")
 

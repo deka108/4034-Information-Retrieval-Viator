@@ -104,7 +104,7 @@ def preprocess_page_json(page_id):
 
             data.append(entry)
 
-    file_name = data_util.PAGE_CSV_FILE_NAME.format(page_id)
+    file_name = data_util.PAGE_CSV_FILENAME.format(page_id)
     data_util.write_dict_to_csv(data, csv_headers, file_name)
     print("Successfully written preprocessed data to {}.csv".format(file_name))
 
