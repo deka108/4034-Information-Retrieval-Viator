@@ -173,10 +173,6 @@ def write_df_to_existing_csv(new_df,headers,file_name):
     df_csv[headers] = new_df
     df_csv.to_csv(data_path)
 
-def remove_rows_from_existing_csv(df,headers,file_name):
-    data_path = config.get_data_path(get_csv_filename(file_name))
-    df_csv = pd.read_csv(data_path)
-
 update_records()
 
 

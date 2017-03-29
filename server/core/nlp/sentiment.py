@@ -7,17 +7,17 @@ csv_headers = ["comments_sentiment","comments_subjectivity",]
 def get_sentiment(page_id):
     data= []
     counter = 0
-    # df = data_util.get_csv_data(data_util.get_csv_data_by_pageid(page_id))
-    df = data_util.get_csv_data_by_pageid(page_id)
+    df = data_util.get_csv_data(page_id)
     comments = df["comments"]
     for comment in comments:
+        # print(comment)
         entry = {}
         sentiment = []
         subjectivity_list = []
         if type(comment) is not float:
             if(guess_language(comment) == 'en'):
                 if (isinstance(comment, str)):
-                    comment = comment.split(",")
+                    comment = comment.split("$$")
                 else:
                     comment = " "
                 for sentence in comment:
@@ -29,7 +29,6 @@ def get_sentiment(page_id):
                     subjectivity_list.append(subjectivity)
                 ave_sentiment = sum(sentiment)/(len(sentiment))
                 ave_subjectivity = sum(subjectivity_list)/(len(subjectivity_list))
-                # data.append(ave_sentiment)
                 counter += 1
                 entry["comments_sentiment"] = ave_sentiment
                 entry["comments_subjectivity"] = ave_subjectivity
@@ -40,10 +39,9 @@ def get_sentiment(page_id):
     print(counter)
     # print(data)
     #return data
-    filename = data_util.PAGE_CSV_FILENAME.format(page_id)
-    # data_util.write_dict_to_csv(data, csv_headers, filename)
     df = pd.DataFrame(data)
-    data_util.write_df_to_existing_csv(df,csv_headers,filename)
+    file_name = data_util.CSV_FILE_NAME.format(data_util.ALL_POSTS_COMMENTS_FILENAME)
+    data_util.write_df_to_existing_csv(df,csv_headers,file_name)
 
 def get_sentiment_all_pages():
     all_pageids = data_util.get_page_ids()
@@ -51,6 +49,4 @@ def get_sentiment_all_pages():
         get_sentiment(page_id)
 
 if __name__ == "__main__":
-    get_sentiment_all_pages()
-    #all_posts = data_util.get_csv_data_all()
-    #data_util.write_df_to_csv(all_posts, csv_headers, "all_posts")
+    get_sentiment(data_util.ALL_POSTS_COMMENTS_FILENAME)
