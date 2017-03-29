@@ -38,9 +38,10 @@ def count_words(df_text):
     results = set()
     word_count = df_text.str.split().apply(len).sum()
     df_text.str.split().apply(results.update)
-
-    print("Total words: {}".format(word_count))
-    print("Total unique words: {}".format(len(results)))
+    unique_word_count = len(results)
+    return word_count, unique_word_count
+    # print("Total words: {}".format(word_count))
+    # print("Total unique words: {}".format(len(results)))
 
 
 def get_text_data_by_page_id(page_id):
