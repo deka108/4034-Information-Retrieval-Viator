@@ -3,7 +3,8 @@ from server.utils import data_util,text_util
 import pandas as pd
 
 def compute_words(file_name):
-    df = data_util.get_csv_data(file_name)
+    data_path = data_util.get_csv_filepath(file_name)
+    df = data_util.get_csv_data(data_path)
     df["message_cleaned"] = df["message"].apply(
         lambda x: text_util.clean_text(x) if pd.notnull(x) else "")
     df["description_cleaned"] = df["description"].apply(

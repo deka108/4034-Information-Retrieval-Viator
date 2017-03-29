@@ -122,12 +122,13 @@ def read_csv_by_pageid(page_id):
     return df
 
 def generate_all_posts_with_comment():
-    df = data_util.get_csv_data("all_posts")
+    data_path = data_util.get_csv_filepath(data_util.ALL_POSTS_FILENAME)
+    df = data_util.get_csv_data(data_path)
     df = df[pd.notnull(df.comments)]
     data_util.write_df_to_csv(df,csv_headers,"all_posts_with_comments")
 
 if __name__ == "__main__":
-    preprocess_all_pages()
+    #preprocess_all_pages()
     generate_all_posts_with_comment()
     # all_posts = data_util.get_csv_data_all()
     # data_util.write_df_to_csv(all_posts, csv_headers, "all_posts")

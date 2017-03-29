@@ -1,12 +1,13 @@
 from server.core.data_preprocessing import preprocessing
 from server.core.data_preprocessing import generate_csv
 from server.utils import data_util as du
+from server.core.data_preprocessing import statistic
 
 
 def run():
-    # preprocessing.preprocess_all_pages()
+    preprocessing.preprocess_all_pages()
     generate_csv.generate_splitted_csv_for_labelling()
-
+    statistic.compute_words(du.ALL_POSTS_COMMENTS_FILENAME)
     # Example of getting json based on page_id
     # page_id = "koreatourism"
     # korea = data_util.get_preprocessed_json_data_by_page_id(page_id)

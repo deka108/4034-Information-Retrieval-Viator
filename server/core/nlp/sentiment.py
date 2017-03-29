@@ -7,7 +7,8 @@ csv_headers = ["comments_sentiment","comments_subjectivity",]
 def get_sentiment(page_id):
     data= []
     counter = 0
-    df = data_util.get_csv_data(page_id)
+    data_path = data_util.get_csv_filepath(page_id)
+    df = data_util.get_csv_data(data_path)
     comments = df["comments"]
     for comment in comments:
         # print(comment)
@@ -40,7 +41,7 @@ def get_sentiment(page_id):
     # print(data)
     #return data
     df = pd.DataFrame(data)
-    file_name = data_util.CSV_FILE_NAME.format(data_util.ALL_POSTS_COMMENTS_FILENAME)
+    file_name = data_util.ALL_POSTS_COMMENTS_FILENAME
     data_util.write_df_to_existing_csv(df,csv_headers,file_name)
 
 def get_sentiment_all_pages():
