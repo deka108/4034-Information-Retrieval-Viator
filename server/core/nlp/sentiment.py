@@ -4,6 +4,8 @@ import pandas as pd
 from guess_language import guess_language
 
 csv_headers = ["comments_sentiment","comments_subjectivity",]
+
+
 def get_sentiment():
     page_id = data_util.ALL_POSTS_COMMENTS_FILENAME
     data= []
@@ -45,10 +47,15 @@ def get_sentiment():
     file_name = data_util.ALL_POSTS_COMMENTS_FILENAME
     data_util.write_df_to_existing_csv(df,csv_headers,file_name)
 
+
 def get_sentiment_all_pages():
     all_pageids = data_util.get_page_ids()
     for page_id in all_pageids:
         get_sentiment(page_id)
+
+
+def run():
+    get_sentiment()
 
 if __name__ == "__main__":
     get_sentiment()

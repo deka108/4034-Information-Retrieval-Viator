@@ -32,7 +32,7 @@ def _recognise_cols(row, rel_columns, col_name):
 
         if len(ents) != 0:
             row[col_name + "_stat"] = ents
-            row[col_name] = ','.join(contents)
+            row[col_name] = '$$'.join(contents)
 
     return row
 
