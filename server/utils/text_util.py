@@ -32,6 +32,7 @@ def get_text_data(data):
 
 def get_text(row):
     row['full_text'] = " ".join(row[col] for col in TEXT_COLUMNS)
+    row['full_text'] = remove_hyperlink(row['full_text'])
     row['full_text'] = "".join(filter(lambda x: x in printable,
                                       row['full_text']))
     return row
@@ -57,11 +58,16 @@ def clean_text(text):
 
 def remove_http_symbols(text):
     # remove hyperlink
-    text = re.sub(r"https?[^\s]+", " ", text)
-    text = re.sub(r"[^\s]+\.[^\s]+.[^\s]+", " ", text)
+    text = remove_hyperlink(text)
 
     # replace non alphabets
     text = re.sub(r"[^a-zA-Z]", " ", text)
+    return text
+
+
+def remove_hyperlink(text):
+    text = re.sub(r"https?[^\s]+", " ", text)
+    text = re.sub(r"[^\s]+\.[^\s]+.[^\s]+", " ", text)
     return text
 
 

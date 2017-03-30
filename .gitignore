@@ -180,3 +180,6 @@ etc/
 /server/core/nlp/stanford-ner-2016-10-31/
 /corenlp_dir/
 /server/data/splitted_csv_for_labelling/
+/server/core/nlp/stanford-postagger-full-2016-10-31/
+/server/core/nlp/stanford-english-corenlp-2016-10-31-models.jar
+/server/data/*.pkl

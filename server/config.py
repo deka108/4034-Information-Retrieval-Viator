@@ -15,6 +15,12 @@ RECORDS_DATA_PATH = os.path.join(DATA_DIR, 'records.json')
 SPLITTED_DATA_PATH = os.path.join(DATA_DIR, 'splitted_data_for_labelling')
 SCHEMA_DATA_PATH = os.path.join(DATA_DIR, 'schema.json')
 INITIAL_RECORDS_DATA_PATH = os.path.join(DATA_DIR, 'initial_records.json')
+STANFORD_POS_FILENAME = "stanford-postagger-full-2016-10-31"
+STANFORD_POS_PATH = os.path.join(BASE_DIR,
+                                 'core/nlp/{}'.format(STANFORD_POS_FILENAME))
+STANFORD_NER_FILENAME = "stanford-ner-2016-10-31"
+STANFORD_NER_PATH = os.path.join(BASE_DIR,
+                                 'core/nlp/{}'.format(STANFORD_NER_FILENAME))
 
 # Enable protection agains *Cross-site Request Forgery (CSRF)*
 CSRF_ENABLED = True
@@ -40,3 +46,11 @@ def get_splitted_data_path(file_name):
 def check_data_path(file_path):
     print(file_path)
     return os.path.isfile(file_path)
+
+
+def get_stanford_pos(file):
+    return os.path.join(STANFORD_POS_PATH, file)
+
+
+def get_stanford_ner(file):
+    return os.path.join(STANFORD_NER_PATH, file)

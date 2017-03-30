@@ -11,8 +11,8 @@ ALL_POSTS_COMMENTS_FILENAME = "all_posts_with_comments"
 ORDERED_DATA_FILENAME = "ordered_data"
 SHUFFLED_DATA_FILENAME = "shuffled_data"
 TOPIC_LABELLED_FILENAME = "topic_labelled"
+LOC_DATA_FILENAME = "loc_data"
 SPLITTED_DATA_FILENAME = "splitted_data_{}"
-
 
 RECORDS = {}
 
@@ -58,6 +58,8 @@ def update_records():
     with open(config.RECORDS_DATA_PATH, 'r', encoding='utf-8') as file_handler:
         RECORDS = json.load(file_handler)
 
+update_records()
+
 
 def get_preprocessed_json_data_by_page_id(page_id):
     """"Get preprocessed JSON data by page id"""
@@ -95,6 +97,7 @@ def get_csv_data_from_filename(file_name):
 def get_csv_data_from_path(data_path):
     if config.check_data_path(data_path):
         df = pd.read_csv(data_path, encoding='utf-8')
+        df.fillna("")
         return df
     else:
         raise FileNotFoundError(
@@ -116,11 +119,12 @@ def get_csv_data_all():
 
 
 def get_all_posts():
-    return get_csv_data_from_path(get_csv_filepath("all_posts"))
+    return get_csv_data_from_filename(ALL_POSTS_FILENAME)
 
 
 def get_all_posts_with_comments():
-    return get_csv_data_from_path(get_csv_filepath("all_posts_with_comments"))
+    # return get_df_from_pickle(ALL_POSTS_COMMENTS_FILENAME)
+    return get_csv_data_from_filename(ALL_POSTS_COMMENTS_FILENAME)
 
 
 def get_schema_data(file_name=None):
@@ -172,15 +176,13 @@ def write_dict_to_csv(data, headers, file_name):
 
 def write_df_to_csv(df, headers, file_name):
     data_path = config.get_data_path(get_csv_filename(file_name))
-    df.to_csv(data_path, columns=headers, index=False, index_label="no",
+    df.fillna("")
+    df.to_csv(data_path, columns=headers, index=True, index_label="no",
               encoding='utf-8')
 
-def write_df_to_existing_csv(new_df,headers,file_name):
+
+def write_df_to_existing_csv(new_df, headers, file_name):
     data_path = config.get_data_path(get_csv_filename(file_name))
     df_csv = pd.read_csv(data_path)
-    df_csv[headers] = new_df
+    df_csv[headers] = new_df[headers]
     df_csv.to_csv(data_path)
-
-update_records()
-
-

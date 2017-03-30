@@ -1,62 +1,54 @@
-import en_core_web_md
-import pandas as pd
+from server.utils import data_util
+from server.utils import text_util
+from pycorenlp import StanfordCoreNLP
+import ast
 
-from server.utils import data_util as du
-from server.utils import text_util as tu
-
-LOC_COLUMNS = ['GPE', 'FACILITY', 'LOC']
-OTHER_COLUMNS = ['PRODUCT', 'WORK_OF_ART', 'EVENT']
-nlp = en_core_web_md.load()
+nlp = StanfordCoreNLP('http://localhost:9000')
 
 
-def _recognise_cols(row, rel_columns, col_name):
-    text = row['full_text']
-    if not pd.isnull(text):
-        doc = nlp(text)
-        ents = {}
-        contents = []
+def run():
+    texts = text_util.get_text_data_all()
+    texts['locations'] = texts['full_text'].apply(extract_location_from_text)
+    data_util.write_df_to_existing_csv(texts, ['locations'],
+                                       data_util.ALL_POSTS_COMMENTS_FILENAME)
 
-        for ent in doc.ents:
 
-            if ent.label_ in rel_columns:
-                if ent.label_ not in ents:
-                    ents[ent.label_] = {}
+def extract_location_from_text(text):
+    output = nlp.annotate(text, properties={
+        'annotators': 'tokenize,ssplit,ner',
+        'outputFormat': 'json'
+    })
 
-                ents_label = ents[ent.label_]
+    if type(output) == str:
+        output = ast.literal_eval(output)
 
-                if ent.text in ents_label:
-                    ents_label[ent.text] += 1
+    # for each sentence in a text / post
+    locations = set()
+    for sentence in output['sentences']:
+        # extract location (combine consecutive ner location)
+        prev_loc = False
+        location = ""
+        for token in sentence['tokens']:
+            if token['ner'] == 'LOCATION':
+                if prev_loc:
+                    location += " " + token['originalText']
                 else:
-                    ents_label[ent.text] = 1
-                    contents.append(ent.text)
+                    location = token['originalText']
+                prev_loc = True
+            else:
+                if prev_loc:
+                    locations.add(location)
+                    location = ""
+                prev_loc = False
 
-        if len(ents) != 0:
-            row[col_name + "_stat"] = ents
-            row[col_name] = ','.join(contents)
+        if prev_loc:
+            locations.add(location)
 
-    return row
-
-
-def recognise_loc(row):
-    return _recognise_cols(row, LOC_COLUMNS, "loc")
-
-
-def recognise_others(row):
-    return _recognise_cols(row, OTHER_COLUMNS, "others")
-
-
-def extract_ner_in_posts(page_id=None):
-    if page_id:
-        text_data = tu.get_text_data_by_page_id(page_id)
+    if len(locations) > 0:
+        return '$$'.join(locations)
     else:
-        text_data = tu.get_text_data_all()
-    text_data = text_data.apply(recognise_loc, axis=1)
-    text_data = text_data.apply(recognise_others, axis=1)
-    print(text_data[['full_text', 'loc_stat', 'loc', 'others', 'others_stat']])
+        return ""
+
 
 if __name__ == "__main__":
-    all_page_ids = du.get_page_ids()
-    # extract_ner_in_posts() # too slow!
-
-    for page_id in all_page_ids:
-        extract_ner_in_posts(page_id)
+    run()
