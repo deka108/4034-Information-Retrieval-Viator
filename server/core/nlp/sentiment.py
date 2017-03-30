@@ -4,7 +4,8 @@ import pandas as pd
 from guess_language import guess_language
 
 csv_headers = ["comments_sentiment","comments_subjectivity",]
-def get_sentiment(page_id):
+def get_sentiment():
+    page_id = data_util.ALL_POSTS_COMMENTS_FILENAME
     data= []
     counter = 0
     data_path = data_util.get_csv_filepath(page_id)
@@ -50,4 +51,4 @@ def get_sentiment_all_pages():
         get_sentiment(page_id)
 
 if __name__ == "__main__":
-    get_sentiment(data_util.ALL_POSTS_COMMENTS_FILENAME)
+    get_sentiment()
