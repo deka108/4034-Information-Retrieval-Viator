@@ -8,8 +8,8 @@ from server.core.data_preprocessing import statistic
 def run():
     preprocessing.preprocess_all_pages()
     # generate_csv.generate_splitted_csv_for_labelling()
-    # statistic.compute_words(du.ALL_POSTS_COMMENTS_FILENAME)
-    # nlp_main.run()
+    statistic.compute_words(du.ALL_POSTS_COMMENTS_FILENAME)
+    nlp_main.run()
 
     # Example of getting json based on page_id
     # page_id = "koreatourism"
