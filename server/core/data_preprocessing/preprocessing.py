@@ -24,7 +24,7 @@ def preprocess_all_pages():
         preprocess_page_json(page_id)
     all_posts = data_util.get_csv_data_all()
     data_util.write_df_to_csv(all_posts, csv_headers, data_util.ALL_POSTS_FILENAME)
-    #generate_all_posts_with_comment()
+    # generate_all_posts_with_comment()
 
 #Clean all post without message or description
 def preprocess_page_json(page_id):
@@ -50,13 +50,13 @@ def preprocess_page_json(page_id):
                 entry["link"] = post.get("link")
 
                 # might be available and unicode
-                entry["name"] = post.get("name", "").encode("utf-8")
-                entry["message"] = post.get("message", "").encode("utf-8")
-                entry["caption"] = post.get("caption", "").encode("utf-8")
-                entry["picture"] = post.get("picture", "")
+                entry["name"] = post.get("name", "").encode('utf-8').decode('utf-8', 'ignore')
+                entry["message"] = post.get("message", "").encode('utf-8').decode('utf-8', 'ignore')
+                entry["caption"] = post.get("caption", "").encode('utf-8').decode('utf-8', 'ignore')
+                entry["picture"] = post.get("picture", "").encode('utf-8').decode('utf-8', 'ignore')
                 entry["full_picture"] = post.get("full_picture")
-                entry["description"] = post.get("description", "").encode("utf-8")
-                entry["story"] = post.get("story", "").encode("utf-8")
+                entry["description"] = post.get("description", "").encode('utf-8').decode('utf-8', 'ignore')
+                entry["story"] = post.get("story", "").encode('utf-8').decode('utf-8', 'ignore')
 
                 if "likes" in post:
                     entry["likes_cnt"] = int(post["likes"]["summary"].get("total_count",0))
@@ -106,7 +106,7 @@ def preprocess_page_json(page_id):
                 entry["updated_is_weekend"] = text_util.extract_date(post["updated_time"])
 
                 if len(entry['comments']) > 0:
-                    entry['comments'] = entry['comments'].encode("utf-8")
+                    entry['comments'] = entry['comments'].encode('utf-8').decode('utf-8', 'ignore')
                     data.append(entry)
 
     file_name = data_util.PAGE_CSV_FILENAME.format(page_id)
