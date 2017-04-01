@@ -6,25 +6,26 @@ import ast
 import time
 
 nlp = StanfordCoreNLP('http://localhost:9000')
+NER_COLUMNS = text_util.EXTRACTED_COLUMNS + ['full_text', 'locations']
 
 
 def run():
     page_ids = data_util.get_page_ids()
-    all_posts = pd.DataFrame()
+    all_posts = pd.DataFrame(columns=NER_COLUMNS)
+
     start_time = time.time()
     for page_id in page_ids:
         data = data_util.get_csv_data_by_pageid(page_id)
         data['full_text'] = text_util.get_text_data(data)['full_text']
         data['locations'] = data['full_text'].apply(extract_location_from_text)
-        data_util.write_df_to_csv(data, text_util.EXTRACTED_COLUMNS + [
-            'full_text', 'locations'], page_id + "_locations")
+        data_util.write_df_to_csv(data, NER_COLUMNS, page_id + "_locations")
         all_posts.append(data)
     end_time = time.time()
-    data_util.write_df_to_csv(all_posts, text_util.EXTRACTED_COLUMNS +
-                              ['full_text', 'locations'],
-                              'all_posts_with_locations')
     print("Elapsed time: ")
     print(end_time - start_time)
+
+    data_util.write_df_to_csv(all_posts, NER_COLUMNS,
+                              data_util.ALL_POSTS_LOCATIONS_FILENAME)
 
 
 def extract_location_from_text(text):

@@ -7,6 +7,7 @@ JSON_FILENAME = "{}.json"
 PAGE_JSON_FILENAME = "{}_facebook"
 PAGE_CSV_FILENAME = "{}_facebook"
 ALL_POSTS_FILENAME = "all_posts"
+ALL_POSTS_LOCATIONS_FILENAME = "all_posts_with_locations"
 ALL_POSTS_COMMENTS_FILENAME = "all_posts_with_comments"
 ORDERED_DATA_FILENAME = "ordered_data"
 SHUFFLED_DATA_FILENAME = "shuffled_data"
@@ -177,8 +178,7 @@ def write_dict_to_csv(data, headers, file_name):
 def write_df_to_csv(df, headers, file_name):
     data_path = config.get_data_path(get_csv_filename(file_name))
     df.fillna("")
-    df.to_csv(data_path, columns=headers, index=True, index_label="no",
-              encoding='utf-8')
+    df.to_csv(data_path, columns=headers, index_label="no", encoding='utf-8')
 
 
 def write_df_to_existing_csv(new_df, headers, file_name):
