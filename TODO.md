@@ -18,6 +18,18 @@
     - No of unique words: 40899
 ## Question 2: INDEXING AND QUERYING
 - [ ] Build a simple Web interface for the search engine
+  - [ ] Filtering
+    - [ ] Time ID
+    - [ ] Page ID
+    - [ ] Topic
+    - [ ] Sentiment
+    - [ ] Location
+  - [ ] Sort by
+    - [ ] Latest
+    - [ ] Relevance
+    - [ ] Shares count
+    - [ ] Reactions count
+    - [ ] Sentiment
 - [ ] A simple UI for crawling and incremental indexing of new data would be a bonus  
 (but not compulsory)
 - [ ] Write five queries, get their results, and measure the speed of the querying
