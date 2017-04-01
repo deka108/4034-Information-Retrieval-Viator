@@ -21,7 +21,7 @@ def get_text_data_by_page_id(page_id):
 
 
 def get_text_data_all():
-    data = du.get_all_posts_with_comments()
+    data = du.get_all_posts()
     return get_text_data(data)
 
 
