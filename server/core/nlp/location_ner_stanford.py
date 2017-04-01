@@ -11,7 +11,7 @@ NER_COLUMNS = text_util.EXTRACTED_COLUMNS + ['full_text', 'locations']
 
 def run():
     page_ids = data_util.get_page_ids()
-    all_posts = pd.DataFrame(columns=NER_COLUMNS)
+    all_posts = []
 
     start_time = time.time()
     for page_id in page_ids:
@@ -23,7 +23,7 @@ def run():
     end_time = time.time()
     print("Elapsed time: ")
     print(end_time - start_time)
-
+    all_posts = pd.concat(all_posts)
     data_util.write_df_to_csv(all_posts, NER_COLUMNS,
                               data_util.ALL_POSTS_LOCATIONS_FILENAME)
 
