@@ -53,7 +53,9 @@ def index_data(page_id):
 def get_query():
     query = request.args.get('q')
     page = request.args.get('p')
-    return jsonify(solr_interface.search(query, page))
+    sort_by = request.args.get('sort')
+    order = request.args.get('sort.order')
+    return jsonify(solr_interface.search(query, page, sort_by, order))
 
 
 @solr_manager.route('/query/<post_id>', methods=['GET'])

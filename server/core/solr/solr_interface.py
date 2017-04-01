@@ -164,16 +164,30 @@ def index_all():
         return False
 
 
-def search(query, page):
+def search(query, page, sort_by, order='ascending'):
     rows = 10
     try:
         page = int(page)
     except TypeError:
         page = 0
+
     start_num = rows*page
     payload = {'rows': rows,
                'start': start_num}
     payload['q'] = query
+    if sort_by != 'relevance':
+        if (sort_by == 'time') and (order == 'ascending'):
+            payload['sort'] = 'time asc'
+        elif (sort_by == 'time') and (order == 'descending'):
+            payload['sort'] = 'time desc'
+        elif (sort_by == 'reactions') and (order == 'ascending'):
+            payload['sort'] = 'reactions_count asc'
+        elif (sort_by == 'reactions') and (order == 'descending'):
+            payload['sort'] = 'reactions_count desc'
+        elif (sort_by == 'shares') and (order == 'ascending'):
+            payload['sort'] = 'shares_count asc'
+        elif (sort_by == 'shares') and (order == 'descending'):
+            payload['sort'] = 'reactions_count desc'
     print(payload)
     r = s.get("{url}/query".format(url=config.SOLR_BASE_URL), params=payload)
     print(r.url)
