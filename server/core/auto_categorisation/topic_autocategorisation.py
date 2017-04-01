@@ -21,12 +21,18 @@ def load_dict_corpus():
         print("Corpus does not exist")
 
 
-def generate_topic():
+def generate_topic_lsi():
     dictionary, corpus = load_dict_corpus()
     tfidf = models.TfidfModel(corpus)
     corpus_tfidf = tfidf[corpus]
     lsi = models.LsiModel(corpus_tfidf, id2word=dictionary, num_topics=5)
-    lsi.print_topic(topicno=1)
+    lsi.print_topics()
+
+
+def generate_topic_lda():
+    dictionary, corpus = load_dict_corpus()
+    lda = models.LdaModel(corpus, id2words=dictionary, num_topics=5)
+    lda.print_topics()
 
 
 def gensim_pipeline(texts):
@@ -41,11 +47,13 @@ def preprocess_post(page_id=None):
         data = tu.get_text_data_by_page_id(page_id)
     else:
         data = tu.get_text_data_all()
-    data = data['full_text'].apply(tu.preprocess_text)
+    data = data['full_text'].apply(lambda row: tu.preprocess_text(row,
+                                                                  stem=True,
+                                                                  lemmatize=False))
     return data.tolist()
 
 if __name__ == "__main__":
     texts = preprocess_post()
     print(texts)
     gensim_pipeline(texts)
-    generate_topic()
+    generate_topic_lsi()

@@ -4,10 +4,12 @@ from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 import re
 import string
+from nltk.stem import WordNetLemmatizer
 
 printable = set(string.printable)
 stop_words = set(stopwords.words('english'))
 stemmer = SnowballStemmer('english')
+lemmatizer = WordNetLemmatizer()
 
 TEXT_COLUMNS = ["message", "description"]
 EXTRACTED_COLUMNS = TEXT_COLUMNS + ["id", "page_id"]
@@ -38,11 +40,15 @@ def get_text(row):
     return row
 
 
-def preprocess_text(text, stem=False):
+def preprocess_text(text, stem=False, lemmatize=True):
     text = clean_text(text)
     if stem:
-        return [stemmer.stem(word) for word in text.split() if word not in
-                stop_words]
+        if lemmatize:
+            return [lemmatizer.lemmatize(word) for word in text.split() if word
+            not in stop_words]
+        else:
+            return [stemmer.stem(word) for word in text.split() if word not in
+                    stop_words]
     return [word for word in text.split() if word not in stop_words]
 
 

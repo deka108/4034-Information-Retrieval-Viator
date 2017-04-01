@@ -55,8 +55,9 @@ def extract_ner_in_posts(page_id=None):
     print(text_data[['full_text', 'loc_stat', 'loc', 'others', 'others_stat']])
 
 if __name__ == "__main__":
-    all_page_ids = du.get_page_ids()
-    # extract_ner_in_posts() # too slow!
-
-    for page_id in all_page_ids:
-        extract_ner_in_posts(page_id)
+    extract_ner_in_posts()
+    # all_page_ids = du.get_page_ids()
+    # # extract_ner_in_posts() # too slow!
+    #
+    # for page_id in all_page_ids:
+    #     extract_ner_in_posts(page_id)
