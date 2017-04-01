@@ -135,6 +135,8 @@ def generate_all_posts_with_comment():
 if __name__ == "__main__":
     preprocess_all_pages()
     #generate_all_posts_with_comment()
+    # generate_all_posts_with_comment()
+
     # all_posts = data_util.get_csv_data_all()
     # data_util.write_df_to_csv(all_posts, csv_headers, "all_posts")
 

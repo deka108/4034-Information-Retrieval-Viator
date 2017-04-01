@@ -13,9 +13,9 @@
   - [ ] Example queries
 - [X] Statistics:
   - [X] The numbers of records, words, and types(UNIQUE WORDS) in the corpus
-    - No of records: 16009
-    - No of words: 
-    - No of unique words: 
+    - No of records: 14687
+    - No of words: 867654
+    - No of unique words: 42806
 ## Question 2: INDEXING AND QUERYING
 - [ ] Build a simple Web interface for the search engine
 - [ ] A simple UI for crawling and incremental indexing of new data would be a bonus  
