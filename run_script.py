@@ -7,7 +7,7 @@ from server.core.data_preprocessing import statistic
 
 def run():
     preprocessing.preprocess_all_pages()
-    generate_csv.generate_splitted_csv_for_labelling()
+    # generate_csv.generate_splitted_csv_for_labelling()
     statistic.compute_words(du.ALL_POSTS_COMMENTS_FILENAME)
     nlp_main.run()
 
@@ -21,4 +21,3 @@ def run():
 
 if __name__ == "__main__":
     run()
-    print(len(du.get_all_posts_with_comments()))
