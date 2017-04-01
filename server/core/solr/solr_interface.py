@@ -219,10 +219,8 @@ def search(query, page, sort_by, order='ascending'):
 
     return result_json
 
-
 def add_schema_field():
     return "Success"
-
 
 def get_all_page_ids():
     r = s.get("{url}/select?q=*%3A*&rows=0&facet=on&facet.field=page_id&wt=json".format(url=config.SOLR_BASE_URL))
