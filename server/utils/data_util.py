@@ -13,6 +13,7 @@ SHUFFLED_DATA_FILENAME = "shuffled_data"
 TOPIC_LABELLED_FILENAME = "topic_labelled"
 LOC_DATA_FILENAME = "loc_data"
 SPLITTED_DATA_FILENAME = "splitted_data_{}"
+TESTING = "testing"
 
 RECORDS = {}
 
