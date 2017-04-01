@@ -105,7 +105,8 @@ def preprocess_page_json(page_id):
                 entry["updated_year"], entry["updated_month"], entry["updated_day"], \
                 entry["updated_is_weekend"] = text_util.extract_date(post["updated_time"])
 
-                data.append(entry)
+                if len(entry['comments']) > 0:
+                    data.append(entry)
 
     file_name = data_util.PAGE_CSV_FILENAME.format(page_id)
     data_util.write_dict_to_csv(data, csv_headers, file_name)
@@ -131,8 +132,8 @@ def generate_all_posts_with_comment():
     data_util.write_df_to_csv(df, csv_headers, data_util.ALL_POSTS_COMMENTS_FILENAME)
 
 if __name__ == "__main__":
-    #preprocess_all_pages()
-    generate_all_posts_with_comment()
+    preprocess_all_pages()
+    # generate_all_posts_with_comment()
     # all_posts = data_util.get_csv_data_all()
     # data_util.write_df_to_csv(all_posts, csv_headers, "all_posts")
 
