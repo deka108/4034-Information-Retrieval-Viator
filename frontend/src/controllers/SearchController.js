@@ -110,7 +110,6 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
                     value.span.col = 2;
                     break;
             }
-            value.bgImage = 'background-image: ' + value.full_picture;
             value.fontSize = { 'font-size': (value.span.col*4+8) + 'px' };
         })
         console.log(moreLikeThisResults);
