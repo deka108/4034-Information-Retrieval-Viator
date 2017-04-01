@@ -17,7 +17,7 @@
     - No of words: 779261
     - No of unique words: 40899
 ## Question 2: INDEXING AND QUERYING
-- [ ] Build a simple Web interface for the search engine
+- [X] Build a simple Web interface for the search engine
   - [ ] Filtering
     - [ ] Time ID
     - [ ] Page ID
@@ -29,19 +29,25 @@
     - [ ] Relevance
     - [ ] Shares count
     - [ ] Reactions count
-    - [ ] Sentiment
+    - [ ] Sentiment 
 - [ ] A simple UI for crawling and incremental indexing of new data would be a bonus  
 (but not compulsory)
 - [ ] Write five queries, get their results, and measure the speed of the querying
 
 ## Question 3: ENHANCING INDEXING AND RANKING
 - [ ] Explain how the enhancement can solve specific problems, illustrated with examples.
-- [ ] Interactive search (refine search results based on spelling mistakes or similar search)
+  - [X] Spell suggestion and auto correction for user input
+- [ ] (50%) Interactive search (refine search results based on spelling mistakes or similar search)
 - [ ] Improve search results by integrating machine learning or data mining techniques  
 (classification or cluster techniques)
-- [ ] Go beyond text-based search (implement image retrieval or multimedia retrieval)
-- [ ] Exploit geo-spatial data (i.e., map information) to refine query results/improve  
-presentation/visualization
+  - [ ] (95%) Sentiment analysis per page id
+    - -1 to 0: negative
+    -  0 : neutral
+    - 0 to 0.5: positive
+    - 0.5 to 1: very positive
+  - [ ] Auto Categorization
+- [ ] (25%) Exploit geo-spatial data (i.e., map information) to refine query results/improve  
+presentation/visualization 
 
 ## Question 4: CLASSIFICATION TASKS
 - [ ] Motivate the choice of classification approach in relation with the state of the art

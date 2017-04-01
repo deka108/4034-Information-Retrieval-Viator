@@ -22,4 +22,4 @@ def read_csv(file_name):
     print(type(df["message"][0]))
 
 if __name__ == "__main__":
-    compute_words(data_util.ALL_POSTS_COMMENTS_FILENAME)
+    compute_words(data_util.ALL_POSTS_FILENAME)

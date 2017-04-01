@@ -1,16 +1,31 @@
 from server.utils import data_util
 from server.utils import text_util
 from pycorenlp import StanfordCoreNLP
+import pandas as pd
 import ast
+import time
 
 nlp = StanfordCoreNLP('http://localhost:9000')
+NER_COLUMNS = text_util.EXTRACTED_COLUMNS + ['full_text', 'locations']
 
 
 def run():
-    texts = text_util.get_text_data_all()
-    texts['locations'] = texts['full_text'].apply(extract_location_from_text)
-    data_util.write_df_to_existing_csv(texts, ['locations'],
-                                       data_util.ALL_POSTS_COMMENTS_FILENAME)
+    page_ids = data_util.get_page_ids()
+    all_posts = []
+
+    start_time = time.time()
+    for page_id in page_ids:
+        data = data_util.get_csv_data_by_pageid(page_id)
+        data['full_text'] = text_util.get_text_data(data)['full_text']
+        data['locations'] = data['full_text'].apply(extract_location_from_text)
+        data_util.write_df_to_csv(data, NER_COLUMNS, page_id + "_locations")
+        all_posts.append(data)
+    end_time = time.time()
+    print("Elapsed time: ")
+    print(end_time - start_time)
+    all_posts = pd.concat(all_posts)
+    data_util.write_df_to_csv(all_posts, NER_COLUMNS,
+                              data_util.ALL_POSTS_LOCATIONS_FILENAME)
 
 
 def extract_location_from_text(text):
