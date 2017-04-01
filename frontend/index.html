@@ -23,7 +23,7 @@
 
     <md-content class="md-padding" ng-controller="SearchController">
         <div layout="row" layout-align="center center">
-            <div flex="80" layout-padding>
+            <div flex="80" flex-gt-xs="50" layout-padding>
                 <md-card>
                     <md-card-title>
                         <md-card-title-text>
@@ -87,6 +87,20 @@
                 <div ng-if="searchResult">
                     <span>Query Time: {{ searchResult.queryTime }}</span>
                     <span>Search Results: {{ searchResult.docsCount }} posts</span>
+                    <div ng-if="suggestions">
+                    <h2>Do you mean: </h2>
+                    <md-list>
+                        <md-list-item class="md-2-line" ng-repeat="suggestion in suggestions" layout="row"
+                            layout-wrap>
+                            <div class="md-item-text md-whiteframe-z1" flex>
+                            <h3 ng-repeat="replacement in suggestion.replacements">
+                                <md-button ng-click="replaceQuery(suggestion.startOffset, suggestion.endOffset, replacement)">{{replacement}}</md-button>
+                            </h3>
+                            <p>{{suggestion.mispelled}}</p>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                    </div>
                     <md-card ng-repeat="(key, value) in searchResult.docs | orderBy: currOrder" class="results-card">
                         <md-card-title>
                             <md-card-title-text class="results-text">
@@ -101,12 +115,12 @@
                         </md-card-title>
                         <md-card-content layout="column">
                             <span class="md-subhead results-link">Source: <span ng-bind-html="value.link"></span></span>
-                            <span class="md-subhead" ng-bind-html="value.message[0]"></span>
+                            <p class="md-subhead" ng-bind-html="value.message[0]"></p>
                         </md-card-content>
                     </md-card>
                     <div>
-                        <md-button ng-click="searchQueryPrevPage()">Prev</md-button>
-                        <md-button ng-click="searchQueryNextPage()">Next</md-button>
+                        <md-button class="md-raised md-primary" ng-click="searchQueryPrevPage()">Prev</md-button>
+                        <md-button class="md-raised md-primary" ng-click="searchQueryNextPage()">Next</md-button>
                         <span>Current page: {{curPage + 1}}</span>
                     </div>
                 </div>
