@@ -5,73 +5,65 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
     $scope.existNextPage = false;
     $scope.suggestions = [];
     $scope.filter = {};
-    $scope.filter.time = new Date();
-    $scope.filter.page = null;
-    $scope.filter.topic = null;
-    $scope.filter.sentiment = null;
+    $scope.filter.Time = new Date();
+    $scope.filter.PageID = null;
+    $scope.filter.Topic = null;
+    $scope.filter.Sentiment = null;
+    $scope.curSort = 'Relevance';
+    $scope.order = 'Ascending';
 
-    $scope.searchOrders = [
-        { value: null },
-        { value: 'Likes' },
-        { value: 'Message' },
-        { value: 'Country' }
+    $scope.searchSorts = [
+        'Relevance',
+        'Time',
+        'Reactions',
+        'Shares',
     ];
 
+    $scope.orderOptions = ['Ascending', 'Descending'];
+
+    // $scope.refreshSortState = function() {
+    //     $scope.boolSort = {
+    //         'Time': $scope.curSort == 'Time',
+    //         'Reactions': $scope.curSort == 'Reactions',
+    //         'Shares': $scope.curSort == 'Shares',
+    //     }
+    // }
+
     $scope.searchFilters = [
-        {name: null},
-        {name:'Time', val:$scope.filter['Time']},
-        {name:'PageID', val:$scope.filter['PageID']},
-        {name:'Topic', val:$scope.filter['Topic']},
-        {name:'Sentiment', val:$scope.filter['Sentiment']},
-        {name:'Nearby', val:$scope.filter['Sentiment']}
+        null,
+        'Time',
+        'PageID',
+        'Topic',
+        'Sentiment',
+        'Nearby',
     ];
 
     $scope.sentimentOptions = ['Positive', 'Neutral', 'Negative'];
     $scope.topicOptions = ['Food', 'Event', 'Nature', 'Attraction', 'Accomodation'];
 
-    $scope.refreshFilterState = function() {
-        $scope.boolFilter = {
-            'Time': $scope.curFilter == 'Time',
-            'PageID': $scope.curFilter == 'PageID',
-            'Topic': $scope.curFilter == 'Topic',
-            'Sentiment': $scope.curFilter == 'Sentiment',
-            'Nearby': $scope.curFilter == 'Nearby',
-        }
-    
-        $scope.searchFilters.forEach(function(val){
-            if(val.name == $scope.curFilter){
-                val.val = $scope.filter[val.name];
-            }
-        })
-    }
-
-    $scope.printCurFilter = function() {
-        console.log($scope.curFilter);
-        console.log($scope.boolFilter);
-    }
-    
-    // $scope.searchFilters = [{
-    //         category: 'Emotions',
-    //         values: ['Happy', 'Sad', 'Angry']
-    //     },
-    //     {
-    //         category: 'Country',
-    //         values: ['Indonesia', 'Japan', 'Malaysia', 'Singapore']
+    // $scope.refreshFilterState = function() {
+    //     $scope.boolFilter = {
+    //         'Time': $scope.curFilter == 'Time',
+    //         'PageID': $scope.curFilter == 'PageID',
+    //         'Topic': $scope.curFilter == 'Topic',
+    //         'Sentiment': $scope.curFilter == 'Sentiment',
+    //         'Nearby': $scope.curFilter == 'Nearby',
     //     }
-    // ];
+    
+    //     // $scope.searchFilters.forEach(function(val){
+    //     //     if(val.name == $scope.curFilter){
+    //     //         val.val = $scope.filter[val.name];
+    //     //     }
+    //     // })
+    // }
 
-    $scope.update = function() {
-        console.log($scope.selectedFilterCategory);
-    };
-
-    $scope.sortBy = function(order) {
-        $scope.currOrder = order.value ? order.value.toLowerCase() : null;
-    };
+    // $scope.sortBy = function(order) {
+    //     $scope.currOrder = order.value ? order.value.toLowerCase() : null;
+    // };
 
     $scope.searchQuery = function() {
         $scope.curPage = 0;
-        SolrDataService.retrieveQueryResult($scope.searchData.textQuery, 0);
-        $scope.printCurFilter();
+        SolrDataService.retrieveQueryResult($scope.searchData.textQuery, 0, $scope.curSort, $scope.order);
     }
 
     $scope.searchQueryNextPage = function() {

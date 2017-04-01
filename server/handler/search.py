@@ -13,8 +13,10 @@ def search_query():
     if request_data:
         query_params = request_data.get('q')
         page_params = request_data.get('p')
+        sort_params = request_data.get('s')
+        order_params = request_data.get('o')
 
-    response = solr_interface.search(query_params,page_params)
+    response = solr_interface.search(query_params,page_params, sort_params, order_params)
     return jsonify(response)
 
     return abort(404)
