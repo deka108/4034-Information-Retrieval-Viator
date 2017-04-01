@@ -1,9 +1,12 @@
+from requests import ReadTimeout
+
 from server.utils import data_util
 import pandas as pd
 import geocoder
 import csv
 import json
 import re
+import time
 
 LOCATION_CORPUS_ID_FILENAME = "location_corpus_{}.csv"
 LOCATION_COLUMNS = ["location", "lat", "long", "post_ids"]
@@ -14,10 +17,23 @@ def extract_lat_long(location):
 
 
 def extract_lat_long_row(row):
-    res = extract_lat_long(row['location'])
+    res = []
+    tries = 3
+    running = True
+
+    while running and tries > 0:
+        try:
+            res = extract_lat_long(row['location'])
+            running = False
+        except ReadTimeout:
+            print("Retrying...")
+            time.sleep(5)
+            tries -= 1
+
     if len(res) == 2:
         row['lat'] = res[0]
         row['long'] = res[1]
+
     return row
 
 
@@ -110,5 +126,5 @@ def get_all_locations():
 if __name__ == "__main__":
     # build_location_corpus()
     # CHANGE ID!!!!
-    get_lat_long_id(5)
+    get_lat_long_id(1)
     # compile_lat_long()

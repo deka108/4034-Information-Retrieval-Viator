@@ -1,6 +1,7 @@
 from gensim import corpora, models
 from server.utils import data_util as du
 from server.utils import text_util as tu
+from server.core.nlp import postags_spacy, postags_nltk
 
 import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
@@ -52,8 +53,16 @@ def preprocess_post(page_id=None):
                                                                   lemmatize=False))
     return data.tolist()
 
+
+def get_noun_verbs(page_id=None):
+    if page_id:
+        noun_verbs = postags_nltk.extract_nouns_verbs_by_pageid(page_id)
+    else:
+        noun_verbs = postags_nltk.extract_nouns_verbs_from_posts()
+    return noun_verbs
+
+
 if __name__ == "__main__":
-    texts = preprocess_post()
-    print(texts)
+    texts = get_noun_verbs()
     gensim_pipeline(texts)
     generate_topic_lsi()
