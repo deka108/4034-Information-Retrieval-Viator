@@ -15,8 +15,9 @@ def extract_lat_long(location):
 
 def extract_lat_long_row(row):
     res = extract_lat_long(row['location'])
-    row['lat'] = res[0]
-    row['long'] = res[1]
+    if len(res) == 2:
+        row['lat'] = res[0]
+        row['long'] = res[1]
     return row
 
 
@@ -109,5 +110,5 @@ def get_all_locations():
 if __name__ == "__main__":
     # build_location_corpus()
     # CHANGE ID!!!!
-    get_lat_long_id(6)
+    get_lat_long_id(5)
     # compile_lat_long()
