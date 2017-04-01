@@ -4,16 +4,11 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
     $scope.curPage = 0;
     $scope.existNextPage = false;
     $scope.suggestions = [];
-
-    $scope.searchFilters = [{
-            category: 'Emotions',
-            values: ['Happy', 'Sad', 'Angry']
-        },
-        {
-            category: 'Country',
-            values: ['Indonesia', 'Japan', 'Malaysia', 'Singapore']
-        }
-    ];
+    $scope.filter = {};
+    $scope.filter.time = new Date();
+    $scope.filter.page = null;
+    $scope.filter.topic = null;
+    $scope.filter.sentiment = null;
 
     $scope.searchOrders = [
         { value: null },
@@ -21,6 +16,49 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
         { value: 'Message' },
         { value: 'Country' }
     ];
+
+    $scope.searchFilters = [
+        {name: null},
+        {name:'Time', val:$scope.filter['Time']},
+        {name:'PageID', val:$scope.filter['PageID']},
+        {name:'Topic', val:$scope.filter['Topic']},
+        {name:'Sentiment', val:$scope.filter['Sentiment']},
+        {name:'Nearby', val:$scope.filter['Sentiment']}
+    ];
+
+    $scope.sentimentOptions = ['Positive', 'Neutral', 'Negative'];
+    $scope.topicOptions = ['Food', 'Event', 'Nature', 'Attraction', 'Accomodation'];
+
+    $scope.refreshFilterState = function() {
+        $scope.boolFilter = {
+            'Time': $scope.curFilter == 'Time',
+            'PageID': $scope.curFilter == 'PageID',
+            'Topic': $scope.curFilter == 'Topic',
+            'Sentiment': $scope.curFilter == 'Sentiment',
+            'Nearby': $scope.curFilter == 'Nearby',
+        }
+    
+        $scope.searchFilters.forEach(function(val){
+            if(val.name == $scope.curFilter){
+                val.val = $scope.filter[val.name];
+            }
+        })
+    }
+
+    $scope.printCurFilter = function() {
+        console.log($scope.curFilter);
+        console.log($scope.boolFilter);
+    }
+    
+    // $scope.searchFilters = [{
+    //         category: 'Emotions',
+    //         values: ['Happy', 'Sad', 'Angry']
+    //     },
+    //     {
+    //         category: 'Country',
+    //         values: ['Indonesia', 'Japan', 'Malaysia', 'Singapore']
+    //     }
+    // ];
 
     $scope.update = function() {
         console.log($scope.selectedFilterCategory);
@@ -33,6 +71,7 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
     $scope.searchQuery = function() {
         $scope.curPage = 0;
         SolrDataService.retrieveQueryResult($scope.searchData.textQuery, 0);
+        $scope.printCurFilter();
     }
 
     $scope.searchQueryNextPage = function() {
@@ -66,7 +105,7 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
                 $scope.suggestions = reparse($scope.searchResult.suggestions);
             } else $scope.suggestions = false;
 
-            console.log($scope.suggestions);
+            // console.log($scope.suggestions);
             _reset_form();
         }
 
