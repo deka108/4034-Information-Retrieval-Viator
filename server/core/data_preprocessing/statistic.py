@@ -16,6 +16,7 @@ def compute_words(file_name):
     total_unique_word_count = message_unique_word_count + desc_unique_word_count
     print("Total words: {}".format(total_word_count))
     print("Total unique words: {}".format(total_unique_word_count))
+    print(len(df.columns))
 
 if __name__ == "__main__":
     compute_words(data_util.ALL_POSTS_COMMENTS_FILENAME)
