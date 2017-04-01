@@ -1,13 +1,21 @@
 ## Question 1: CRAWLING
-- [ ] How you crawled the corpus and stored them:
-  - [ ] Crawl the corpus (source, keywords, API, library): 
-  - [ ] What the record corresponds to (meta information like publication date, author  
+- [ ] How you crawled the corpus:
+  - [X] Crawl the corpus (source, keywords, API, library): 
+    - API: Facebook Graph API 
+    - Library: Facebook SDK for Python 
+    - Source: 12 Facebook Travel Pages
+    - Keywords: ? 
+  - [X] How you stored them? (whether a record corresponds to a file or a line, meta information like publication date, author  
   name, record ID)
+    - Each pages is saved inside json file. Each json header corresponds to the field or information of the posts (post ID,  
+    author, created_time)
 - [ ] Information users might like to retrieve from your crawled corpus:
   - [ ] Example queries
-- [ ] Statistics:
-  - [ ] The numbers of records, words, and types in the corpus
-
+- [X] Statistics:
+  - [X] The numbers of records, words, and types(UNIQUE WORDS) in the corpus
+    - No of records: 16009
+    - No of words: 
+    - No of unique words: 
 ## Question 2: INDEXING AND QUERYING
 - [ ] Build a simple Web interface for the search engine
 - [ ] A simple UI for crawling and incremental indexing of new data would be a bonus  
