@@ -29,7 +29,7 @@
     - [ ] Relevance
     - [ ] Shares count
     - [ ] Reactions count
-    - [ ] Sentiment
+    - [ ] Sentiment 
 - [ ] A simple UI for crawling and incremental indexing of new data would be a bonus  
 (but not compulsory)
 - [ ] Write five queries, get their results, and measure the speed of the querying
@@ -41,6 +41,10 @@
 - [ ] Improve search results by integrating machine learning or data mining techniques  
 (classification or cluster techniques)
   - [ ] (95%) Sentiment analysis per page id
+    - -1 to 0: negative
+    -  0 : neutral
+    - 0 to 0.5: positive
+    - 0.5 to 1: very positive
   - [ ] Auto Categorization
 - [ ] (25%) Exploit geo-spatial data (i.e., map information) to refine query results/improve  
 presentation/visualization 
