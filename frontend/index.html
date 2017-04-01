@@ -57,39 +57,45 @@
                                 <div layout="row" layout-align="start center">
                                     <div flex="50">
                                         <md-input-container>
-                                            <label>Order By</label>
-                                            <md-select class="md-accent" ng-model="searchData.orderOptions" ng-change="sortBy(orderOptions)">
-                                                <md-option class="md-accent" ng-repeat="order in searchOrders" ng-value="order">
-                                                    {{order.value}}
-                                                </md-option>
+                                            <label>Sort By</label>
+                                            <md-select class="md-accent" ng-model="curSort">
+                                                <!--<md-option><em>None</em></md-option>-->
+                                                <md-option class="md-accent" ng-value="sortOption" ng-repeat="sortOption in searchSorts">{{sortOption}}</md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                        <md-input-container ng-if="curSort != 'Relevance'">
+                                            <label>A/Z</label>
+                                            <md-select class="md-accent" ng-model="order">
+                                                <!--<md-option><em>None</em></md-option>-->
+                                                <md-option class="md-accent" ng-value="orderOption" ng-repeat="orderOption in orderOptions">{{orderOption}}</md-option>
                                             </md-select>
                                         </md-input-container>
                                     </div>
                                     <div flex="50">
                                         <md-input-container>
                                             <label>Filter By</label>
-                                            <md-select class="md-accent" ng-model="curFilter" ng-change="refreshFilterState()">
+                                            <md-select class="md-accent" ng-model="curFilter">
                                                 <!--<md-option><em>None</em></md-option>-->
-                                                <md-option class="md-accent" ng-value="filterOption.name" ng-repeat="filterOption in searchFilters">{{filterOption.name}}</md-option>
+                                                <md-option class="md-accent" ng-value="filterOption" ng-repeat="filterOption in searchFilters">{{filterOption}}</md-option>
                                             </md-select>
                                         </md-input-container>
-                                        <md-datepicker ng-if="boolFilter.Time" ng-model="filter.Time" aria-label="date-input" ng-change="refreshFilterState()"></md-datepicker>
-                                        <md-input-container ng-if="boolFilter.PageID">
+                                        <md-datepicker ng-if="curFilter == 'Time'" ng-model="filter.Time" aria-label="date-input" ng-change="refreshFilterState()"></md-datepicker>
+                                        <md-input-container ng-if="curFilter == 'PageID'">
                                             <input ng-model="filter.PageID" aria-label="page-input" ng-change="refreshFilterState()"/>
                                         </md-input-container>
-                                        <md-input-container ng-if="boolFilter.Topic">
+                                        <md-input-container ng-if="curFilter == 'Topic'">
                                             <label>Topic</label>
                                             <md-select class="md-accent" ng-model="filter.Topic" ng-change="refreshFilterState()">
                                                 <md-option class="md-accent" aria-label="topic-input" ng-value="topicOption" ng-repeat="topicOption in topicOptions">{{topicOption}}</md-option>
                                             </md-select>
                                         </md-input-container>
-                                        <md-input-container ng-if="boolFilter.Sentiment">
+                                        <md-input-container ng-if="curFilter == 'Sentiment'">
                                             <label>Sentiment</label>
                                             <md-select class="md-accent" ng-model="filter.Sentiment" ng-change="refreshFilterState()">
                                                 <md-option class="md-accent" aria-label="sentiment-input" ng-value="sentimentOption" ng-repeat="sentimentOption in sentimentOptions">{{sentimentOption}}</md-option>
                                             </md-select>
                                         </md-input-container>
-                                        <md-input-container ng-if="boolFilter.Nearby">
+                                        <md-input-container ng-if="curFilter == 'Nearby'">
                                             <label>Radius</label>
                                             <input ng-model="filter.Nearby" aria-label="nearby-input" ng-change="refreshFilterState()"/>
                                         </md-input-container>
