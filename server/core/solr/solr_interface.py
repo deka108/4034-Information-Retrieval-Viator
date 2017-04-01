@@ -100,6 +100,15 @@ def add_to_dict(posting):
         except LookupError:
             print('no update time in this post')
 
+        try:
+            post_dict['comments_sentiment'] = posting['comments_sentiment']
+        except LookupError:
+            print('no comments\' sentiment in this post')
+
+        try:
+            post_dict['comments_subjectivity'] = posting['comments_subjectivity']
+        except LookupError:
+            print('no comments\' subjectivity in this post')
 
         return post_dict
     except LookupError:
