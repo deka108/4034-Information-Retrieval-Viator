@@ -109,5 +109,5 @@ def get_all_locations():
 if __name__ == "__main__":
     # build_location_corpus()
     # CHANGE ID!!!!
-    get_lat_long_id(6)
+    get_lat_long_id(4)
     # compile_lat_long()
