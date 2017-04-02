@@ -1,14 +1,34 @@
 from server.utils import text_util as tu
 from server.utils import data_util as du
-from nltk.tokenize import sent_tokenize
-from nltk.tokenize import word_tokenize
+from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.stem import WordNetLemmatizer
 import nltk
-import os
-import json
+
+
+lemmatizer = WordNetLemmatizer()
+
+
+# per sentence
+def extract_noun_and_verb(text):
+    noun_verbs = []
+    pos_tags = extract_pos_tag_from_post(text)
+    for sentence in pos_tags:
+        noun_verbs_sent = set()
+        for token in sentence:
+            word = lemmatizer.lemmatize(tu.clean_text(token[0]))
+            if len(word) > 2 and word not in tu.stop_words:
+                if token[1] == 'NN' or token[1] == 'NNS' or token[1].startswith(
+                        'VB'):
+                    noun_verbs_sent.add(word)
+        if noun_verbs_sent:
+            noun_verbs_sent = list(noun_verbs_sent)
+            noun_verbs_sent.sort()
+            noun_verbs.append(noun_verbs_sent)
+    return noun_verbs
 
 
 def extract_pronoun():
-    all_posts = extract_pos_tag_from_posts()
+    all_posts = extract_nouns_verbs_from_posts()
     pronouns = set()
     pronoun = ""
     prev_nnp = False
@@ -41,23 +61,28 @@ def extract_pos_tag_from_post(text):
     return tagged_sentences
 
 
-def extract_pos_tag_from_posts():
-    # text_data = tu.get_text_data_all()
-    # tagged_posts = text_data['full_text'].apply(get_pronoun)
-
+def extract_nouns_verbs_from_posts():
     page_ids = du.get_page_ids()
+    all_results = []
     for page_id in page_ids:
-        text_data = tu.get_text_data_by_page_id(page_id)
-        tagged_posts = text_data['full_text'].apply(extract_pos_tag_from_post)
-        json_obj = tagged_posts.to_json()
-        with open("post_tag.json", "w") as fh:
-            json.dump(json_obj, fh, sort_keys=True)
-        print(tagged_posts)
-        break
+        # word-sentences per post id
+        res = extract_nouns_verbs_by_pageid(page_id)
+        # concat word-sentences for all post id
+        if res:
+            all_results += res
+    return all_results
 
-    # tagged_posts.to_pickle("post_tag.pickle")
-    return tagged_posts
+
+def extract_nouns_verbs_by_pageid(page_id):
+    text_data = tu.get_text_data_by_page_id(page_id)
+    all_results = []
+    for idx, row in text_data.iterrows():
+        res = extract_noun_and_verb(row['full_text'])
+        # concat all results
+        all_results += res
+    return all_results
 
 
 if __name__ == "__main__":
-    extract_pronoun()
+    # extract_pronoun()
+    print(extract_nouns_verbs_from_posts())

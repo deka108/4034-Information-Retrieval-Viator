@@ -1,9 +1,13 @@
+from requests import ReadTimeout
+
 from server.utils import data_util
 import pandas as pd
 import geocoder
 import csv
 import json
 import re
+import time
+from pprint import pprint
 
 LOCATION_CORPUS_ID_FILENAME = "location_corpus_{}.csv"
 LOCATION_COLUMNS = ["location", "lat", "long", "post_ids"]
@@ -14,10 +18,23 @@ def extract_lat_long(location):
 
 
 def extract_lat_long_row(row):
-    res = extract_lat_long(row['location'])
+    res = []
+    tries = 3
+    running = True
+
+    while running and tries > 0:
+        try:
+            res = extract_lat_long(row['location'])
+            running = False
+        except ReadTimeout:
+            print("Retrying...")
+            time.sleep(5)
+            tries -= 1
+
     if len(res) == 2:
         row['lat'] = res[0]
         row['long'] = res[1]
+
     return row
 
 
@@ -70,9 +87,7 @@ def get_unique_locations(locations):
 
     for index, row in locations.iterrows():
         if pd.notnull(row["locations"]):
-            locs = row["locations"].split("$$")
-            locs = [loc.lower() for loc in locs]
-            locs = [re.sub(r"[^a-z\s]", "", loc) for loc in locs]
+            locs = extract_locations(row["locations"])
             post_id = row["id"]
             for loc in locs:
                 if loc in unique_locations:
@@ -96,6 +111,13 @@ def get_unique_locations(locations):
     return sort_locs, unique_locations
 
 
+def extract_locations(locations):
+    locs = locations.split("$$")
+    locs = [loc.lower() for loc in locs]
+    locs = [re.sub(r"[^a-z\s]", "", loc) for loc in locs]
+    return locs
+
+
 def get_all_locations():
     page_ids = data_util.get_page_ids()
     all_locations = []
@@ -107,8 +129,47 @@ def get_all_locations():
     return all_locations
 
 
+def add_coordinates(loc_corpus, row):
+    if pd.notnull(row["locations"]):
+        locs = extract_locations(row["locations"])
+        coords = []
+
+        for loc in locs:
+            if loc in loc_corpus:
+                lat = str(loc_corpus[loc]["lat"])
+                long = str(loc_corpus[loc]["long"])
+                coords.append(",".join([lat, long]))
+
+        coords = "$$".join(coords)
+        row["coords"] = coords
+    else:
+        row["coords"] = ""
+    return row
+
+
+def add_locations_to_posts():
+    page_ids = data_util.get_page_ids()
+    loc_corpus = pd.read_csv("location_corpus_all.csv")
+    loc_corpus = loc_corpus.fillna("")
+    loc_corpus = loc_corpus.set_index("location").to_dict(orient='index')
+
+    for page_id in page_ids:
+        data = data_util.get_csv_data_by_pageid(page_id)
+        data_locations = data_util.get_csv_data_from_filename(
+            page_id + "_locations")
+        data_locations = data_locations.apply(lambda row: add_coordinates(
+            loc_corpus, row), axis=1)
+        filtered_loc = data_locations[["id", "locations", "coords"]]
+        combined = pd.merge(data, filtered_loc, on="id")
+
+        data_util.write_df_to_csv(combined, combined.columns,
+                                  data_util.get_page_csv_filename(page_id))
+
+def run():
+    add_locations_to_posts()
+
 if __name__ == "__main__":
     # build_location_corpus()
-    # CHANGE ID!!!!
-    get_lat_long_id(5)
+    # get_lat_long_id()
     # compile_lat_long()
+    run()

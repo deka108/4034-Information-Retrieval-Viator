@@ -178,7 +178,7 @@ def write_dict_to_csv(data, headers, file_name):
 
 def write_df_to_csv(df, headers, file_name):
     data_path = config.get_data_path(get_csv_filename(file_name))
-    df.fillna("")
+    df = df.fillna("")
     df.to_csv(data_path, columns=headers, index_label="no", encoding='utf-8')
 
 
