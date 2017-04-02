@@ -1,4 +1,5 @@
 from gensim import corpora, models
+from gensim.models import doc2vec
 from server.utils import data_util as du
 from server.utils import text_util as tu
 from server.core.nlp import postags_spacy, postags_nltk
@@ -21,6 +22,10 @@ def load_dict_corpus():
     except:
         print("Corpus does not exist")
 
+def generate_word2vec_model():
+    model_word2vec = models.Word2Vec(size=600, window=10)
+    return model_word2vec
+
 
 def generate_topic_lsi():
     dictionary, corpus = load_dict_corpus()
@@ -32,7 +37,7 @@ def generate_topic_lsi():
 
 def generate_topic_lda():
     dictionary, corpus = load_dict_corpus()
-    lda = models.LdaModel(corpus, id2words=dictionary, num_topics=5)
+    lda = models.LdaModel(corpus,  num_topics=5)
     lda.print_topics()
 
 
@@ -66,3 +71,4 @@ if __name__ == "__main__":
     texts = get_noun_verbs()
     gensim_pipeline(texts)
     generate_topic_lsi()
+    generate_topic_lda()
