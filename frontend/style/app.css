@@ -84,3 +84,18 @@ em {
 .page-index-column {
     min-width:180px;
 }
+
+.more-like-this {
+    overflow: hidden;
+    background-color:#e8e8e8;
+}
+
+.more-like-this-footer {
+    background: rgba(0,0,0,0.5);
+    padding: 0 10px;
+}
+
+.more-like-this-footer a:link {
+    text-decoration: none;
+    color: #fafafa;
+}

@@ -1,9 +1,11 @@
 from server.utils import text_util as tu
 from server.utils import data_util as du
+from textblob.en.np_extractors import ChunkParser, FastNPExtractor
 from textblob import TextBlob
-import os
-import json
+from textblob.tokenizers import  SentenceTokenizer
 
+np_extractor = FastNPExtractor()
+sent_tokenizer = SentenceTokenizer()
 
 def extract_pronoun():
     all_posts = extract_pos_tag_from_posts()
@@ -37,24 +39,13 @@ def extract_pos_tag_from_post(text):
 
 
 def extract_pos_tag_from_posts():
-    # text_data = tu.get_text_data_all()
-    # tagged_posts = text_data['full_text'].apply(get_pronoun)
-
     page_ids = du.get_page_ids()
     for page_id in page_ids:
         text_data = tu.get_text_data_by_page_id(page_id)
-        print(text_data['full_text'])
-        break
-        # tagged_posts = text_data['full_text'].apply(extract_pos_tag_from_post)
-        # with open("post_tag.text", "w") as fh:
-        #     for post in tagged_posts:
-        #         fh.write(post)
-        #         fh.write("\n")
-        # print(tagged_posts)
-        # break
+        for idx, row in text_data.iterrows():
+            for sent in sent_tokenizer.tokenize(row['full_text']):
+                print(np_extractor.extract(sent))
 
-    # tagged_posts.to_pickle("post_tag.pickle")
-    # return tagged_posts
 
 
 if __name__ == "__main__":

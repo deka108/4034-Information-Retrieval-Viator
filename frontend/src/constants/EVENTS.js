@@ -15,7 +15,8 @@ const EVENTS = {
     // REINDEX_PAGE: 'reindex-page',
     // DELETE_ALL_INDEX: 'all-index-deleted',
     // DELETE_PAGE_INDEX: 'index-page-deleted',
-    PAGE_INDEX_MODIFIED: 'page-index-modified'
+    PAGE_INDEX_MODIFIED: 'page-index-modified',
+    MORE_LIKE_THIS_RECEIVED: 'more-like-this-received'
 }
 
 export default EVENTS;

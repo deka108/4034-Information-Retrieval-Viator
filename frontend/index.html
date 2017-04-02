@@ -57,41 +57,48 @@
                                 <div layout="row" layout-align="start center">
                                     <div flex="50">
                                         <md-input-container>
-                                            <label>Order By</label>
-                                            <md-select class="md-accent" ng-model="searchData.orderOptions" ng-change="sortBy(orderOptions)">
-                                                <md-option class="md-accent" ng-repeat="order in searchOrders" ng-value="order">
-                                                    {{order.value}}
-                                                </md-option>
+                                            <label>Sort By</label>
+                                            <md-select class="md-accent" ng-model="curSort">
+                                                <!--<md-option><em>None</em></md-option>-->
+                                                <md-option class="md-accent" ng-value="sortOption" ng-repeat="sortOption in searchSorts">{{sortOption}}</md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                        <md-input-container ng-if="curSort != 'Relevance'">
+                                            <label>A/Z</label>
+                                            <md-select class="md-accent" ng-model="order">
+                                                <!--<md-option><em>None</em></md-option>-->
+                                                <md-option class="md-accent" ng-value="orderOption" ng-repeat="orderOption in orderOptions">{{orderOption}}</md-option>
                                             </md-select>
                                         </md-input-container>
                                     </div>
                                     <div flex="50">
                                         <md-input-container>
                                             <label>Filter By</label>
-                                            <md-select class="md-accent" ng-model="curFilter" ng-change="refreshFilterState()">
+                                            <md-select class="md-accent" ng-model="curFilter">
                                                 <!--<md-option><em>None</em></md-option>-->
-                                                <md-option class="md-accent" ng-value="filterOption.name" ng-repeat="filterOption in searchFilters">{{filterOption.name}}</md-option>
+                                                <md-option class="md-accent" ng-value="filterOption" ng-repeat="filterOption in searchFilters">{{filterOption}}</md-option>
                                             </md-select>
                                         </md-input-container>
-                                        <md-datepicker ng-if="boolFilter.Time" ng-model="filter.Time" aria-label="date-input" ng-change="refreshFilterState()"></md-datepicker>
-                                        <md-input-container ng-if="boolFilter.PageID">
-                                            <input ng-model="filter.PageID" aria-label="page-input" ng-change="refreshFilterState()"/>
+                                        <md-datepicker ng-if="curFilter == 'Time'" ng-model="filter.TimeStart" aria-label="date-input" ng-change="refreshFilterDate()"></md-datepicker>
+                                        <md-datepicker ng-if="curFilter == 'Time'" ng-model="filter.TimeEnd" aria-label="date-input" ng-change="refreshFilterDate()"></md-datepicker>
+                                        <md-input-container ng-if="curFilter == 'PageID'">
+                                            <input ng-model="filter.PageID" aria-label="page-input"/>
                                         </md-input-container>
-                                        <md-input-container ng-if="boolFilter.Topic">
+                                        <md-input-container ng-if="curFilter == 'Topic'">
                                             <label>Topic</label>
-                                            <md-select class="md-accent" ng-model="filter.Topic" ng-change="refreshFilterState()">
+                                            <md-select class="md-accent" ng-model="filter.Topic">
                                                 <md-option class="md-accent" aria-label="topic-input" ng-value="topicOption" ng-repeat="topicOption in topicOptions">{{topicOption}}</md-option>
                                             </md-select>
                                         </md-input-container>
-                                        <md-input-container ng-if="boolFilter.Sentiment">
+                                        <md-input-container ng-if="curFilter == 'Sentiment'">
                                             <label>Sentiment</label>
-                                            <md-select class="md-accent" ng-model="filter.Sentiment" ng-change="refreshFilterState()">
+                                            <md-select class="md-accent" ng-model="filter.Sentiment">
                                                 <md-option class="md-accent" aria-label="sentiment-input" ng-value="sentimentOption" ng-repeat="sentimentOption in sentimentOptions">{{sentimentOption}}</md-option>
                                             </md-select>
                                         </md-input-container>
-                                        <md-input-container ng-if="boolFilter.Nearby">
+                                        <md-input-container ng-if="curFilter == 'Nearby'">
                                             <label>Radius</label>
-                                            <input ng-model="filter.Nearby" aria-label="nearby-input" ng-change="refreshFilterState()"/>
+                                            <input ng-model="filter.Nearby" aria-label="nearby-input"/>
                                         </md-input-container>
                                     </div>
                                 </div>
@@ -127,13 +134,32 @@
                             </md-card-title-text>
                             <md-card-title-media>
                                 <div class="md-media-lg card-media" ng-if="value.picture">
-                                    <img ng-src="{{value.picture}}"/>
+                                    <img ng-src="{{value.full_picture}}"/>
                                 </div>
                             </md-card-title-media>
                         </md-card-title>
                         <md-card-content layout="column">
                             <span class="md-subhead results-link">Source: <span ng-bind-html="value.link"></span></span>
                             <p class="md-subhead" ng-bind-html="value.message[0]"></p>
+                            <md-button ng-click="getMoreLikeThis(key, value.id)">More like this</md-button>
+                            <div ng-if="value.moreLikeThis">
+                                <md-grid-list
+                                md-cols="1" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="6"
+                                md-row-height-gt-md="1:1" md-row-height="4:3"
+                                md-gutter="8px" md-gutter-gt-sm="4px" >
+                                    <md-grid-tile ng-repeat="more in value.moreLikeThis"
+                                    md-rowspan="{{more.span.row}}"
+                                    md-colspan="{{more.span.col}}"
+                                    md-colspan-sm="1"
+                                    md-colspan-xs="1"
+                                    class="more-like-this">
+                                        <img ng-src="{{more.full_picture}}">
+                                        <md-grid-tile-footer class="more-like-this-footer">
+                                            <a ng-style="more.fontSize" ng-href="{{more.link}}">{{more.name[0] | limitTo:30}}...</a>
+                                        </md-grid-tile-footer>
+                                    </md-grid-tile>
+                                </md-grid-list>
+                            </div>
                         </md-card-content>
                     </md-card>
                     <div>
