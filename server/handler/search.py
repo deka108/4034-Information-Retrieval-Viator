@@ -20,3 +20,15 @@ def search_query():
     return jsonify(response)
 
     return abort(404)
+
+@search_page.route('/more/', methods=['POST'])
+def search_query_more():
+
+    request_data = json.loads(request.get_data())
+    if request_data:
+        post_id = request_data.get('p')
+
+    response = solr_interface.more_like_this(post_id)
+    return jsonify(response)
+
+    return abort(404)

@@ -4,6 +4,7 @@ const SOLR_MANAGER_URL = BASE_URL + '/solr';
 
 const URL = {
     SEARCH_URL: BASE_URL + '/search/',
+    SEARCH_MORE_URL: BASE_URL + '/search/more/',
 
     DB_CRAWL: DB_MANAGER_URL + '/crawl/',
     DB_READ: DB_MANAGER_URL + '/read/',

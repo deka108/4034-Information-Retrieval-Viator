@@ -5,7 +5,8 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
     $scope.existNextPage = false;
     $scope.suggestions = [];
     $scope.filter = {};
-    $scope.filter.Time = new Date();
+    $scope.filter.TimeStart = new Date();
+    $scope.filter.TimeEnd = new Date();
     $scope.filter.PageID = null;
     $scope.filter.Topic = null;
     $scope.filter.Sentiment = null;
@@ -41,25 +42,10 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
     $scope.sentimentOptions = ['Positive', 'Neutral', 'Negative'];
     $scope.topicOptions = ['Food', 'Event', 'Nature', 'Attraction', 'Accomodation'];
 
-    // $scope.refreshFilterState = function() {
-    //     $scope.boolFilter = {
-    //         'Time': $scope.curFilter == 'Time',
-    //         'PageID': $scope.curFilter == 'PageID',
-    //         'Topic': $scope.curFilter == 'Topic',
-    //         'Sentiment': $scope.curFilter == 'Sentiment',
-    //         'Nearby': $scope.curFilter == 'Nearby',
-    //     }
-    
-    //     // $scope.searchFilters.forEach(function(val){
-    //     //     if(val.name == $scope.curFilter){
-    //     //         val.val = $scope.filter[val.name];
-    //     //     }
-    //     // })
-    // }
-
-    // $scope.sortBy = function(order) {
-    //     $scope.currOrder = order.value ? order.value.toLowerCase() : null;
-    // };
+    $scope.refreshFilterDate = function() {
+        $scope.filter.Time = '[' + $scope.filter.TimeStart + ' TO ' + $scope.filter.TimeEnd + ']';
+        // console.log($scope.filter.Time);
+    }
 
     $scope.searchQuery = function() {
         $scope.curPage = 0;
@@ -69,14 +55,18 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
     $scope.searchQueryNextPage = function() {
         if($scope.existNextPage) {
             $scope.curPage++;
-            SolrDataService.retrieveQueryResult($scope.searchData.textQuery, $scope.curPage);
+            SolrDataService.retrieveQueryResult($scope.searchData.textQuery, $scope.curPage, $scope.curSort, $scope.order);
         }
     }
     $scope.searchQueryPrevPage = function() {
         if($scope.curPage > 0) {
             $scope.curPage--;
-            SolrDataService.retrieveQueryResult($scope.searchData.textQuery, $scope.curPage);
+            SolrDataService.retrieveQueryResult($scope.searchData.textQuery, $scope.curPage, $scope.curSort, $scope.order);
         }
+    }
+
+    $scope.getMoreLikeThis = function(key, pageId){
+        SolrDataService.retrieveMoreLikeThis(key, pageId);
     }
 
     $scope.$on(EVENTS.SEARCH_RESULT_RECEIVED, function() {
@@ -102,6 +92,31 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
         }
 
     });
+
+    $scope.$on(EVENTS.MORE_LIKE_THIS_RECEIVED, function(){
+        let tempMoreLikeThis = SolrDataService.getMoreLikeThisData();
+        let postId = $scope.searchResult.docs[tempMoreLikeThis.key].id;
+        let moreLikeThisResults = tempMoreLikeThis.data.moreLikeThis[postId].docs;
+        moreLikeThisResults.forEach(function(value, index) {
+            value.span  = { row : 1, col : 1 };
+            switch(index+1) {
+                case 1:
+                    value.span.row = value.span.col = 2;
+                    break;
+                case 4:
+                    value.span.row = value.span.col = 2;
+                    break;
+                case 5:
+                    value.span.col = 2;
+                    break;
+            }
+            value.fontSize = { 'font-size': (value.span.col*4+8) + 'px' };
+        })
+        console.log(moreLikeThisResults);
+        $scope.searchResult.docs[tempMoreLikeThis.key].moreLikeThis = moreLikeThisResults;
+
+
+    })
 
     function reparse(suggestions){
         let result=[];

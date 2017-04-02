@@ -11,12 +11,20 @@ function SolrDataService($http, $rootScope, URL, EVENTS) {
         $rootScope.$broadcast(EVENTS.PAGE_INDEX_MODIFIED);
     }
 
+    function _on_more_like_this_received() {
+        $rootScope.$broadcast(EVENTS.MORE_LIKE_THIS_RECEIVED);
+    }
+
     function _update_page_indexes(newData) {
         pageIndexes = newData;
     }
 
     function _update_search_results(newData) {
         searchResults = newData;
+    }
+
+    function _update_more_like_this(data, key){
+        moreLikeThis = {'data': data, 'key': key}
     }
 
     function _on_error(response) {
@@ -27,6 +35,7 @@ function SolrDataService($http, $rootScope, URL, EVENTS) {
 
     let pageIndexes = null;
     let searchResults = null;
+    let moreLikeThis = null;
 
     // solr related
     this.getSearchResults = function() {
@@ -35,6 +44,10 @@ function SolrDataService($http, $rootScope, URL, EVENTS) {
 
     this.getPageIndexes = function() {
         return pageIndexes;
+    }
+
+    this.getMoreLikeThisData = function() {
+        return moreLikeThis;
     }
 
     this.retrieveQueryResult = function(query, page, sort, order) {
@@ -50,6 +63,19 @@ function SolrDataService($http, $rootScope, URL, EVENTS) {
                 // console.log(response.data);
                 _update_search_results(response.data);
                 _on_search_result_received();
+            },
+            function error(response) {
+                _on_error(response);
+            }
+        )
+    }
+
+    this.retrieveMoreLikeThis = function(key, postId) {
+        return $http.post(URL.SEARCH_MORE_URL, { p: postId }).then(
+            function success(response){
+                // console.log(response.data);
+                _update_more_like_this(response.data, key);
+                _on_more_like_this_received();
             },
             function error(response) {
                 _on_error(response);
