@@ -25,7 +25,7 @@
 
     <md-content ng-controller="AdminController">
         <div layout="row" layout-align="center center">
-            <div flex=80 layout-padding>
+            <div flex=70 layout-padding>
                 <h2>Manage Solr Database</h2>
                 <md-card  cg-busy="{promise:loadingPromise,templateUrl:'loading.html', minDuration:3000}">
                     <md-card-title>
@@ -90,19 +90,25 @@
                             <thead md-head md-order="query.order">
                                 <tr md-row>
                                     <th md-column><span>Page Id</span></th>
-                                    <th md-column><span>Post Counts</span></th>
+                                    <th md-column><span>Message</span></th>
                                     <th md-column><span>Updated Time</span></th>
                                     <th md-column><span>Actions</span></th>
                                 </tr>
                             </thead>
-
+                            <thead>
+                                <tr>
+                                    <th colspan="9">
+                                        <md-progress-linear md-mode="determinate" value="{{pageIdsProgress}}" ng-if="pageIdsProgress < 100" style="height: 2px"></md-progress-linear>
+                                    </th>
+                                </tr>
+                            </thead>
                             <tbody md-body>
                                 <tr md-row md-select="data" ng-repeat="(key, value) in pageIds | limitTo: query.limit : (query.page -1) * query.limit">
-                                    <td md-cell>{{ value.file_name }}</td>
-                                    <td md-cell>{{ value.post_count }}</td>
+                                    <td md-cell>{{ value.page_id }}</td>
+                                    <td md-cell>{{ value.message }}</td>
                                     <td md-cell>{{ value.updated_time }}</td>
                                     <td md-cell>
-                                        <md-button class="md-accent md-raised" ng-click="">Re-crawl Page</md-button>
+                                        <md-button class="md-accent md-raised" ng-click="showGetTokenDialog($event,value.page_id)">Re-crawl Page</md-button>
                                         <md-button class="md-warn md-raised">Delete Page</md-button>
                                     </td>
                                 </tr>
@@ -126,14 +132,21 @@
                                     <th md-column><span>Actions</span></th>
                                 </tr>
                             </thead>
+                            <thead>
+                                <tr>
+                                    <th colspan="9">
+                                        <md-progress-linear md-mode="determinate" value="{{pageIndexesProgress}}" ng-if="pageIdsProgress < 100" style="height: 2px"></md-progress-linear>
+                                    </th>
+                                </tr>
+                            </thead>
                             <tbody md-body>
                                 <tr md-row md-select="data" ng-repeat="(key, value) in pageIndexes">
                                     <td md-cell>{{ key }}</td>
                                     <td md-cell>{{ value }}</td>
                                     <td md-cell>{{ pageIndex.updated_time }}</td>
                                     <td md-cell>
-                                        <md-button class="md-accent md-raised" ng-click="reindexPage(pageIndex.page_id)">Re-index!</md-button>
-                                        <md-button class="md-warn md-raised" ng-click="deleteIndex(pageIndex.page_id)">Delete Index</md-button>
+                                        <md-button class="md-accent md-raised" ng-click="reindexPage(key)">Re-index!</md-button>
+                                        <md-button class="md-warn md-raised" ng-click="deleteIndex(key)">Delete Index</md-button>
                                     </td>
                                 </tr>
                             </tbody>
