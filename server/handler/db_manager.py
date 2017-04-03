@@ -44,7 +44,7 @@ def crawl():
         return make_response(str(e), 404)
 
 
-@db_manager.route('/classify_sentiment/', methods="POST")
+@db_manager.route('/classify_sentiment/', methods=["POST"])
 def add_sentiment():
     try:
         request_data = json.loads(request.get_data())
@@ -67,7 +67,7 @@ def add_sentiment():
         return make_response(str(e), 404)
 
 
-@db_manager.route('/classify_topic/', methods="POST")
+@db_manager.route('/classify_topic/', methods=["POST"])
 def add_topic():
     try:
         request_data = json.loads(request.get_data())
@@ -90,7 +90,7 @@ def add_topic():
         return make_response(str(e), 404)
 
 
-@db_manager.route('/classify_location/', methods="POST")
+@db_manager.route('/classify_location/', methods=["POST"])
 def add_location():
     try:
         request_data = json.loads(request.get_data())
