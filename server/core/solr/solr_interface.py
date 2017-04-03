@@ -110,6 +110,11 @@ def add_to_dict(posting):
         except LookupError:
             print('no comments\' subjectivity in this post')
 
+        try:
+            post_dict['post_location'] = create_coordinates_list(posting['coords'])
+        except LookupError:
+            print('no location coordinates in this post')
+
         return post_dict
     except LookupError:
         print('invalid post')
@@ -234,3 +239,11 @@ def more_like_this(post_id):
     r = s.get("{url}/query".format(url=config.SOLR_BASE_URL), params=payload)
     return r.json()
     
+
+def create_coordinates_list(coordinates_string):
+    coordinates_list = coordinates_string.split('$$')
+    list_length = len(coordinates_list)
+    for i in range(list_length-1,-1,-1):
+        if coordinates_list[i] == ",":
+            del coordinates_list[i]
+    return coordinates_list
