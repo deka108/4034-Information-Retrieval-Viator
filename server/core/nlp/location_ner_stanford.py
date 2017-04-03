@@ -10,22 +10,50 @@ NER_COLUMNS = text_util.EXTRACTED_COLUMNS + ['full_text', 'locations']
 
 
 def run():
-    page_ids = data_util.get_page_ids()
-    all_posts = []
+    extract_location_all()
+    get_all_locations()
 
-    start_time = time.time()
+
+def get_all_locations():
+    page_ids = data_util.get_page_ids()
+    all_locations = []
     for page_id in page_ids:
-        data = data_util.get_csv_data_by_pageid(page_id)
-        data['full_text'] = text_util.get_text_data(data)['full_text']
-        data['locations'] = data['full_text'].apply(extract_location_from_text)
-        data_util.write_df_to_csv(data, NER_COLUMNS, page_id + "_locations")
-        all_posts.append(data)
-    end_time = time.time()
-    print("Elapsed time: ")
-    print(end_time - start_time)
-    all_posts = pd.concat(all_posts)
-    data_util.write_df_to_csv(all_posts, NER_COLUMNS,
+        data = get_location_pageid(page_id)
+        all_locations.append(data)
+    all_locations = pd.concat(all_locations)
+    data_util.write_df_to_csv(all_locations, NER_COLUMNS,
                               data_util.ALL_POSTS_LOCATIONS_FILENAME)
+    return all_locations
+
+
+def get_location_pageid(page_id):
+    location_data = data_util.get_csv_data_from_filename(
+        data_util.PAGE_LOCATION_FILENAME.format(page_id))
+    return location_data
+
+
+def extract_location_all():
+    print("Recognising locations for all pages...")
+    start_time = time.time()
+    page_ids = data_util.get_page_ids()
+    for page_id in page_ids:
+        extract_location_page_id(page_id)
+    end_time = time.time()
+    print("Elapsed time: {}".format(end_time - start_time))
+    print("Finished recognising locations for all pages!")
+
+
+def extract_location_page_id(page_id):
+    print("Recognising locations for page:{}...".format(page_id))
+    start_time = time.time()
+    data = data_util.get_csv_data_by_pageid(page_id)
+    data['full_text'] = text_util.get_text_data(data)['full_text']
+    data['locations'] = data['full_text'].apply(extract_location_from_text)
+    end_time = time.time()
+    print("Elapsed time: {}".format(end_time - start_time))
+    data_util.write_df_to_csv(data, NER_COLUMNS,
+                              data_util.PAGE_LOCATION_FILENAME.format(page_id))
+    print("Finish recognising locations for page:{}!")
 
 
 def extract_location_from_text(text):
