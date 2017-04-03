@@ -119,13 +119,8 @@ def extract_locations(locations):
 
 
 def get_all_locations():
-    page_ids = data_util.get_page_ids()
-    all_locations = []
-    for page_id in page_ids:
-        data_locations = data_util.get_csv_data_from_filename(
-            page_id + "_locations")
-        all_locations.append(data_locations)
-    all_locations = pd.concat(all_locations)
+    all_locations = data_util.get_csv_data_from_filename(
+        data_util.ALL_POSTS_LOCATIONS_FILENAME)
     return all_locations
 
 
