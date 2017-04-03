@@ -7,13 +7,14 @@ import time
 
 nlp = StanfordCoreNLP('http://localhost:9000')
 NER_COLUMNS = text_util.EXTRACTED_COLUMNS + ['full_text', 'locations']
-LOCATIONS_FILENAME = "{}_locations"
+
 
 def run():
-    get_location_all()
+    extract_location_all()
+    get_all_locations()
 
 
-def get_location_all():
+def get_all_locations():
     page_ids = data_util.get_page_ids()
     all_locations = []
     for page_id in page_ids:
@@ -27,7 +28,7 @@ def get_location_all():
 
 def get_location_pageid(page_id):
     location_data = data_util.get_csv_data_from_filename(
-        LOCATIONS_FILENAME.format(page_id))
+        data_util.PAGE_LOCATION_FILENAME.format(page_id))
     return location_data
 
 
@@ -50,8 +51,8 @@ def extract_location_page_id(page_id):
     data['locations'] = data['full_text'].apply(extract_location_from_text)
     end_time = time.time()
     print("Elapsed time: {}".format(end_time - start_time))
-    data_util.write_df_to_csv(data, NER_COLUMNS, LOCATIONS_FILENAME.format(
-        page_id))
+    data_util.write_df_to_csv(data, NER_COLUMNS,
+                              data_util.PAGE_LOCATION_FILENAME.format(page_id))
     print("Finish recognising locations for page:{}!")
 
 

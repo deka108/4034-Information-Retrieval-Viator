@@ -164,6 +164,7 @@ npm-debug.log
 # JS-related
 etc/
 
+cz4034_ir_solr/
 /server/core/auto_categorisation/tmp/
 /server/data/*.csv
 !/server/data/*locations.csv
@@ -180,4 +181,4 @@ etc/
 /server/core/nlp/stanford-english-corenlp-2016-10-31-models.jar
 /server/data/*.pkl
 /server/core/nlp/location_corpus*
-!/server/core/nlp/location_corpus_all.csv
+!/server/data/location_corpus_all.csv

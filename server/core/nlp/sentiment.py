@@ -47,7 +47,7 @@ def get_sentiment(page_id):
     df = pd.DataFrame(data)
     # file_name = data_util.ALL_POSTS_COMMENTS_FILENAME
     dest_file_name = data_util.get_page_csv_filename(page_id)
-    data_util.write_df_to_existing_csv(df,csv_headers,dest_file_name)
+    data_util.write_df_to_existing_csv(df, csv_headers, dest_file_name)
 
 
 def get_sentiment_all_pages():
