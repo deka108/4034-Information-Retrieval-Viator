@@ -171,7 +171,7 @@ def run():
 if __name__ == "__main__":
     # build_location_corpus()
     # CHANGE ID!!!!
-    get_lat_long_id(4)
+    #get_lat_long_id(4)
     # compile_lat_long()
     # get_lat_long_id()
     # compile_lat_long()

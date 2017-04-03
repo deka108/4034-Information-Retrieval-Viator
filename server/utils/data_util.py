@@ -186,4 +186,5 @@ def write_df_to_existing_csv(new_df, headers, file_name):
     data_path = config.get_data_path(get_csv_filename(file_name))
     df_csv = pd.read_csv(data_path)
     df_csv[headers] = new_df[headers]
-    write_df_to_csv(df_csv, df_csv.columns, file_name)
+    df_csv.to_csv(data_path, columns = df_csv.columns, index=False, encoding='utf-8')
+    # write_df_to_csv(df_csv, df_csv.columns, file_name)

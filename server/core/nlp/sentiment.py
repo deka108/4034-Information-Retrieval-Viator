@@ -35,19 +35,21 @@ def get_sentiment(page_id):
                 ave_sentiment = sum(sentiment)/(len(sentiment))
                 ave_subjectivity = sum(subjectivity_list)/(len(subjectivity_list))
                 counter += 1
+                entry["comments"] = comment
                 entry["comments_sentiment"] = ave_sentiment
                 entry["comments_subjectivity"] = ave_subjectivity
             else:
+                entry["comments"] = ""
                 entry["comments_sentiment"] = 0
                 entry["comments_subjectivity"] = 0
             data.append(entry)
     print(counter)
     # print(data)
     #return data
-    df = pd.DataFrame(data)
-    # file_name = data_util.ALL_POSTS_COMMENTS_FILENAME
-    dest_file_name = data_util.get_page_csv_filename(page_id)
-    data_util.write_df_to_existing_csv(df,csv_headers,dest_file_name)
+    df_new = pd.DataFrame(data)
+    # df_combined = pd.merge(df,df_new, on ="comments")
+    dest_file_name = data_util.get_page_csv_filename (page_id)
+    data_util.write_df_to_existing_csv(df_new,csv_headers,dest_file_name)
 
 
 def get_sentiment_all_pages():
