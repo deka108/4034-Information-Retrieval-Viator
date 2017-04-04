@@ -50,12 +50,15 @@ function SolrDataService($http, $rootScope, URL, EVENTS) {
         return moreLikeThis;
     }
 
-    this.retrieveQueryResult = function(query, page, sort, order) {
+    this.retrieveQueryResult = function(query, page, sort, order, filter, filter_query, geoLocation) {
         let data = {
             'q': query,
             'p': page,
             's': sort.toLowerCase(),
             'o': order.toLowerCase(),
+            'f': filter? filter.toLowerCase() : null,
+            'fq': filter_query,
+            'gl': geoLocation,
         }
         console.log(data);
         return $http.post(URL.SEARCH_URL, data).then(

@@ -126,7 +126,7 @@
                         </md-list-item>
                     </md-list>
                     </div>
-                    <md-card ng-repeat="(key, value) in searchResult.docs | orderBy: currOrder" class="results-card">
+                    <md-card ng-repeat="(key, value) in searchResult.docs" class="results-card">
                         <md-card-title>
                             <md-card-title-text class="results-text">
                                 <a ng-if="value.desc" class="md-headline" ng-href="{{value.link}}" ng-bind-html="value.desc[0]"></a>
