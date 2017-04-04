@@ -102,12 +102,12 @@ def add_to_dict(posting):
 
         try:
             post_dict['comments_sentiment'] = posting['comments_sentiment']
+            post_dict['sentiment'] = convert_sentiment(posting['comments_sentiment'])
         except LookupError:
             print('no comments\' sentiment in this post')
 
         try:
             post_dict['comments_subjectivity'] = posting['comments_subjectivity']
-            post_dict['subjectivity'] = convert_subjectivity(posting['comments_subjectivity'])
         except LookupError:
             print('no comments\' subjectivity in this post')
 
@@ -119,7 +119,6 @@ def add_to_dict(posting):
         return post_dict
     except LookupError:
         print('invalid post')
-    
 
 
 def send_to_solr(body_payload):
@@ -179,7 +178,7 @@ def index_all():
         return False
 
 
-def search(query, page, sort_by, order='ascending'):
+def search(query, page, sort_by, order, filter_field, filter_query, coords = '0,0'):
     rows = 10
     try:
         page = int(page)
@@ -190,6 +189,7 @@ def search(query, page, sort_by, order='ascending'):
     payload = {'rows': rows,
                'start': start_num}
     payload['q'] = query
+
     if sort_by != 'relevance':
         if (sort_by == 'time') and (order == 'ascending'):
             print("time ascending")
@@ -205,6 +205,17 @@ def search(query, page, sort_by, order='ascending'):
             payload['sort'] = 'shares_count asc'
         elif (sort_by == 'shares') and (order == 'descending'):
             payload['sort'] = 'reactions_count desc'
+
+    if filter_field:
+        if filter_field == 'pageid':
+            payload['fq'] = 'page_id:{0}'.format(filter_query)
+        elif filter_field == 'nearby':
+            payload['fq'] = "{!geofilt sfield=post_location}"
+            payload['pt'] = coords
+            payload['d'] = filter_query
+        else:
+            payload['fq'] = '{0}:{1}'.format(filter_field, filter_query)
+
     print(payload)
     r = s.get("{url}/query".format(url=config.SOLR_BASE_URL), params=payload)
     print(r.url)
@@ -252,12 +263,12 @@ def create_coordinates_list(coordinates_string):
     return coordinates_list
 
 
-def convert_subjectivity(subjectivity_score):
-    if subjectivity_score < 0:
+def convert_sentiment(sentiment_score):
+    if sentiment_score < 0:
         return 'negative'
-    elif subjectivity_score == 0:
+    elif sentiment_score == 0:
         return 'neutral'
-    elif subjectivity_score <= 0.5:
+    elif sentiment_score <= 0.5:
         return 'positive'
     else:
         return 'very positive'
