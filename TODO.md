@@ -30,12 +30,12 @@
     - [ ] Shares count
     - [ ] Reactions count
     - [ ] Sentiment 
- POPULARITY DISTRIBUTION
- This distribution is a combination between comments_cnt, shares_cnt, and reactions_cnt
- Normal: 0 - 100 (3343 posts)
- Popular: 100 - 5000 (9926 posts)
- Very Popular: 5000-10000(685 posts)
- Extremely Popular: (594 posts)
+  - POPULARITY DISTRIBUTION
+  - This distribution is a combination between comments_cnt, shares_cnt, and reactions_cnt
+    - Normal: 0 - 100 (3343 posts)
+    - Popular: 100 - 5000 (9926 posts)
+    - Very Popular: 5000-10000(685 posts)
+    - Extremely Popular: (594 posts)
  
 - [ ] A simple UI for crawling and incremental indexing of new data would be a bonus  
 (but not compulsory)
