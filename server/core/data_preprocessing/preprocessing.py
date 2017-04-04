@@ -6,7 +6,7 @@ from guess_language import guess_language
 csv_headers = [
     # content
     "id", "page_id", "type", "name", "message", "link", "caption", "picture",
-    "description", "story",
+    "description","full_picture", "story",
     # user preference
     "likes_cnt", "shares_cnt", "reactions_cnt", "comments_cnt", "comments",
     # location
@@ -54,7 +54,7 @@ def preprocess_page_json(page_id):
                 entry["message"] = post.get("message", "").encode('utf-8').decode('utf-8', 'ignore')
                 entry["caption"] = post.get("caption", "").encode('utf-8').decode('utf-8', 'ignore')
                 entry["picture"] = post.get("picture", "").encode('utf-8').decode('utf-8', 'ignore')
-                entry["full_picture"] = post.get("full_picture")
+                entry["full_picture"] = post.get("full_picture", "").encode('utf-8').decode('utf-8', 'ignore')
                 entry["description"] = post.get("description", "").encode('utf-8').decode('utf-8', 'ignore')
                 entry["story"] = post.get("story", "").encode('utf-8').decode('utf-8', 'ignore')
 
