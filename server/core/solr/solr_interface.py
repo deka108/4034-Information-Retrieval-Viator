@@ -107,6 +107,7 @@ def add_to_dict(posting):
 
         try:
             post_dict['comments_subjectivity'] = posting['comments_subjectivity']
+            post_dict['subjectivity'] = convert_subjectivity(posting['comments_subjectivity'])
         except LookupError:
             print('no comments\' subjectivity in this post')
 
@@ -249,3 +250,14 @@ def create_coordinates_list(coordinates_string):
         if coordinates_list[i] == ",":
             del coordinates_list[i]
     return coordinates_list
+
+
+def convert_subjectivity(subjectivity_score):
+    if subjectivity_score < 0:
+        return 'negative'
+    elif subjectivity_score == 0:
+        return 'neutral'
+    elif subjectivity_score <= 0.5:
+        return 'positive'
+    else:
+        return 'very positive'
