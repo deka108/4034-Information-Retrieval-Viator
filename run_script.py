@@ -6,8 +6,8 @@ from server.core.data_preprocessing import statistic
 
 
 def run():
-    preprocessing.preprocess_all_pages()
-    generate_csv.generate_splitted_csv_for_labelling()
+    #preprocessing.preprocess_all_pages()
+    #generate_csv.generate_splitted_csv_for_labelling()
     statistic.compute_words(du.ALL_POSTS_COMMENTS_FILENAME)
     nlp_main.run()
 
