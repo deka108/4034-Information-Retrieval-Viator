@@ -107,8 +107,14 @@ def add_to_dict(posting):
 
         try:
             post_dict['comments_subjectivity'] = posting['comments_subjectivity']
+            post_dict['subjectivity'] = convert_subjectivity(posting['comments_subjectivity'])
         except LookupError:
             print('no comments\' subjectivity in this post')
+
+        try:
+            post_dict['post_location'] = create_coordinates_list(posting['coords'])
+        except LookupError:
+            print('no location coordinates in this post')
 
         return post_dict
     except LookupError:
@@ -186,8 +192,10 @@ def search(query, page, sort_by, order='ascending'):
     payload['q'] = query
     if sort_by != 'relevance':
         if (sort_by == 'time') and (order == 'ascending'):
+            print("time ascending")
             payload['sort'] = 'time asc'
         elif (sort_by == 'time') and (order == 'descending'):
+            print("time descending")
             payload['sort'] = 'time desc'
         elif (sort_by == 'reactions') and (order == 'ascending'):
             payload['sort'] = 'reactions_count asc'
@@ -234,3 +242,22 @@ def more_like_this(post_id):
     r = s.get("{url}/query".format(url=config.SOLR_BASE_URL), params=payload)
     return r.json()
     
+
+def create_coordinates_list(coordinates_string):
+    coordinates_list = coordinates_string.split('$$')
+    list_length = len(coordinates_list)
+    for i in range(list_length-1,-1,-1):
+        if coordinates_list[i] == ",":
+            del coordinates_list[i]
+    return coordinates_list
+
+
+def convert_subjectivity(subjectivity_score):
+    if subjectivity_score < 0:
+        return 'negative'
+    elif subjectivity_score == 0:
+        return 'neutral'
+    elif subjectivity_score <= 0.5:
+        return 'positive'
+    else:
+        return 'very positive'

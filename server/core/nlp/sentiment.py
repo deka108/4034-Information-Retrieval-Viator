@@ -50,7 +50,6 @@ def get_sentiment(page_id):
     data_util.write_df_to_existing_csv(df_new, csv_headers, dest_file_name)
 
 
-
 def get_sentiment_all_pages():
     all_pageids = data_util.get_page_ids()
     for page_id in all_pageids:
