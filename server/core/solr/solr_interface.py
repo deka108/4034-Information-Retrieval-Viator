@@ -191,8 +191,10 @@ def search(query, page, sort_by, order='ascending'):
     payload['q'] = query
     if sort_by != 'relevance':
         if (sort_by == 'time') and (order == 'ascending'):
+            print("time ascending")
             payload['sort'] = 'time asc'
         elif (sort_by == 'time') and (order == 'descending'):
+            print("time descending")
             payload['sort'] = 'time desc'
         elif (sort_by == 'reactions') and (order == 'ascending'):
             payload['sort'] = 'reactions_count asc'

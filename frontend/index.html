@@ -65,7 +65,7 @@
                                         </md-input-container>
                                         <md-input-container ng-if="curSort != 'Relevance'">
                                             <label>A/Z</label>
-                                            <md-select class="md-accent" ng-model="order">
+                                            <md-select class="md-accent" ng-model="order" ng-change="refreshOrder(order)">
                                                 <!--<md-option><em>None</em></md-option>-->
                                                 <md-option class="md-accent" ng-value="orderOption" ng-repeat="orderOption in orderOptions">{{orderOption}}</md-option>
                                             </md-select>

@@ -30,6 +30,10 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
     //     }
     // }
 
+    $scope.refreshOrder = function(order){
+        $scope.order = order;
+    }
+
     $scope.searchFilters = [
         null,
         'Time',
@@ -49,6 +53,7 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
 
     $scope.searchQuery = function() {
         $scope.curPage = 0;
+        console.log($scope.order);
         SolrDataService.retrieveQueryResult($scope.searchData.textQuery, 0, $scope.curSort, $scope.order);
     }
 
