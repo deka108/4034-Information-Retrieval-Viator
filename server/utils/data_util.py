@@ -7,12 +7,15 @@ JSON_FILENAME = "{}.json"
 PAGE_JSON_FILENAME = "{}_facebook"
 PAGE_CSV_FILENAME = "{}_facebook"
 ALL_POSTS_FILENAME = "all_posts"
+ALL_POSTS_LOCATIONS_FILENAME = "all_posts_with_locations"
 ALL_POSTS_COMMENTS_FILENAME = "all_posts_with_comments"
+ALL_LOCATION_CORPUS = "location_corpus_all"
+PAGE_LOCATION_FILENAME = "{}_locations"
 ORDERED_DATA_FILENAME = "ordered_data"
 SHUFFLED_DATA_FILENAME = "shuffled_data"
 TOPIC_LABELLED_FILENAME = "topic_labelled"
-LOC_DATA_FILENAME = "loc_data"
 SPLITTED_DATA_FILENAME = "splitted_data_{}"
+TESTING = "testing"
 
 RECORDS = {}
 
@@ -176,13 +179,13 @@ def write_dict_to_csv(data, headers, file_name):
 
 def write_df_to_csv(df, headers, file_name):
     data_path = config.get_data_path(get_csv_filename(file_name))
-    df.fillna("")
-    df.to_csv(data_path, columns=headers, index=True, index_label="no",
-              encoding='utf-8')
+    df = df.fillna("")
+    df.to_csv(data_path, columns=headers, index_label="no", encoding='utf-8')
 
 
 def write_df_to_existing_csv(new_df, headers, file_name):
     data_path = config.get_data_path(get_csv_filename(file_name))
     df_csv = pd.read_csv(data_path)
     df_csv[headers] = new_df[headers]
-    df_csv.to_csv(data_path)
+    df_csv.to_csv(data_path, columns = df_csv.columns, index=False, encoding='utf-8')
+    # write_df_to_csv(df_csv, df_csv.columns, file_name)

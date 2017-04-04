@@ -1,9 +1,15 @@
-function AdminController($scope, $q, $window, $mdDialog, DbDataService, SolrDataService, InitializationService, EVENTS, _) {
+function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataService, SolrDataService, InitializationService, EVENTS, _) {
     $scope.isInitial = true;
     $scope.delay = 0;
     $scope.minDuration = 0;
     $scope.message = 'Loading...';
     $scope.backdrop = true;
+    $scope.pageIdsProgress = 0;
+    $scope.pageIndexesProgress = 0;
+    let i = 0; // for progress animation
+    let j = 10; // for progress animation
+    let k = 0; // for progress animation
+    let l = 10; // for progress animation
 
     $scope.setPromise = function(promise) {
         $scope.loadingPromise = promise;
@@ -159,6 +165,40 @@ function AdminController($scope, $q, $window, $mdDialog, DbDataService, SolrData
             $mdDialog.hide(token);
         };
     }
+
+    $interval(function() {
+        if($scope.pageIdsProgress < 70){
+            $scope.pageIdsProgress += i;
+            i+=0.2;
+        }
+        else {
+            if($scope.pageIds){
+                if($scope.pageIdsProgress <= 100){
+                    $scope.pageIdsProgress += i;
+                }
+            }
+            else {
+                $scope.pageIdsProgress += j;
+                j /= 2;
+            }
+        }
+        if($scope.pageIndexesProgress < 70){
+            $scope.pageIndexesProgress += k;
+            k+=0.2;
+        }
+        else {
+            if($scope.pageIndexes){
+                if($scope.pageIndexesProgress <= 100){
+                    $scope.pageIndexesProgress += i;
+                }
+            }
+            else {
+                $scope.pageIdsProgress += l;
+                l /= 2;
+            }
+        }
+    }, 200, 0, true)
+
 }
 
-export default ['$scope', '$q', '$window', '$mdDialog', 'DbDataService', 'SolrDataService', 'InitializationService', 'EVENTS', '_', AdminController];
+export default ['$scope', '$q', '$window', '$mdDialog', '$interval', 'DbDataService', 'SolrDataService', 'InitializationService', 'EVENTS', '_', AdminController];

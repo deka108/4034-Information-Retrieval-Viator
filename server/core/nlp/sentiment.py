@@ -2,15 +2,16 @@ from textblob import TextBlob
 from server.utils import data_util
 import pandas as pd
 from guess_language import guess_language
+from server import config
 
 csv_headers = ["comments_sentiment","comments_subjectivity",]
 
 
-def get_sentiment():
-    page_id = data_util.ALL_POSTS_COMMENTS_FILENAME
+def get_sentiment(page_id):
+    # page_id = data_util.ALL_POSTS_COMMENTS_FILENAME
     data= []
     counter = 0
-    df = data_util.get_csv_data_from_filename(page_id)
+    df = data_util.get_csv_data_by_pageid(page_id)
 
     comments = df["comments"]
     for comment in comments:
@@ -43,9 +44,10 @@ def get_sentiment():
     print(counter)
     # print(data)
     #return data
-    df = pd.DataFrame(data)
-    file_name = data_util.ALL_POSTS_COMMENTS_FILENAME
-    data_util.write_df_to_existing_csv(df,csv_headers,file_name)
+    df_new = pd.DataFrame(data)
+    # file_name = data_util.ALL_POSTS_COMMENTS_FILENAME
+    dest_file_name = data_util.get_page_csv_filename(page_id)
+    data_util.write_df_to_existing_csv(df_new, csv_headers, dest_file_name)
 
 
 def get_sentiment_all_pages():
@@ -55,7 +57,9 @@ def get_sentiment_all_pages():
 
 
 def run():
-    get_sentiment()
+    get_sentiment_all_pages()
 
 if __name__ == "__main__":
-    get_sentiment()
+    # page_id = "Tripviss"
+    # get_sentiment(page_id)
+    get_sentiment_all_pages()

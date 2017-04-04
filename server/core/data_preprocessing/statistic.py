@@ -10,12 +10,16 @@ def compute_words(file_name):
     df["description_cleaned"] = df["description"].apply(
         lambda x: text_util.clean_text(x) if pd.notnull(x) else "")
     # print(df["message_cleaned"])
-    message_word_count, message_unique_word_count = text_util.count_words(df["message_cleaned"])
-    desc_word_count, desc_unique_word_count = text_util.count_words(df["description_cleaned"])
-    total_word_count = message_word_count + desc_word_count
-    total_unique_word_count = message_unique_word_count + desc_unique_word_count
+    frames = [df["message_cleaned"],df["description_cleaned"]]
+    combined = pd.concat(frames)
+    total_word_count,total_unique_word_count = text_util.count_words(combined)
     print("Total words: {}".format(total_word_count))
     print("Total unique words: {}".format(total_unique_word_count))
 
+
+def read_csv(file_name):
+    df = data_util.get_csv_data_from_filename(file_name)
+    print(type(df["message"][0]))
+
 if __name__ == "__main__":
-    compute_words(data_util.ALL_POSTS_COMMENTS_FILENAME)
+    compute_words(data_util.ALL_POSTS_FILENAME)

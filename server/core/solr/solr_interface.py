@@ -100,6 +100,21 @@ def add_to_dict(posting):
         except LookupError:
             print('no update time in this post')
 
+        try:
+            post_dict['comments_sentiment'] = posting['comments_sentiment']
+        except LookupError:
+            print('no comments\' sentiment in this post')
+
+        try:
+            post_dict['comments_subjectivity'] = posting['comments_subjectivity']
+            post_dict['subjectivity'] = convert_subjectivity(posting['comments_subjectivity'])
+        except LookupError:
+            print('no comments\' subjectivity in this post')
+
+        try:
+            post_dict['post_location'] = create_coordinates_list(posting['coords'])
+        except LookupError:
+            print('no location coordinates in this post')
 
         return post_dict
     except LookupError:
@@ -164,16 +179,32 @@ def index_all():
         return False
 
 
-def search(query, page):
+def search(query, page, sort_by, order='ascending'):
     rows = 10
     try:
         page = int(page)
     except TypeError:
         page = 0
+
     start_num = rows*page
     payload = {'rows': rows,
                'start': start_num}
     payload['q'] = query
+    if sort_by != 'relevance':
+        if (sort_by == 'time') and (order == 'ascending'):
+            print("time ascending")
+            payload['sort'] = 'time asc'
+        elif (sort_by == 'time') and (order == 'descending'):
+            print("time descending")
+            payload['sort'] = 'time desc'
+        elif (sort_by == 'reactions') and (order == 'ascending'):
+            payload['sort'] = 'reactions_count asc'
+        elif (sort_by == 'reactions') and (order == 'descending'):
+            payload['sort'] = 'reactions_count desc'
+        elif (sort_by == 'shares') and (order == 'ascending'):
+            payload['sort'] = 'shares_count asc'
+        elif (sort_by == 'shares') and (order == 'descending'):
+            payload['sort'] = 'reactions_count desc'
     print(payload)
     r = s.get("{url}/query".format(url=config.SOLR_BASE_URL), params=payload)
     print(r.url)
@@ -196,10 +227,8 @@ def search(query, page):
 
     return result_json
 
-
 def add_schema_field():
     return "Success"
-
 
 def get_all_page_ids():
     r = s.get("{url}/select?q=*%3A*&rows=0&facet=on&facet.field=page_id&wt=json".format(url=config.SOLR_BASE_URL))
@@ -213,3 +242,22 @@ def more_like_this(post_id):
     r = s.get("{url}/query".format(url=config.SOLR_BASE_URL), params=payload)
     return r.json()
     
+
+def create_coordinates_list(coordinates_string):
+    coordinates_list = coordinates_string.split('$$')
+    list_length = len(coordinates_list)
+    for i in range(list_length-1,-1,-1):
+        if coordinates_list[i] == ",":
+            del coordinates_list[i]
+    return coordinates_list
+
+
+def convert_subjectivity(subjectivity_score):
+    if subjectivity_score < 0:
+        return 'negative'
+    elif subjectivity_score == 0:
+        return 'neutral'
+    elif subjectivity_score <= 0.5:
+        return 'positive'
+    else:
+        return 'very positive'
