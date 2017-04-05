@@ -1,5 +1,8 @@
 from sklearn.model_selection import train_test_split
 import pandas as pd
+
+from server.core.topic_classification.classifier import RFClassifier, \
+    NBClassifier, NNClassifier
 from server.utils import data_util,text_util
 from nltk.tokenize import sent_tokenize, word_tokenize
 from server.core.topic_classification import classification_preprocessing
@@ -11,6 +14,8 @@ SEED = 42
 RF_CLASSIFIER = "RF"
 NB_CLASSIFIER = "NB"
 NN_CLASSIFIER = "NN"
+DOCUMENT_MAX_NUM_WORDS = 100
+NUM_FEATURES = 300  # Word vector dimensionality
 
 
 NUM_FEATURES = 300  # Word vector dimensionality
@@ -87,17 +92,17 @@ def getAvgFeatureVecs(posts, model, num_features):
        counter = counter + 1.
     return reviewFeatureVecs
 
-def train_classifier(X, y, classifier_model):
+def train_classifier(X_train, y_train, X_test, y_test, classifier_model):
     """Generate trained model from the features, save the model. Use either
     naive bayes, rf or neural network"""
     if classifier_model == RF_CLASSIFIER:
-        pass
+        classifier = RFClassifier()
     elif classifier_model == NB_CLASSIFIER:
-        pass
+        classifier = NBClassifier()
     elif classifier_model == NN_CLASSIFIER:
-        pass
+        classifier = NNClassifier()
 
-    pass
+    classifier.train_model(X_train, y_train, X_test, y_test)
 
 
 def predict_test(X_train, y_train, X_test, y_test):
