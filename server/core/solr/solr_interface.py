@@ -1,6 +1,7 @@
 import json
 
 import requests
+import time
 from nltk.stem.porter import *
 
 from server import config
@@ -131,6 +132,7 @@ def get_schema():
 def index_specific(page_id):
     try:
         temp_json = data_util.get_preprocessed_json_data_by_page_id(page_id)
+        records_time = data_util.get_records_time()
         if temp_json:
             for post in temp_json:
                 to_be_posted = add_to_dict(post)
@@ -141,6 +143,8 @@ def index_specific(page_id):
                 }}''' % json.dumps(to_be_posted))
                 send_to_solr(payload)
             print("Successfully indexed {}".format(page_id))
+        records_time[page_id] = time.time()
+        data_util.write_records_time_to_json(records_time)
         return True
     except:
         return False

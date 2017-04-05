@@ -5,11 +5,11 @@ def add_topic(page_id):
     print(page_id)
 
 
-def add_topic_to_allpages():
+def add_topic_to_all_pages():
     page_ids = data_util.get_all_posts()
     for page_id in page_ids:
         add_topic(page_id)
 
 
 if __name__ == "__main__":
-    add_topic_to_allpages()
+    add_topic_to_all_pages()
