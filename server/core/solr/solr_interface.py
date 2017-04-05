@@ -95,6 +95,11 @@ def add_to_dict(posting):
         except LookupError:
             print('no location coordinates in this post')
 
+        try:
+            post_dict['topic'] = posting['topic']
+        except LookupError:
+            print('no topic coordinates in this post')
+
         return post_dict
     except LookupError:
         print('invalid post')
@@ -158,6 +163,10 @@ def index_all():
 
 
 def search(query, page, sort_by, order, filter_field, filter_query, coords = '0,0'):
+    try:
+        filter_query = filter_query.replace(' ', '_')
+    except AttributeError:
+        pass
     rows = 10
     try:
         page = int(page)
@@ -254,7 +263,7 @@ def convert_sentiment(sentiment_score):
     elif sentiment_score <= 0.5:
         return 'positive'
     else:
-        return 'very positive'
+        return 'very_positive'
 
 
 def calculate_popularity(score):
@@ -263,6 +272,6 @@ def calculate_popularity(score):
     elif score <= 5000:
         return 'popular'
     elif score <= 10000:
-        return 'very popular'
+        return 'very_popular'
     else:
-        return 'extremely popular'
+        return 'extremely_popular'
