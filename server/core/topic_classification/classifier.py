@@ -1,7 +1,7 @@
-from server.core.topic_classification.word2vec import DOCUMENT_MAX_NUM_WORDS, \
+from server.core.topic_classification.classification_preprocessing import DOCUMENT_MAX_NUM_WORDS, \
     NUM_FEATURES
-from keras.layers import LSTM, Dropout, Dense, Activation
-from keras.models import Sequential
+# from keras.layers import LSTM, Dropout, Dense, Activation
+# from keras.models import Sequential
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score
 from sklearn.externals import joblib
@@ -63,8 +63,8 @@ class BaseClassifier(metaclass=abc.ABCMeta):
 
     def run(self, X_train, y_train, X_test, y_test):
         self.create_model()
-        self.train_model(X_train, y_train)
-        pred_y = self.predict(X_test)
+        self.train_model(X_train, y_train, X_test, y_test)
+        pred_y = self.predict(X_test, y_test)
         self.compute_score(y_test, pred_y)
 
     def print_all(self):
