@@ -15,8 +15,11 @@ def search_query():
         page_params = request_data.get('p')
         sort_params = request_data.get('s')
         order_params = request_data.get('o')
-
-    response = solr_interface.search(query_params,page_params, sort_params, order_params)
+        filter = request_data.get('f')
+        filter_query = request_data.get('fq')
+        geoLocation = request_data.get('gl')
+        
+    response = solr_interface.search(query_params,page_params, sort_params, order_params, filter, filter_query, geoLocation)
     return jsonify(response)
 
     return abort(404)

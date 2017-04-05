@@ -10,8 +10,26 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
     $scope.filter.PageID = null;
     $scope.filter.Topic = null;
     $scope.filter.Sentiment = null;
+    $scope.filter.Nearby = 0;
+    $scope.curFilter = null;
     $scope.curSort = 'Relevance';
     $scope.order = 'Ascending';
+    $scope.curGeolocation = '0,0';
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {$scope.curGeolocation = position.coords.latitude + ',' + position.coords.longitude;
+            console.log("success get geolocation");
+            console.log($scope.curGeolocation);
+            },
+            (position) => {$scope.curGeolocation = '0,0';
+            console.log('failed to get geolocation');
+            }
+        );
+    } else {
+        console.log('does not support geolocation');
+        $scope.curGeolocation = '0,0';
+    }
 
     $scope.searchSorts = [
         'Relevance',
@@ -43,18 +61,22 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
         'Nearby',
     ];
 
-    $scope.sentimentOptions = ['Positive', 'Neutral', 'Negative'];
+    $scope.sentimentOptions = ['Very Positive', 'Positive', 'Neutral', 'Negative'];
     $scope.topicOptions = ['Food', 'Event', 'Nature', 'Attraction', 'Accomodation'];
 
     $scope.refreshFilterDate = function() {
-        $scope.filter.Time = '[' + $scope.filter.TimeStart + ' TO ' + $scope.filter.TimeEnd + ']';
-        // console.log($scope.filter.Time);
+        $scope.filter.Time = '[' + $scope.filter.TimeStart.toISOString() + ' TO ' + $scope.filter.TimeEnd.toISOString() + ']';
+        console.log($scope.filter.Time);
     }
 
     $scope.searchQuery = function() {
         $scope.curPage = 0;
-        console.log($scope.order);
-        SolrDataService.retrieveQueryResult($scope.searchData.textQuery, 0, $scope.curSort, $scope.order);
+        let filter_query = $scope.filter[$scope.curFilter];
+        if($scope.curFilter == 'Topic' || $scope.curFilter == 'Sentiment'){
+            filter_query = filter_query.toLowerCase();
+        }
+        console.log(filter_query);
+        SolrDataService.retrieveQueryResult($scope.searchData.textQuery, 0, $scope.curSort, $scope.order, $scope.curFilter, filter_query, $scope.curGeolocation);
     }
 
     $scope.searchQueryNextPage = function() {

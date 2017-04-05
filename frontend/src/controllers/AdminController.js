@@ -172,7 +172,7 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
             i+=0.2;
         }
         else {
-            if($scope.pageIds){
+            if($scope.pageIds != false){
                 if($scope.pageIdsProgress <= 100){
                     $scope.pageIdsProgress += i;
                 }
@@ -187,7 +187,7 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
             k+=0.2;
         }
         else {
-            if($scope.pageIndexes){
+            if($scope.pageIndexes != false){
                 if($scope.pageIndexesProgress <= 100){
                     $scope.pageIndexesProgress += i;
                 }
