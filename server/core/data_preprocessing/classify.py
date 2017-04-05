@@ -18,6 +18,7 @@ def train(vocab_dict, train_url, classifier):
     global train_label
     global clf
     global vocab
+    global r
     vocab=vocab_dict
 
     df_train = pd.read_csv(train_url)
@@ -25,8 +26,9 @@ def train(vocab_dict, train_url, classifier):
     train_post = list(train_post.values.flatten())
     train_label = df_train.loc[:, ["class_label"]]
     train_label = list(train_label.values.flatten())
-    train_tf = df_train.loc[:, vocab]
-
+    #train_tf = df_train.loc[:, vocab]
+    train_tf = df_train.as_matrix(vocab)
+    print(train_tf)
     r = 3*len(train_post)//5
 
     """
@@ -56,6 +58,8 @@ def train(vocab_dict, train_url, classifier):
     	clf = MLPClassifier()
 
     """TRAINING"""
+    print(train_tf)
+    print(train_tf[:r, :])
     clf.fit(train_tf[:r, :], train_label[:r])
     #rf = RandomForestClassifier(n_estimators = 110)
     #rf.fit(train_tf[:r, :], train_label[:r])
