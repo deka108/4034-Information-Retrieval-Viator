@@ -17,7 +17,6 @@ class Classifier(metaclass=abc.ABCMeta):
         self.X_test = None
         self.y_test = None
 
-
     def init_params(self, name):
         self.name = name
         self.check_point = self.check_point.format(self.name)

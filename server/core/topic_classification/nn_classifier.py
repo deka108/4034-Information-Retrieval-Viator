@@ -1,13 +1,10 @@
 from keras.layers import LSTM, Dropout, Dense, Activation
 from keras.models import Sequential
-from sklearn.ensemble import RandomForestClassifier
 from server.core.topic_classification import classifier
-from server.core.topic_classification.preprocessing import \
+from server.core.topic_classification.word2vec import \
     DOCUMENT_MAX_NUM_WORDS, NUM_FEATURES
 
-
-def num_categories(args):
-    pass
+NUM_CATEGORIES = 5
 
 
 class NNClassifier(classifier.Classifier):
@@ -22,7 +19,7 @@ class NNClassifier(classifier.Classifier):
         self.model.add(LSTM(int(DOCUMENT_MAX_NUM_WORDS * 1.5),
                        input_shape=(DOCUMENT_MAX_NUM_WORDS, NUM_FEATURES)))
         self.model.add(Dropout(0.3))
-        self.model.add(Dense(num_categories))
+        self.model.add(Dense(NUM_CATEGORIES))
         self.model.add(Activation('sigmoid'))
 
         self.model.compile(loss='binary_crossentropy', optimizer='adam',
@@ -31,12 +28,12 @@ class NNClassifier(classifier.Classifier):
     def train_model(self, X_train, y_train, *args):
         # Train model
         self.model.fit(X_train, y_train, batch_size=128, nb_epoch=5,
-                  validation_data=(X_test, y_test))
+                  validation_data=(args[0], args[1]))
 
-    def predict(self, X_test):
+    def predict(self, X_test, *args):
 
         # Evaluate model
-        score, acc = self.model.evaluate(X_test, y_test, batch_size=128)
+        score, acc = self.model.evaluate(X_test, args[0], batch_size=128)
 
         print('Score: %1.4f' % score)
         print('Accuracy: %1.4f' % acc)

@@ -5,12 +5,14 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from server.core.topic_classification import classification_preprocessing
 from gensim.models import Word2Vec,word2vec
 import logging
+from server.core.topic_classification import rf_classifier
 
 SEED = 42
 RF_CLASSIFIER = "RF"
 NB_CLASSIFIER = "NB"
 NN_CLASSIFIER = "NN"
-
+DOCUMENT_MAX_NUM_WORDS = 100
+NUM_FEATURES = 300  # Word vector dimensionality
 
 def preprocess(X):
     """Accept X, preprocess X data return cleaned text"""
@@ -30,7 +32,6 @@ def generate_features(X):
     logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', \
                         level=logging.INFO)
 
-    num_features = 300  # Word vector dimensionality
     min_word_count = 40  # Minimum word count
     num_workers = 4  # Number of threads to run in parallel
     context = 10  # Context window size
@@ -38,24 +39,24 @@ def generate_features(X):
 
     print("Training model...")
     model = word2vec.Word2Vec(X, workers=num_workers, \
-                              size=num_features, min_count=min_word_count, \
+                              size=NUM_FEATURES, min_count=min_word_count, \
                               window=context, sample=downsampling)
     model.init_sims(replace=True)
     model_name = "word2vec_features"
     model.save(model_name)
 
 
-def train_classifier(X, y, classifier_model):
+def train_classifier(X_train, y_train, classifier_model):
     """Generate trained model from the features, save the model. Use either
     naive bayes, rf or neural network"""
     if classifier_model == RF_CLASSIFIER:
-        pass
+        classifier = rf_classifier.RFClassifier()
     elif classifier_model == NB_CLASSIFIER:
         pass
     elif classifier_model == NN_CLASSIFIER:
         pass
 
-    pass
+    classifier.train_model(X_train, y_train)
 
 
 def predict_test(X_train, y_train, X_test, y_test):
