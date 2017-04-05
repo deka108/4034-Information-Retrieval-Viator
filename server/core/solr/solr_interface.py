@@ -152,7 +152,7 @@ def index_specific(page_id):
                 send_to_solr(payload)
             print("Successfully indexed {}".format(page_id))
 
-        records_time[page_id] = datetime.datetime.now()
+        records_time[page_id] = str(datetime.datetime.now())
         data_util.write_records_to_json(records_count)
         data_util.write_records_time_to_json(records_time)
         return True
