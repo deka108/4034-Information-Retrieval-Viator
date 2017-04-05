@@ -22,6 +22,7 @@ def get_all_data():
     frames = [df0,df1, df2, df3, df4]
     df_all = pd.concat(frames)
     df_all = df_all[pd.notnull(df_all["class_label"])]
+    df_all = df_all.loc[df_all["class_label"] != ' ']
     df_all.reset_index(drop=True,inplace=True)
     # print(df_all)
     data_util.write_df_to_csv(df_all,df_all.columns,"all_labelled_data")

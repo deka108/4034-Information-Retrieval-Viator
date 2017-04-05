@@ -21,9 +21,9 @@ LOCATION_CORPUS = LOCATION_CORPUS.fillna("")
 LOCATION_CORPUS = LOCATION_CORPUS.set_index("location").to_dict(orient='index')
 
 
-# read from corpus all
 # update corpus
-    # if do not exist there:
+# read from corpus all
+    # not in location corpus: add to new location
 # update all
 # reindex based on new locations
 
