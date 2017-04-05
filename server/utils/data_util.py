@@ -48,6 +48,9 @@ def get_splitted_csv_filepath(id):
     return config.get_splitted_data_path(get_csv_filename(
         SPLITTED_DATA_FILENAME.format(id)))
 
+def get_labelled_csv_filepath(id):
+    return config.get_labelled_data_path(get_csv_filename(
+        SPLITTED_DATA_FILENAME.format(id)))
 
 def init_records():
     global RECORDS
