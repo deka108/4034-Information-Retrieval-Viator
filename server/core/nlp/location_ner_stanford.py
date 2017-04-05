@@ -18,8 +18,12 @@ def get_all_locations():
     page_ids = data_util.get_page_ids()
     all_locations = []
     for page_id in page_ids:
-        data = get_location_pageid(page_id)
-        all_locations.append(data)
+        try:
+            data = get_location_pageid(page_id)
+            all_locations.append(data)
+        except:
+            print("{} does not exist yet in the database".format(
+                data_util.PAGE_LOCATION_FILENAME.format(page_id)))
     all_locations = pd.concat(all_locations)
     data_util.write_df_to_csv(all_locations, NER_COLUMNS,
                               data_util.ALL_POSTS_LOCATIONS_FILENAME)
@@ -30,6 +34,11 @@ def get_location_pageid(page_id):
     location_data = data_util.get_csv_data_from_filename(
         data_util.PAGE_LOCATION_FILENAME.format(page_id))
     return location_data
+
+
+def run_get_location_pageid(page_id):
+    extract_location_page_id(page_id)
+    get_all_locations()
 
 
 def extract_location_all():

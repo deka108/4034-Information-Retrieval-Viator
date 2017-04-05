@@ -165,6 +165,7 @@ npm-debug.log
 etc/
 
 cz4034_ir_solr/
+*.pkl
 /server/core/auto_categorisation/tmp/
 /server/data/*.csv
 !/server/data/*locations.csv
@@ -182,3 +183,4 @@ cz4034_ir_solr/
 /server/data/*.pkl
 /server/core/nlp/location_corpus*
 !/server/data/location_corpus_all.csv
+!/server/data/corpus_fromvocab.csv
