@@ -95,6 +95,11 @@ def add_to_dict(posting):
         except LookupError:
             print('no location coordinates in this post')
 
+        try:
+            post_dict['topic'] = posting['topic']
+        except LookupError:
+            print('no topic coordinates in this post')
+
         return post_dict
     except LookupError:
         print('invalid post')
