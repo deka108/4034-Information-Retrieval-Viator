@@ -3,11 +3,14 @@ import pandas as pd
 from server.utils import data_util,text_util
 from nltk.tokenize import sent_tokenize, word_tokenize
 from server.core.topic_classification import classification_preprocessing
+from gensim.models import Word2Vec,word2vec
+import logging
 
 SEED = 42
 RF_CLASSIFIER = "RF"
 NB_CLASSIFIER = "NB"
 NN_CLASSIFIER = "NN"
+
 
 def preprocess(X):
     """Accept X, preprocess X data return cleaned text"""
@@ -15,15 +18,31 @@ def preprocess(X):
     message_list = X.tolist()
     for message in message_list:
         sentence = sent_tokenize(message)
-        clean_sentence = [text_util.clean_text(x) for x in sentence]
+        clean_sentence = [text_util.preprocess_text(x,lemmatize=True) for x in sentence]
         # print(clean_sentence)
         clean_sentence_list += clean_sentence
     return clean_sentence_list
 
+
 def generate_features(X):
     """Accept cleaned text, and generate features to be trained for the
     classifiers"""
-    pass
+    logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', \
+                        level=logging.INFO)
+
+    num_features = 300  # Word vector dimensionality
+    min_word_count = 40  # Minimum word count
+    num_workers = 4  # Number of threads to run in parallel
+    context = 10  # Context window size
+    downsampling = 1e-3  # Downsample setting for frequent words
+
+    print("Training model...")
+    model = word2vec.Word2Vec(X, workers=num_workers, \
+                              size=num_features, min_count=min_word_count, \
+                              window=context, sample=downsampling)
+    model.init_sims(replace=True)
+    model_name = "word2vec_features"
+    model.save(model_name)
 
 
 def train_classifier(X, y, classifier_model):
@@ -45,5 +64,7 @@ def predict_test(X_train, y_train, X_test, y_test):
     pass
 
 if __name__ == "__main__":
-    X_train, X_test, y_train, y_test = classification_preprocessing.run()
-    print(X_train, X_test, y_train, y_test)
+    X,y = classification_preprocessing.get_all_data()
+    X_clean = preprocess(X)
+    generate_features(X_clean)
+    model = word2vec.load("word2vec_features")
