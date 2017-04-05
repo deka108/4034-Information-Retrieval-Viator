@@ -21,6 +21,13 @@ LOCATION_CORPUS = LOCATION_CORPUS.fillna("")
 LOCATION_CORPUS = LOCATION_CORPUS.set_index("location").to_dict(orient='index')
 
 
+# read from corpus all
+# update corpus
+    # if do not exist there:
+# update all
+# reindex based on new locations
+
+
 def extract_lat_long(location):
     return geocoder.arcgis(location).latlng
 
@@ -111,9 +118,6 @@ def get_new_locations(locations):
 
     print(new_locations)
 
-    # with open("location_corpus.json", "w") as fp:
-    #     json.dump(new_locations, fp, sort_keys=True, indent=2)
-
     with open(NEW_LOCATION_CORPUS_FILENAME, "w") as fp:
         csvwriter = csv.writer(fp)
         sort_locs = list(new_locations.keys())
@@ -188,11 +192,6 @@ def add_locations_to_posts():
         data_util.write_df_to_csv(combined, combined.columns,
                                   data_util.get_page_csv_filename(page_id))
 
-# read from corpus all
-# update corpus
-    # if do not exist there:
-# update all
-# reindex based on new locations
 
 def add_locations_to_all_posts():
     page_ids = data_util.get_page_ids()
