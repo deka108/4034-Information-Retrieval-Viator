@@ -97,9 +97,9 @@ def add_to_dict(posting):
             print('no location coordinates in this post')
 
         try:
-            post_dict['topic'] = posting['topic']
+            post_dict['topic'] = topic_name(posting['predicted_class'])
         except LookupError:
-            print('no topic coordinates in this post')
+            print('no topic in this post')
 
         return post_dict
     except LookupError:
@@ -284,3 +284,18 @@ def calculate_popularity(score):
         return 'very_popular'
     else:
         return 'extremely_popular'
+
+
+def topic_name(topic_number):
+    if topic_number == 1:
+        return "food"
+    elif topic_number == 2:
+        return "event"
+    elif topic_number == 3:
+        return "nature"
+    elif topic_number == 4:
+        return "accomodation"
+    elif topic_number == 5:
+        return "attraction"
+    else:
+        return ""
