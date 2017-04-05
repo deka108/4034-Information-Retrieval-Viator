@@ -61,15 +61,15 @@ def init_records():
 
 
 def update_records():
-    global RECORDS_TIME
+    global RECORDS
     with open(config.RECORDS_DATA_PATH, 'r', encoding='utf-8') as file_handler:
-        RECORDS_TIME = json.load(file_handler)
+        RECORDS = json.load(file_handler)
 
 
 def update_records_time():
-    global RECORDS
+    global RECORDS_TIME
     with open(config.RECORDS_TIME_DATA_PATH, 'r', encoding='utf-8') as file_handler:
-        RECORDS = json.load(file_handler)
+        RECORDS_TIME = json.load(file_handler)
 
 update_records()
 update_records_time()
