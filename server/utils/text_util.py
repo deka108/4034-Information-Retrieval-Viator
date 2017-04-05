@@ -40,15 +40,15 @@ def get_text(row):
     return row
 
 
-def preprocess_text(text, stem=False, lemmatize=True):
+def preprocess_text(text, stem=False, lemmatize=False):
     text = clean_text(text)
+    if lemmatize:
+        return [lemmatizer.lemmatize(word) for word in text.split() if word
+                not in stop_words]
     if stem:
-        if lemmatize:
-            return [lemmatizer.lemmatize(word) for word in text.split() if word
-            not in stop_words]
-        else:
-            return [stemmer.stem(word) for word in text.split() if word not in
+        return [stemmer.stem(word) for word in text.split() if word not in
                     stop_words]
+
     return [word for word in text.split() if word not in stop_words]
 
 
