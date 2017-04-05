@@ -183,7 +183,11 @@ def search(query, page, sort_by, order, filter_field, filter_query, coords = '0,
         elif (sort_by == 'shares') and (order == 'ascending'):
             payload['sort'] = 'shares_count asc'
         elif (sort_by == 'shares') and (order == 'descending'):
-            payload['sort'] = 'reactions_count desc'
+            payload['sort'] = 'shares_count desc'
+        elif (sort_by == 'popularity') and (order == 'ascending'):
+            payload['sort'] = 'popularity_count asc'
+        elif (sort_by == 'popularity') and (order == 'descending'):
+            payload['sort'] = 'popularity_count desc'
 
     if filter_field:
         if filter_field == 'pageid':
