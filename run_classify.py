@@ -6,6 +6,7 @@ def run(vocab_url, classifier):
     corpus_file = c.extract_corpus(vocab_url)
     vocab = ef.extract_vocab(corpus_file)
     files = ef.extract_features(vocab)
+    print(files[0])
     cl.train(vocab, files[0], classifier)
     cl.validate()
 
