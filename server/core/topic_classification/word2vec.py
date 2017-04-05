@@ -1,11 +1,13 @@
 from sklearn.model_selection import train_test_split
 import pandas as pd
+
+from server.core.topic_classification.classifier import RFClassifier, \
+    NBClassifier, NNClassifier
 from server.utils import data_util,text_util
 from nltk.tokenize import sent_tokenize, word_tokenize
 from server.core.topic_classification import classification_preprocessing
 from gensim.models import Word2Vec,word2vec
 import logging
-from server.core.topic_classification import rf_classifier
 
 SEED = 42
 RF_CLASSIFIER = "RF"
@@ -13,6 +15,7 @@ NB_CLASSIFIER = "NB"
 NN_CLASSIFIER = "NN"
 DOCUMENT_MAX_NUM_WORDS = 100
 NUM_FEATURES = 300  # Word vector dimensionality
+
 
 def preprocess(X):
     """Accept X, preprocess X data return cleaned text"""
@@ -50,11 +53,11 @@ def train_classifier(X_train, y_train, classifier_model):
     """Generate trained model from the features, save the model. Use either
     naive bayes, rf or neural network"""
     if classifier_model == RF_CLASSIFIER:
-        classifier = rf_classifier.RFClassifier()
+        classifier = RFClassifier()
     elif classifier_model == NB_CLASSIFIER:
-        pass
+        classifier = NBClassifier()
     elif classifier_model == NN_CLASSIFIER:
-        pass
+        classifier = NNClassifier()
 
     classifier.train_model(X_train, y_train)
 
