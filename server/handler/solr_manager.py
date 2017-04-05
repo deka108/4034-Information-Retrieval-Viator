@@ -49,15 +49,15 @@ def index_data(page_id):
         return "Success"
 
 
-@solr_manager.route('/query/', methods=['GET'])
-def get_query():
-    query = request.args.get('q')
-    page = request.args.get('p')
-    sort_by = request.args.get('sort')
-    order = request.args.get('sort.order')
-    filter_field = request.args.get('filter.field')
-    filter_query = request.args.get('filter.query')
-    return jsonify(solr_interface.search(query, page, sort_by, order))
+# @solr_manager.route('/query/', methods=['GET'])
+# def get_query():
+#     query = request.args.get('q')
+#     page = request.args.get('p')
+#     sort_by = request.args.get('sort')
+#     order = request.args.get('sort.order')
+#     filter_field = request.args.get('filter.field')
+#     filter_query = request.args.get('filter.query')
+#     return jsonify(solr_interface.search(query, page, sort_by, order))
 
 
 @solr_manager.route('/query/<post_id>', methods=['GET'])
