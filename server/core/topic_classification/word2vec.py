@@ -115,6 +115,8 @@ def run():
     X_train, X_test, y_train, y_test = cf.run()
     # print(X_train, X_test, y_train, y_test)
     trainDataVecs, testDataVecs= generate_features(model,X_train,X_test)
+    trainDataVecs = trainDataVecs[~np.isnan(trainDataVecs)]
+    testDataVecs = testDataVecs[~np.isnan(testDataVecs)]
     print("WHERE'S THE ERROR")
     print(np.where(np.isnan(trainDataVecs)))
     print(np.where(np.isnan(testDataVecs)))

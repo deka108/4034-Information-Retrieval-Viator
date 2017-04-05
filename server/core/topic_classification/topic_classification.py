@@ -21,7 +21,7 @@ class LemmaTokenizer(object):
 	def __call__(self, doc):
 	    return [self.wnl.lemmatize(t) for t in word_tokenize(doc)]
 
-nltk.data.path.append('D:/nltk_data/')
+# nltk.data.path.append('D:/nltk_data/')
 
 def add_topic(page_id):
 	"""TESTING"""

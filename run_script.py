@@ -7,13 +7,13 @@ from server.core.topic_classification import topic_classification as tc
 from server.core.topic_classification import generate_model as gm
 import nltk
 
-nltk.data.path.append('D:/nltk_data/')
+
 def run():
-    #preprocessing.preprocess_all_pages()
+    preprocessing.preprocess_all_pages()
     # generate_csv.generate_splitted_csv_for_labelling()
     # statistic.compute_words(du.ALL_POSTS_FILENAME)
-    # nlp_main.run()
-    #nlp_main.run()
+    nlp_main.run()
+
 
 
 
