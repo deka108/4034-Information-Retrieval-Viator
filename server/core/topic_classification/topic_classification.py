@@ -62,11 +62,14 @@ def add_topic(page_id):
 
 	result_df = pd.DataFrame(id_result, columns=["id", "predicted_class"])
 
-	predicted = test.merge(result_df, on="id")
-	headers = ["predicted_class"]
+	if "predicted_class" in test:
+		test.drop("predicted_class", axis=1, inplace=True)
+
+	predicted = pd.merge(test, result_df, on=["id"])
+	print(predicted)
 
 	filename = page_id + "_facebook"
-	du.write_df_to_existing_csv(predicted, headers, filename)
+	du.write_df_to_csv(predicted, predicted.columns, filename)
 	print("predicted class saved to " + filename)
 	#1. Food
 	#2. Event
