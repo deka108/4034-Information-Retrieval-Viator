@@ -7,6 +7,7 @@ from server.core.topic_classification import topic_classification as tc
 from server.core.topic_classification import generate_model as gm
 import nltk
 
+# nltk.data.path.append('D:/nltk_data/')
 
 def run():
     preprocessing.preprocess_all_pages()
@@ -28,7 +29,7 @@ def run():
 
     """CLASSIFY BY TOPIC"""
     gm.run()
-    tc.add_topic_to_allpages()
+    tc.add_topic_to_all_pages()
 
 
 if __name__ == "__main__":

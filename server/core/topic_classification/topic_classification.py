@@ -66,7 +66,7 @@ def add_topic(page_id):
 	headers = ["predicted_class"]
 
 	filename = page_id + "_facebook"
-	du.write_df_to_csv(predicted, predicted.columns, filename)
+	du.write_df_to_existing_csv(predicted, headers, filename)
 	print("predicted class saved to " + filename)
 	#1. Food
 	#2. Event
@@ -74,12 +74,11 @@ def add_topic(page_id):
 	#4. Accommodation
 	#5. Attraction
 
-
-def add_topic_to_allpages():
+def add_topic_to_all_pages():
     page_ids = du.get_page_ids()
     for page_id in page_ids:
     	add_topic(page_id)
 
 
 if __name__ == "__main__":
-    add_topic_to_allpages()
+    add_topic_to_all_pages()

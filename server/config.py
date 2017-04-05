@@ -12,6 +12,7 @@ SOLR_BASE_URL = 'http://localhost:8983/solr/viator_core'
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 JSON_DATA_PATH = os.path.join(DATA_DIR, '%s')
 RECORDS_DATA_PATH = os.path.join(DATA_DIR, 'records.json')
+RECORDS_TIME_DATA_PATH = os.path.join(DATA_DIR, 'records_time.json')
 SPLITTED_DATA_PATH = os.path.join(DATA_DIR, 'splitted_data_for_labelling')
 LABELLED_DATA_PATH = os.path.join(DATA_DIR,'labelled_data')
 SCHEMA_DATA_PATH = os.path.join(DATA_DIR, 'schema.json')
