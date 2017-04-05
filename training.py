@@ -6,10 +6,12 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import NearestCentroid
 from sklearn.neural_network import MLPClassifier 
 from sklearn.metrics import confusion_matrix, accuracy_score, classification_report, precision_score
+from server.core.topic_classification import classification_preprocessing as cp
 import pandas as pd
 import numpy as np
 import nltk
 import time
+import pickle
 
 
 start_time = time.time()
@@ -29,7 +31,7 @@ topic = {"vocab_food": "",
          "vocab_attraction":""}
 
 categories = ["food", "events", "nature", "accommodation", "attraction"]
-df = pd.read_csv('corpus_fromvocab.csv', names=categories).astype(str)
+df = pd.read_csv('./server/core/data_preprocessing/corpus_fromvocab.csv', names=categories).astype(str)
 
 food = df.food.tolist()
 food = list(filter(('nan').__ne__, food))
@@ -49,50 +51,28 @@ attraction = list(filter(('nan').__ne__, attraction))
 vocab = food + events + nature + accommodation + attraction
 vocab = list(set(vocab))
 
-
-df0 = pd.read_csv("splitted_data_0.csv").loc[:, ["id", "message+desc", "class_label"]]
-df1 = pd.read_csv("splitted_data_1.csv").loc[:, ["id", "message+desc", "class_label"]]
-df2 = pd.read_csv("splitted_data_2.csv").loc[:, ["id", "message+desc", "class_label"]]
-df3 = pd.read_csv("splitted_data_3.csv").loc[:, ["id", "message+desc", "class_label"]]
-df4 = pd.read_csv("splitted_data_4.csv").loc[:, ["id", "message+desc", "class_label"]]
-
-frames = [df0, df1, df2, df3, df4]
-df_all = pd.concat(frames)
-df_train = df_all.loc[pd.notnull(df_all["class_label"])]
-df_train = df_train.loc[df_train["class_label"] != ' ']
-print(len(df_train))
-
-
-#train_post = df_train.as_matrix(["message+desc"])
-train_post = df_train.loc[:, ["message+desc"]]
-train_post = list(train_post.values.flatten())
-train_label = df_train.loc[:, ["class_label"]]
-train_label = list(train_label.values.flatten())
-
-
-
-r = 3*len(train_post)//5
-
+train_post, val_post, train_label, valRes = cp.run()
+train_post = train_post.tolist()
+train_label = train_label.tolist()
+val_post = val_post.tolist()
+valRes = valRes.tolist()
 
 vectorizer = CountVectorizer(min_df=1, vocabulary=vocab, tokenizer=LemmaTokenizer())
 
 train_count = vectorizer.fit_transform(train_post)
+val_count = vectorizer.fit_transform(val_post)
 bagOfWord = train_count.toarray()
 
 tf_transformer = TfidfTransformer(use_idf=False).fit(train_count)
 train_tf = tf_transformer.transform(train_count)
-
-n_features = len(bagOfWord[0])
-
-r = 3*len(train_post)//5
+val_transformer = TfidfTransformer(use_idf=False).fit(val_count)
+val_tf = val_transformer.transform(val_count)
 
 clf = RandomForestClassifier(n_estimators = 110)
-clf.fit(train_tf[:r, :], train_label[:r])
+clf.fit(train_tf[:, :], train_label[:])
 
-result = clf.predict(train_tf[r:, :])
-#result = rf.predict(train_tf[r:, :])
+result = clf.predict(val_tf[:, :])
 result = list(map(float, result))
-valRes = train_label[r:]
 valRes = list(map(float, valRes))
 
 print("confusion_matrix")
@@ -105,7 +85,7 @@ print("classification_report")
 print(classification_report(valRes, result, target_names = target))
 
 """TESTING"""
-test_df = pd.read_csv("../../data/all_posts_with_comments.csv", encoding='utf-8')
+test_df = pd.read_csv("./server/data/all_posts.csv", encoding='utf-8')
 
 print("1. TheSmartLocal")
 print("2. goturkeytourism")
@@ -141,11 +121,22 @@ else:
 	page_id="wonderfulplacesindo"
 
 test_data = test_df.loc[test_df["page_id"] == page_id]
-test_message = test_data.loc[:, ["id", "message", "description"]]
-test_post = pd.column_stack((test_message[:,1], test_message[:,2]))
+test_data = test_data.loc[:, ["id", "page_id", "message", "description"]]
+test_id = test_data.loc[:, ["id"]]
+test_msg = test_data.loc[:, ["message"]]
+test_msg = test_msg.replace(np.nan, '', regex=True)
+test_msg = list(test_msg.values.flatten())
+test_desc = test_data.loc[:, ["description"]]
+test_desc = test_desc.replace(np.nan, '', regex=True)
+test_desc = list(test_desc.values.flatten())
+test_pg = test_data.loc[:, ["page_id"]]
 
+test_post = list()
 
-train_count = vectorizer.fit_transform(train_post)
+for i in range(len(test_msg)):
+	temp = test_msg[i] + test_desc[i]
+	test_post.append(temp)
+
 test_count = vectorizer.fit_transform(test_post)
 
 test_transformer = TfidfTransformer(use_idf=False).fit(test_count)
@@ -153,4 +144,13 @@ test_tf = test_transformer.transform(test_count)
 
 test_result = clf.predict(test_tf)
 
-test_data["predicted_class"]=pd.DataFrame(test_result, columns=["predicted_class"])
+a = np.column_stack((test_post, test_result))
+
+test_concat = np.concatenate((test_id, test_pg, a), axis=1)
+predicted = pd.DataFrame(test_concat, columns = ["id", "page_id", "msg+dsc", "predicted_class"])
+
+#test_data = test_data.join(class_lbl)
+#test_data["predicted_class"]=pd.DataFrame(test_result[:], columns=["predicted_class"])
+
+print(predicted["predicted_class"])
+predicted.to_csv("predicted_class.csv", encoding='utf-8')
