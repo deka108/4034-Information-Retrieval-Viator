@@ -16,7 +16,7 @@ def add_to_dict(posting):
     post_dict = {}
     try:
         post_dict['id'] = posting['id']
-        
+
         try:
             post_dict['desc'] = posting['description']
             post_dict['descU'] = posting['description']
@@ -45,25 +45,15 @@ def add_to_dict(posting):
         except LookupError:
             print('no publisher in this post')
 
-        try:
-            post_dict['shares_count'] = posting['shares_cnt']
-        except LookupError:
-            print('no share count in this post')
+        post_dict['shares_count'] = posting['shares_cnt']
+        post_dict['reactions_count'] = posting['reactions_cnt']
+        post_dict['comments_count'] = posting['comments_cnt']
 
-        try:
-            post_dict['reactions_count'] = posting['reactions_cnt']
-        except LookupError:
-            print('no reaction count in this post')
+        post_dict['popularity'] = calculate_popularity(posting['shares_cnt']
+                                                       + posting['reactions_cnt']
+                                                       + posting['comments_cnt'])
 
-        try:
-            post_dict['comments_count'] = posting['comments_cnt']
-        except LookupError:
-            print('no comment count in this post')
-
-        try:
-            post_dict['time'] = posting['updated_time']
-        except LookupError:
-            print('no update time in this post')
+        post_dict['time'] = posting['updated_time']
 
         try:
             post_dict['link'] = posting['link']
@@ -80,26 +70,12 @@ def add_to_dict(posting):
         except LookupError:
             print('no full sized picture in this post')
 
-        try:
-            post_dict['day'] = posting['updated_day']
-        except LookupError:
-            print('no update day in this post')
-
-        try:
-            post_dict['month'] = posting['updated_month']
-        except LookupError:
-            print('no update month in this post')
-
-        try:
-            post_dict['year'] = posting['updated_year']
-        except LookupError:
-            print('no update year in this post')
-
-        try:
-            post_dict['is_weekend'] = posting['updated_is_weekend']
-        except LookupError:
-            print('no update time in this post')
-
+        post_dict['day'] = posting['updated_day']
+        post_dict['month'] = posting['updated_month']
+        post_dict['year'] = posting['updated_year']
+        
+        post_dict['is_weekend'] = posting['updated_is_weekend']
+        
         try:
             post_dict['comments_sentiment'] = posting['comments_sentiment']
             post_dict['sentiment'] = convert_sentiment(posting['comments_sentiment'])
@@ -272,3 +248,14 @@ def convert_sentiment(sentiment_score):
         return 'positive'
     else:
         return 'very positive'
+
+
+def calculate_popularity(score):
+    if score <= 100:
+        return 'normal'
+    elif score <= 5000:
+        return 'popular'
+    elif score <= 10000:
+        return 'very popular'
+    else:
+        return 'extremely popular'
