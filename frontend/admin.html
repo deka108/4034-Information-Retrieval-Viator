@@ -25,9 +25,9 @@
 
     <md-content ng-controller="AdminController">
         <div layout="row" layout-align="center center">
-            <div flex=70 layout-padding>
+            <div flex=80 layout-padding>
                 <h2>Manage Solr Database</h2>
-                <md-card  cg-busy="{promise:loadingPromise,templateUrl:'loading.html', minDuration:3000}">
+                <md-card cg-busy="{promise:loadingPromise,templateUrl:'loading.html'}">
                     <md-card-title>
                         <md-card-title-text>
                             <span class="md-headline">Crawl</span>
@@ -78,7 +78,7 @@
                         </div>
                     </md-card-content>
                 </md-card>
-                <md-card>
+                <md-card cg-busy="{promise:loadingPromise,templateUrl:'loading.html'}">
                     <md-toolbar class="md-table-toolbar md-default">
                         <div class="md-toolbar-tools">
                             <span>Existing Data in the Server</span>
@@ -103,19 +103,15 @@
                                 </tr>
                             </thead>
                             <tbody md-body>
-                                <tr md-row md-select="data" ng-repeat="(key, value) in pageIds | limitTo: query.limit : (query.page -1) * query.limit">
+                                <tr md-row md-select="data" ng-repeat="(key, value) in pageIds | limitTo: dataQuery.limit : (dataQuery.page -1) * dataQuery.limit">
                                     <td md-cell>{{ value.page_id }}</td>
                                     <td md-cell>{{ value.message }}</td>
                                     <td md-cell>{{ value.updated_time }}</td>
-                                    <td md-cell>
-                                        <md-button class="md-accent md-raised" ng-click="showGetTokenDialog($event,value.page_id)">Re-crawl Page</md-button>
-                                        <md-button class="md-warn md-raised">Delete Page</md-button>
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </md-table-container>
-                    <md-table-pagination md-limit='query.limit' md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{pageIdsCount}}" md-page-select="true"></md-table-pagination>
+                    <md-table-pagination md-limit='query.limit' md-limit-options="[5, 10, 15]" md-page="dataQuery.page" md-total="{{pageIdsCount}}" md-page-select="true"></md-table-pagination>
                     <md-toolbar class="md-table-toolbar md-default">
                         <div class="md-toolbar-tools">
                             <span>Existing Index in Solr Database</span>
@@ -147,6 +143,8 @@
                                     <td md-cell>
                                         <md-button class="md-accent md-raised" ng-click="reindexPage(key)">Re-index!</md-button>
                                         <md-button class="md-warn md-raised" ng-click="deleteIndex(key)">Delete Index</md-button>
+                                        <md-button class="md-accent md-raised" ng-click="showGetTokenDialog($event,key)">Re-crawl Page</md-button>
+                                        <md-button class="md-warn md-raised" ng-click="deleteData(value.key)">Delete Page</md-button>
                                     </td>
                                 </tr>
                             </tbody>

@@ -6,8 +6,8 @@ from flask import make_response
 
 from server.utils import data_util
 from server.core.data_preprocessing import preprocessing
-from server.core.solr import solr_interface
 from server.core.nlp import sentiment
+from server.core.topic_classification import topic_classification
 from server.core.crawler import crawler
 # access_token = 'EAACEdEose0cBAP9s5lDmTubZAGr2KBKnAaQulX54mUvVV0mniQrhvbRDG3xcvzmsaMfMQFbkF2UFpluEX18kP7w5dgFjNjORmy7xJenpP8j4AbXZBD2DNfh4VsGTEgP0S5I5tChl7mY4UmtRt9pzvWBAyMEsz3LR63aTmscU0uVURQQUxIsO7a8lg77o5ZBHH5oyzif7wZDZD'
 
@@ -29,12 +29,18 @@ def crawl():
             if not page_id:
                 crawler.crawl_all(access_token)
                 preprocessing.preprocess_all_pages()
+                sentiment.get_sentiment_all_pages()
+                topic_classification.add_topic_to_all_pages()
+
                 print("Success Crawling all pages!")
                 page_id = "all"
             else:
                 crawler.crawl_page(page_id, access_token)
-                print("Success crawling {}".format(page_id))
                 preprocessing.preprocess_page_json(page_id)
+                sentiment.get_sentiment(page_id)
+                topic_classification.add_topic(page_id)
+
+                print("Success crawling {}".format(page_id))
 
         return jsonify({
             "page_id": page_id,
@@ -116,6 +122,14 @@ def add_location():
 @db_manager.route('/records/', methods=['GET'])
 def get_all_data():
     file_infos = data_util.get_records()
+    if file_infos:
+        return jsonify(file_infos)
+    return make_response("Record does not exist", 404)
+
+
+@db_manager.route('/records_time/', methods=['GET'])
+def get_all_time_data():
+    file_infos = data_util.get_records_time()
     if file_infos:
         return jsonify(file_infos)
     return make_response("Record does not exist", 404)

@@ -37,6 +37,7 @@ def crawl_page(page_id, access_token):
     print("Start crawling " + page_id + "\n")
     post_list = []
     records = data_util.get_records()
+    records_time = data_util.get_records_time()
     print(records)
 
     try:
@@ -61,6 +62,9 @@ def crawl_page(page_id, access_token):
 
         data_util.write_page_data_to_json(post_list, page_id)
         data_util.write_records_to_json(records)
+        records_time[page_id] = ""
+        data_util.write_records_time_to_json(records_time)
+
 
         print("Done crawling " + page_id + "\n")
         return True

@@ -18,6 +18,7 @@ SPLITTED_DATA_FILENAME = "splitted_data_{}"
 TESTING = "testing"
 
 RECORDS = {}
+RECORDS_TIME = {}
 
 
 def get_json_filename(file_name):
@@ -60,11 +61,18 @@ def init_records():
 
 
 def update_records():
-    global RECORDS
+    global RECORDS_TIME
     with open(config.RECORDS_DATA_PATH, 'r', encoding='utf-8') as file_handler:
+        RECORDS_TIME = json.load(file_handler)
+
+
+def update_records_time():
+    global RECORDS
+    with open(config.RECORDS_TIME_DATA_PATH, 'r', encoding='utf-8') as file_handler:
         RECORDS = json.load(file_handler)
 
 update_records()
+update_records_time()
 
 
 def get_preprocessed_json_data_by_page_id(page_id):
@@ -153,6 +161,11 @@ def get_records():
     return RECORDS
 
 
+def get_records_time():
+    """Get page records with page id maps to count"""
+    return RECORDS_TIME
+
+
 def write_records_to_json(data):
     """Update records and write records to json."""
 
@@ -161,6 +174,17 @@ def write_records_to_json(data):
     
     global RECORDS
     RECORDS = data
+
+
+def write_records_time_to_json(data):
+    """Update records and write time records to json."""
+
+    with open(config.RECORDS_TIME_DATA_PATH, mode='w',
+              encoding='utf-8') as file_handler:
+        json.dump(data, file_handler, indent=2, sort_keys=True)
+
+    global RECORDS_TIME
+    RECORDS_TIME = data
 
 
 def write_page_data_to_json(data, page_id):
@@ -183,12 +207,14 @@ def write_dict_to_csv(data, headers, file_name):
 def write_df_to_csv(df, headers, file_name):
     data_path = config.get_data_path(get_csv_filename(file_name))
     df = df.fillna("")
-    df.to_csv(data_path, columns=headers, index_label="no", encoding='utf-8')
+    df.to_csv(data_path, columns=headers, index=False, encoding='utf-8')
 
 
 def write_df_to_existing_csv(new_df, headers, file_name):
     data_path = config.get_data_path(get_csv_filename(file_name))
     df_csv = pd.read_csv(data_path)
+    print(new_df)
     df_csv[headers] = new_df[headers]
+
     df_csv.to_csv(data_path, columns = df_csv.columns, index=False, encoding='utf-8')
     # write_df_to_csv(df_csv, df_csv.columns, file_name)

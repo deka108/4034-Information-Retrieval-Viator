@@ -46,7 +46,7 @@ def extract_lat_long_row(row):
     return row
 
 
-def compile_lat_long():
+def compile_new_lat_long():
     all_df = []
     for i in range(6):
         file_name = LOCATION_CORPUS_ID_FILENAME.format(i)
@@ -55,6 +55,14 @@ def compile_lat_long():
     all_df = pd.concat(all_df)
     all_df.to_csv(NEW_LOCATION_CORPUS_FILENAME, header=LOCATION_COLUMNS,
                   encoding='utf-8', index=False)
+    return all_df
+
+
+def compile_all_corpus(new_locations):
+    LOCATION_CORPUS.append(new_locations)
+    LOCATION_CORPUS.sort(['location'], inplace=True)
+    data_util.write_df_to_csv(LOCATION_CORPUS, LOCATION_CORPUS.columns,
+                              data_util.ALL_LOCATION_CORPUS)
 
 
 def update_location_corpus():
@@ -62,20 +70,13 @@ def update_location_corpus():
     ordered_loc, new_location_data = get_new_locations(all_locations)
     n_split = split_locations(ordered_loc, new_location_data)
     for i in range(n_split):
-        get_lat_long_id(i)
-    compile_lat_long()
-    # combine with all corpus
+        get_lat_long(i)
+    compile_new_lat_long()
+    compile_all_corpus()
 
 
-# update corpus
-# read from corpus all
-    # not in location corpus: add to new location
-# update all
-# reindex based on new locations
-
-
-def get_lat_long_id(id):
-    file_name = LOCATION_CORPUS_ID_FILENAME.format(id)
+def get_lat_long(split_id):
+    file_name = LOCATION_CORPUS_ID_FILENAME.format(split_id)
     df = pd.read_csv(file_name)
     df.fillna("")
     df = df.apply(extract_lat_long_row, axis=1)
@@ -217,15 +218,23 @@ def add_locations_to_pageid(page_id):
 def run():
     add_locations_to_posts()
 
+
+
 if __name__ == "__main__":
+    # update corpus
+    # read from corpus all
+    # not in location corpus: add to new location
+    # update all
+    # reindex based on new locations
+
     # build_location_corpus()
     # CHANGE ID!!!!
-    #get_lat_long_id(4)
+    # get_lat_long_id(4)
     # compile_lat_long()
     # get_lat_long_id()
     # compile_lat_long()
-    run()
     # add_locations_to_pageid("Tripviss")
     # pprint(LOCATION_CORPUS)
     # update_location_corpus()
+    run()
 
