@@ -1,7 +1,7 @@
 import json
+import datetime
 
 import requests
-import time
 from nltk.stem.porter import *
 
 from server import config
@@ -97,9 +97,9 @@ def add_to_dict(posting):
             print('no location coordinates in this post')
 
         try:
-            post_dict['topic'] = posting['topic']
+            post_dict['topic'] = topic_name(posting['predicted_class'])
         except LookupError:
-            print('no topic coordinates in this post')
+            print('no topic in this post')
 
         return post_dict
     except LookupError:
@@ -137,7 +137,10 @@ def get_schema():
 def index_specific(page_id):
     try:
         temp_json = data_util.get_preprocessed_json_data_by_page_id(page_id)
+        records_count = data_util.get_records()
+        records_count[page_id] = len(temp_json)
         records_time = data_util.get_records_time()
+
         if temp_json:
             for post in temp_json:
                 to_be_posted = add_to_dict(post)
@@ -148,7 +151,9 @@ def index_specific(page_id):
                 }}''' % json.dumps(to_be_posted))
                 send_to_solr(payload)
             print("Successfully indexed {}".format(page_id))
-        records_time[page_id] = time.time()
+
+        records_time[page_id] = str(datetime.datetime.now())
+        data_util.write_records_to_json(records_count)
         data_util.write_records_time_to_json(records_time)
         return True
     except:
@@ -279,3 +284,18 @@ def calculate_popularity(score):
         return 'very_popular'
     else:
         return 'extremely_popular'
+
+
+def topic_name(topic_number):
+    if topic_number == 1:
+        return "food"
+    elif topic_number == 2:
+        return "event"
+    elif topic_number == 3:
+        return "nature"
+    elif topic_number == 4:
+        return "accomodation"
+    elif topic_number == 5:
+        return "attraction"
+    else:
+        return ""

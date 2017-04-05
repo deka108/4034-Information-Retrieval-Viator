@@ -61,15 +61,15 @@ def init_records():
 
 
 def update_records():
-    global RECORDS_TIME
+    global RECORDS
     with open(config.RECORDS_DATA_PATH, 'r', encoding='utf-8') as file_handler:
-        RECORDS_TIME = json.load(file_handler)
+        RECORDS = json.load(file_handler)
 
 
 def update_records_time():
-    global RECORDS
+    global RECORDS_TIME
     with open(config.RECORDS_TIME_DATA_PATH, 'r', encoding='utf-8') as file_handler:
-        RECORDS = json.load(file_handler)
+        RECORDS_TIME = json.load(file_handler)
 
 update_records()
 update_records_time()
@@ -207,12 +207,14 @@ def write_dict_to_csv(data, headers, file_name):
 def write_df_to_csv(df, headers, file_name):
     data_path = config.get_data_path(get_csv_filename(file_name))
     df = df.fillna("")
-    df.to_csv(data_path, columns=headers, index_label="no", encoding='utf-8')
+    df.to_csv(data_path, columns=headers, index=False, encoding='utf-8')
 
 
 def write_df_to_existing_csv(new_df, headers, file_name):
     data_path = config.get_data_path(get_csv_filename(file_name))
     df_csv = pd.read_csv(data_path)
+    print(new_df)
     df_csv[headers] = new_df[headers]
+
     df_csv.to_csv(data_path, columns = df_csv.columns, index=False, encoding='utf-8')
     # write_df_to_csv(df_csv, df_csv.columns, file_name)

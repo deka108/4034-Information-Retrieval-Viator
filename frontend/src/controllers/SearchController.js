@@ -10,10 +10,11 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
     $scope.filter.PageID = null;
     $scope.filter.Topic = null;
     $scope.filter.Sentiment = null;
+    $scope.filter.Popularity = 'Normal';
     $scope.filter.Nearby = 0;
-    $scope.curFilter = null;
+    $scope.curFilter = 'None';
     $scope.curSort = 'Relevance';
-    $scope.order = 'Ascending';
+    $scope.order = 'Descending';
     $scope.curGeolocation = '0,0';
 
     if (navigator.geolocation) {
@@ -35,7 +36,7 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
         'Relevance',
         'Time',
         'Reactions',
-        'Shares',
+        'Popularity',
     ];
 
     $scope.orderOptions = ['Ascending', 'Descending'];
@@ -53,15 +54,25 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
     }
 
     $scope.searchFilters = [
-        null,
+        'None',
         'Time',
         'PageID',
         'Topic',
         'Sentiment',
         'Nearby',
+        'Popularity',
     ];
 
     $scope.sentimentOptions = ['Very Positive', 'Positive', 'Neutral', 'Negative'];
+
+    $scope.popOptions = ['Normal', 'Popular', 'Very Popular', 'Extremely Popular'];
+
+    $scope.sentimentIcon = {
+        'very_positive': 'mood',
+        'positive': 'sentiment_satisfied',
+        'neutral': 'sentiment_neutral',
+        'negative': 'sentiment_very_dissatisfied',
+    }
     $scope.topicOptions = ['Food', 'Event', 'Nature', 'Attraction', 'Accomodation'];
 
     $scope.refreshFilterDate = function() {
@@ -71,12 +82,16 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
 
     $scope.searchQuery = function() {
         $scope.curPage = 0;
-        let filter_query = $scope.filter[$scope.curFilter];
-        if($scope.curFilter == 'Topic' || $scope.curFilter == 'Sentiment'){
+        let filter = $scope.curFilter;
+        let filter_query = $scope.filter[filter];
+        if(filter == 'Topic' || filter == 'Sentiment' || filter == 'Popularity'){
             filter_query = filter_query.toLowerCase();
         }
+        if(filter == 'None'){
+            filter = null;
+        }
         console.log(filter_query);
-        SolrDataService.retrieveQueryResult($scope.searchData.textQuery, 0, $scope.curSort, $scope.order, $scope.curFilter, filter_query, $scope.curGeolocation);
+        SolrDataService.retrieveQueryResult($scope.searchData.textQuery, 0, $scope.curSort, $scope.order, filter, filter_query, $scope.curGeolocation);
     }
 
     $scope.searchQueryNextPage = function() {
@@ -109,6 +124,9 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
             }
 
             $scope.existNextPage = searchResultTemp.next_page;
+            $scope.searchResult.docs.forEach((value, index) => {
+                value.date = new Date(value.time);
+            });
             updateHighlight($scope.searchResult.docs, searchResultTemp.highlighting);
             if($scope.searchResult.suggestions != false){
                 $scope.suggestions = reparse($scope.searchResult.suggestions);
