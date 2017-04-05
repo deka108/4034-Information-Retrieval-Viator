@@ -1,4 +1,5 @@
 from server.core.data_preprocessing import preprocessing
+from server.utils import data_util
 from server.core.nlp import nlp_main
 from server.core.data_preprocessing import generate_csv
 from server.utils import data_util as du
@@ -25,8 +26,11 @@ def run():
 
 
     """CLASSIFY BY TOPIC"""
-    gm.run()
-    tc.add_topic_to_all_pages()
+    # gm.run()
+    # tc.add_topic_to_all_pages()
+
+    json_data = data_util.get_preprocessed_json_data_by_page_id("Tripviss")
+    print(len(json_data))
 
 
 if __name__ == "__main__":
