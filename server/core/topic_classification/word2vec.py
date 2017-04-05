@@ -24,7 +24,7 @@ def preprocess(X):
     return clean_sentence_list
 
 
-def generate_features(X):
+def create_model(X):
     """Accept cleaned text, and generate features to be trained for the
     classifiers"""
     logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', \
@@ -44,6 +44,8 @@ def generate_features(X):
     model_name = "word2vec_features"
     model.save(model_name)
 
+def generate_features(X):
+    pass
 
 def train_classifier(X, y, classifier_model):
     """Generate trained model from the features, save the model. Use either
