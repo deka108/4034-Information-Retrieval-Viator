@@ -13,6 +13,7 @@ DATA_DIR = os.path.join(BASE_DIR, 'data')
 JSON_DATA_PATH = os.path.join(DATA_DIR, '%s')
 RECORDS_DATA_PATH = os.path.join(DATA_DIR, 'records.json')
 SPLITTED_DATA_PATH = os.path.join(DATA_DIR, 'splitted_data_for_labelling')
+LABELLED_DATA_PATH = os.path.join(DATA_DIR,'labelled_data')
 SCHEMA_DATA_PATH = os.path.join(DATA_DIR, 'schema.json')
 INITIAL_RECORDS_DATA_PATH = os.path.join(DATA_DIR, 'initial_records.json')
 STANFORD_POS_FILENAME = "stanford-postagger-full-2016-10-31"
@@ -42,6 +43,10 @@ def get_splitted_data_path(file_name):
         os.makedirs(SPLITTED_DATA_PATH)
     return os.path.join(SPLITTED_DATA_PATH, file_name)
 
+def get_labelled_data_path(file_name):
+    if not os.path.exists(LABELLED_DATA_PATH):
+        os.makedirs(LABELLED_DATA_PATH)
+    return os.path.join(LABELLED_DATA_PATH,file_name)
 
 def check_data_path(file_path):
     print(file_path)

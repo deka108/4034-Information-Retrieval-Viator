@@ -6,6 +6,8 @@ from server.utils import text_util
 from textblob import TextBlob
 from textblob.classifiers import NaiveBayesClassifier
 from server.utils import data_util
+from sklearn.model_selection import train_test_split
+
 
 headers = ["message_desc","class_label",]
 def preprocess_data():

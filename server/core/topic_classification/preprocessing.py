@@ -1,5 +1,6 @@
 from sklearn.model_selection import train_test_split
-
+import pandas as pd
+from server.utils import data_util
 
 SEED = 42
 RF_CLASSIFIER = "RF"
@@ -8,7 +9,14 @@ NN_CLASSIFIER = "NN"
 
 def get_all_data():
     """Compile all data, return X (raw features) and y (class label)"""
-    pass
+    print(data_util.get_labelled_csv_filepath("0"))
+    # df0 = pd.read_csv("splitted_data_0.csv", usecols=[2, 11])
+    # df1 = pd.read_csv("splitted_data_1.csv", usecols=[2, 11])
+    # df2 = pd.read_csv("splitted_data_2.csv", usecols=[2, 11])
+    # df3 = pd.read_csv("splitted_data_3.csv", usecols=[2, 11])
+    # df4 = pd.read_csv("splitted_data_4.csv", usecols=[2, 11])
+    # frames = [df1, df2, df3, df4]
+    # pass
 
 
 def split_train_test(X, y):
@@ -44,3 +52,6 @@ def predict_test(X_train, y_train, X_test, y_test):
     """Predict test labels, compute accuracy bla bla (see the assignment 
     pdf)"""
     pass
+
+if __name__ == "__main__":
+    get_all_data()
