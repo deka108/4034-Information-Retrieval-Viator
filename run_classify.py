@@ -101,36 +101,15 @@ def create_model():
 	joblib.dump(clf, 'rf_tfidf.pkl')
 
 
-def predict(no):
+def predict(page_id):
 	"""TESTING"""
 	vocab = joblib.load('vocab.pkl')
 	clf = joblib.load('rf_tfidf.pkl')
-	test_df = du.get_csv_data_from_filename("all_posts")
-	#test_df = pd.read_csv("./server/data/all_posts.csv", encoding='utf-8')
 
-	if no==1:
-		page_id = "TheSmartLocal"
-	elif no==2:
-		page_id = "goturkeytourism"
-	elif no==3:
-		page_id="incredibleindia"
-	elif no==4:
-		page_id="indonesia.travel"
-	elif no==5:
-		page_id="itsmorefuninthePhilippines"
-	elif no==6:
-		page_id="koreatourism"
-	elif no==7:
-		page_id = "malaysia.travel.sg"
-	elif no==8:
-		page_id="visitchinanow"
-	elif no==9:
-		page_id="visitjapaninternational"
-	else:
-		page_id="wonderfulplacesindo"
+	test_df = du.get_csv_data_by_pageid(page_id)
 
-	test_data = test_df.loc[test_df["page_id"] == page_id]
-	test_data = test_data.loc[:, ["id", "page_id", "message", "description"]]
+	test = test_df.loc[test_df["page_id"] == page_id]
+	test_data = test.loc[:, ["id", "page_id", "message", "description"]]
 	test_id = test_data.loc[:, ["id"]]
 	test_msg = test_data.loc[:, ["message"]]
 	test_msg = test_msg.replace(np.nan, '', regex=True)
@@ -157,15 +136,15 @@ def predict(no):
 	test_result = list(map(float, test_result))
 	test_result = list(map(int, test_result))
 
-	a = np.column_stack((test_post, test_result))
+	id_result = np.column_stack((test_id, test_result))
 
-	test_concat = np.concatenate((test_id, test_pg, a), axis=1)
+	result_df = pd.DataFrame(id_result, columns=["id", "predicted_class"])
 
-	headers= ["id", "page_id", "msg+dsc", "predicted_class"]
-	predicted = pd.DataFrame(test_concat, columns = headers)
-	filename = "predicted_class_" + page_id
-	
-	du.write_df_to_csv(predicted, headers, filename)
+	predicted = test.merge(result_df, on="id")
+	headers = ["predicted_class"]
+
+	filename = page_id + "_facebook"
+	du.write_df_to_existing_csv(predicted, headers, filename)
 	print("predicted class saved to " + filename)
 	#1. Food
 	#2. Event
@@ -178,7 +157,7 @@ def run_once():
 	create_model()
 
 if __name__ == "__main__":
-	#only need to run this once
+	#only need to run this once to generate pickle files
 	#run_once()
 
 	print("1. TheSmartLocal")
@@ -192,5 +171,5 @@ if __name__ == "__main__":
 	print("9. visitjapaninternational")
 	print("10. wonderfulplacesindo")
 
-	page_id = int(input("Enter page id: "))
+	page_id = str(input("Enter page id: "))
 	predict(page_id)
