@@ -1,7 +1,7 @@
 import json
+import datetime
 
 import requests
-import time
 from nltk.stem.porter import *
 
 from server import config
@@ -152,7 +152,7 @@ def index_specific(page_id):
                 send_to_solr(payload)
             print("Successfully indexed {}".format(page_id))
 
-        records_time[page_id] = time.time()
+        records_time[page_id] = datetime.datetime.now()
         data_util.write_records_to_json(records_count)
         data_util.write_records_time_to_json(records_time)
         return True
