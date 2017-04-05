@@ -18,7 +18,8 @@ NUM_WORKERS = 4  # Number of threads to run in parallel
 CONTEXT = 10  # Context window size
 DOWNSAMPLING = 1e-3  # Downsample setting for frequent words
 
-
+def get_all_data():
+    pass
 def preprocess(X):
     """Accept X, preprocess X data return cleaned text"""
     clean_sentence_list= []
@@ -47,9 +48,31 @@ def create_model(X):
     model.save(model_name)
 
 def generate_features(X):
+    clean_train_posts = []
     pass
 
-def makeFeatureVec(words,model,num_features)
+def makeFeatureVec(words,model,num_features):
+    featureVec = np.zeros((num_features,), dtype="float32")
+    nwords = 0.
+    index2word_set = set(model.index2word)
+    for word in words:
+        if word in index2word_set:
+            nwords = nwords + 1.
+            featureVec = np.add(featureVec, model[word])
+    featureVec = np.divide(featureVec, nwords)
+    return featureVec
+
+def getAvgFeatureVecs(posts, model, num_features):
+    counter = 0.
+    reviewFeatureVecs = np.zeros((len(posts), num_features), dtype="float32")
+    for review in posts:
+       if counter%1000. == 0.:
+           print ("Review %d of %d" % (counter, len(posts)))
+
+       reviewFeatureVecs[counter] = makeFeatureVec(review, model, \
+           num_features)
+       counter = counter + 1.
+    return reviewFeatureVecs
 
 def train_classifier(X, y, classifier_model):
     """Generate trained model from the features, save the model. Use either
