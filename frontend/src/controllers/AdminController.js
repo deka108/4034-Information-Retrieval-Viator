@@ -114,10 +114,6 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
         DbDataService.deleteFacebookPageData(pageId);
     }
 
-    $scope.deleteData = function(pageId) {
-        DbDataService.deleteFacebookPageData(pageId);
-    }
-
     $scope.reindexAllPages = function() {
         $scope.setPromise(SolrDataService.reindexAllPageData());
     }
@@ -141,6 +137,12 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
     $scope.selected = [];
 
     $scope.query = {
+        order: 'name',
+        limit: 10,
+        page: 1
+    };
+
+    $scope.dataQuery = {
         order: 'name',
         limit: 10,
         page: 1
