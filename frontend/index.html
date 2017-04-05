@@ -147,6 +147,7 @@
                             </md-card-title-media>
                         </md-card-title>
                         <md-card-content layout="column">
+                            <h3>Topic: {{value.topic}}</h3>
                             <md-datepicker ng-model="value.date" disabled></md-datepicker>
                             <span class="md-subhead results-link">Source: <span ng-bind-html="value.link"></span></span>
                             <p class="md-subhead" ng-bind-html="value.message[0]"></p>
