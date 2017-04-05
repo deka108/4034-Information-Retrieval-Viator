@@ -14,7 +14,7 @@ def preprocess_data():
     df2 = pd.read_csv("splitted_data_2.csv",usecols=[2,11])
     df3 = pd.read_csv("splitted_data_3.csv", usecols=[2, 11])
     df4 = pd.read_csv("splitted_data_4.csv", usecols=[2, 11])
-    frames = [df0,df1,df2,df3,df4]
+    frames = [df1,df2,df3,df4]
     df_all = pd.concat(frames)
     df_all = df_all[pd.notnull(df_all["class_label"])]
     df_all.to_csv("train.csv", index = False, header= False)
