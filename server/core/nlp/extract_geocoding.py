@@ -21,13 +21,6 @@ LOCATION_CORPUS = LOCATION_CORPUS.fillna("")
 LOCATION_CORPUS = LOCATION_CORPUS.set_index("location").to_dict(orient='index')
 
 
-# update corpus
-# read from corpus all
-    # not in location corpus: add to new location
-# update all
-# reindex based on new locations
-
-
 def extract_lat_long(location):
     return geocoder.arcgis(location).latlng
 
@@ -70,8 +63,15 @@ def update_location_corpus():
     n_split = split_locations(ordered_loc, new_location_data)
     for i in range(n_split):
         get_lat_long_id(i)
-    # compile_lat_long()
+    compile_lat_long()
     # combine with all corpus
+
+
+# update corpus
+# read from corpus all
+    # not in location corpus: add to new location
+# update all
+# reindex based on new locations
 
 
 def get_lat_long_id(id):
