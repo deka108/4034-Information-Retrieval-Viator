@@ -3,11 +3,21 @@ import pandas as pd
 from server.utils import data_util,text_util
 from nltk.tokenize import sent_tokenize, word_tokenize
 from server.core.topic_classification import classification_preprocessing
+from gensim.models import Word2Vec,word2vec
+import logging
+import numpy as np
 
 SEED = 42
 RF_CLASSIFIER = "RF"
 NB_CLASSIFIER = "NB"
 NN_CLASSIFIER = "NN"
+
+NUM_FEATURES = 300  # Word vector dimensionality
+MIN_WORD_COUNT = 40  # Minimum word count
+NUM_WORKERS = 4  # Number of threads to run in parallel
+CONTEXT = 10  # Context window size
+DOWNSAMPLING = 1e-3  # Downsample setting for frequent words
+
 
 def preprocess(X):
     """Accept X, preprocess X data return cleaned text"""
@@ -15,16 +25,31 @@ def preprocess(X):
     message_list = X.tolist()
     for message in message_list:
         sentence = sent_tokenize(message)
-        clean_sentence = [text_util.clean_text(x) for x in sentence]
+        clean_sentence = [text_util.preprocess_text(x,lemmatize=True) for x in sentence]
         # print(clean_sentence)
         clean_sentence_list += clean_sentence
     return clean_sentence_list
 
-def generate_features(X):
+
+def create_model(X):
     """Accept cleaned text, and generate features to be trained for the
     classifiers"""
+    logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', \
+                        level=logging.INFO)
+
+
+    print("Training model...")
+    model = word2vec.Word2Vec(X, workers=NUM_WORKERS, \
+                              size=NUM_FEATURES, min_count=MIN_WORD_COUNT, \
+                              window=CONTEXT, sample=DOWNSAMPLING)
+    model.init_sims(replace=True)
+    model_name = "word2vec_features"
+    model.save(model_name)
+
+def generate_features(X):
     pass
 
+def makeFeatureVec(words,model,num_features)
 
 def train_classifier(X, y, classifier_model):
     """Generate trained model from the features, save the model. Use either
@@ -45,5 +70,7 @@ def predict_test(X_train, y_train, X_test, y_test):
     pass
 
 if __name__ == "__main__":
-    X_train, X_test, y_train, y_test = classification_preprocessing.run()
-    print(X_train, X_test, y_train, y_test)
+    X,y = classification_preprocessing.get_all_data()
+    X_clean = preprocess(X)
+    generate_features(X_clean)
+    model = word2vec.load("word2vec_features")
