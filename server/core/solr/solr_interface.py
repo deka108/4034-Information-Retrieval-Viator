@@ -163,6 +163,7 @@ def index_all():
 
 
 def search(query, page, sort_by, order, filter_field, filter_query, coords = '0,0'):
+    filter_query = filter_query.replace(' ', '_')
     rows = 10
     try:
         page = int(page)
@@ -259,7 +260,7 @@ def convert_sentiment(sentiment_score):
     elif sentiment_score <= 0.5:
         return 'positive'
     else:
-        return 'very positive'
+        return 'very_positive'
 
 
 def calculate_popularity(score):
@@ -268,6 +269,6 @@ def calculate_popularity(score):
     elif score <= 5000:
         return 'popular'
     elif score <= 10000:
-        return 'very popular'
+        return 'very_popular'
     else:
-        return 'extremely popular'
+        return 'extremely_popular'
