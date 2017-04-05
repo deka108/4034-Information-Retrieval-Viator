@@ -49,6 +49,9 @@ def add_to_dict(posting):
         post_dict['reactions_count'] = posting['reactions_cnt']
         post_dict['comments_count'] = posting['comments_cnt']
 
+        post_dict['popularity_count'] = (posting['shares_cnt'] + posting['reactions_cnt']
+                                         + posting['comments_cnt'])
+
         post_dict['popularity'] = calculate_popularity(posting['shares_cnt']
                                                        + posting['reactions_cnt']
                                                        + posting['comments_cnt'])
