@@ -12,6 +12,7 @@ RF_CLASSIFIER = "RF"
 NB_CLASSIFIER = "NB"
 NN_CLASSIFIER = "NN"
 
+
 NUM_FEATURES = 300  # Word vector dimensionality
 MIN_WORD_COUNT = 40  # Minimum word count
 NUM_WORKERS = 4  # Number of threads to run in parallel
@@ -19,7 +20,21 @@ CONTEXT = 10  # Context window size
 DOWNSAMPLING = 1e-3  # Downsample setting for frequent words
 
 def get_all_data():
-    pass
+    """Compile all data, return X (raw features) and y (class label)"""
+    # print(data_util.get_labelled_csv_filepath(0))
+    df0 = pd.read_csv(data_util.get_labelled_csv_filepath(0), usecols=[2, 11])
+    df1 = pd.read_csv(data_util.get_labelled_csv_filepath(1), usecols=[2, 11])
+    df2 = pd.read_csv(data_util.get_labelled_csv_filepath(2), usecols=[2, 11])
+    df3 = pd.read_csv(data_util.get_labelled_csv_filepath(3), usecols=[2, 11])
+    df4 = pd.read_csv(data_util.get_labelled_csv_filepath(4), usecols=[2, 11])
+    frames = [df0,df1, df2, df3, df4]
+    df_all = pd.concat(frames)
+    df_all.reset_index(drop=True,inplace=True)
+    # print(df_all)
+    X = df_all["message+desc"]
+    y = df_all["class_label"]
+    return X,y
+
 def preprocess(X):
     """Accept X, preprocess X data return cleaned text"""
     clean_sentence_list= []
@@ -31,16 +46,14 @@ def preprocess(X):
         clean_sentence_list += clean_sentence
     return clean_sentence_list
 
-
-def create_model(X):
+def create_model(sentences):
     """Accept cleaned text, and generate features to be trained for the
     classifiers"""
     logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', \
                         level=logging.INFO)
 
-
     print("Training model...")
-    model = word2vec.Word2Vec(X, workers=NUM_WORKERS, \
+    model = word2vec.Word2Vec(sentences, workers=NUM_WORKERS, \
                               size=NUM_FEATURES, min_count=MIN_WORD_COUNT, \
                               window=CONTEXT, sample=DOWNSAMPLING)
     model.init_sims(replace=True)
@@ -92,8 +105,11 @@ def predict_test(X_train, y_train, X_test, y_test):
     pdf)"""
     pass
 
-if __name__ == "__main__":
-    X,y = classification_preprocessing.get_all_data()
+def run():
+    X,y = get_all_data()
     X_clean = preprocess(X)
-    generate_features(X_clean)
-    model = word2vec.load("word2vec_features")
+    create_model(X_clean)
+    model = word2vec.Word2Vec.load("word2vec_features")
+
+if __name__ == "__main__":
+    run()
