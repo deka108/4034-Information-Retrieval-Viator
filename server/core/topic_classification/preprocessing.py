@@ -6,6 +6,10 @@ RF_CLASSIFIER = "RF"
 NB_CLASSIFIER = "NB"
 NN_CLASSIFIER = "NN"
 
+DOCUMENT_MAX_NUM_WORDS = 100
+NUM_FEATURES = 100
+
+
 def get_all_data():
     """Compile all data, return X (raw features) and y (class label)"""
     pass
