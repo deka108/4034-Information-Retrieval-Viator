@@ -163,7 +163,10 @@ def index_all():
 
 
 def search(query, page, sort_by, order, filter_field, filter_query, coords = '0,0'):
-    filter_query = filter_query.replace(' ', '_')
+    try:
+        filter_query = filter_query.replace(' ', '_')
+    except AttributeError:
+        pass
     rows = 10
     try:
         page = int(page)
