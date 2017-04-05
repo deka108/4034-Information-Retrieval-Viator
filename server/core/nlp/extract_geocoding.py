@@ -161,7 +161,7 @@ def add_coordinates(row):
     return row
 
 
-def extract_new_coordinates(row):
+def extract_coordinates(row):
     if pd.notnull(row["locations"]):
         locs = extract_locations(row["locations"])
         coords = []
@@ -206,8 +206,14 @@ def add_locations_to_pageid(page_id):
     print("Adding locations to page:{}...".format(page_id))
     location_data = data_util.get_csv_data_from_filename(
         data_util.PAGE_LOCATION_FILENAME.format(page_id))
-    location_data = location_data.apply(extract_new_coordinates, axis=1)
+    location_data = location_data.apply(extract_coordinates, axis=1)
     data = data_util.get_csv_data_by_pageid(page_id)
+
+    if "locations" in data:
+        data.drop("locations", axis=1, inplace=True)
+    if "coords" in data:
+        data.drop("coords", axis=1, inplace=True)
+
     filtered_loc = location_data[["id", "locations", "coords"]]
     combined = pd.merge(data, filtered_loc, on="id")
     data_util.write_df_to_csv(combined, combined.columns,
