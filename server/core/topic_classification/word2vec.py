@@ -4,6 +4,11 @@ from server.utils import data_util,text_util
 from nltk.tokenize import sent_tokenize, word_tokenize
 from server.core.topic_classification import classification_preprocessing
 
+SEED = 42
+RF_CLASSIFIER = "RF"
+NB_CLASSIFIER = "NB"
+NN_CLASSIFIER = "NN"
+
 def preprocess(X):
     """Accept X, preprocess X data return cleaned text"""
     clean_sentence_list= []

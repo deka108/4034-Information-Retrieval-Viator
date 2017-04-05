@@ -2,11 +2,14 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 from server.utils import data_util,text_util
 from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.stem import WordNetLemmatizer
 
 SEED = 42
 RF_CLASSIFIER = "RF"
 NB_CLASSIFIER = "NB"
 NN_CLASSIFIER = "NN"
+
+lemmatizer = WordNetLemmatizer()
 
 def get_all_data():
     """Compile all data, return X (raw features) and y (class label)"""
@@ -29,7 +32,6 @@ def get_all_data():
 def split_train_test(X, y):
     """Split X and y into X_train, X_test, y_train, y_test"""
     return train_test_split(X, y, test_size=0.2, random_state=SEED)
-
 
 def run():
     X,y = get_all_data()
