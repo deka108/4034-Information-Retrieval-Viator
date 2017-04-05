@@ -67,6 +67,7 @@ def extract_features(vocab):
 	df_all = pd.concat(frames)
 	df_train = df_all.loc[pd.notnull(df_all["class_label"])]
 	df_train = df_train.loc[df_train["class_label"] != ' ']
+	print(len(df_train))
 	df_test = df_all.loc[pd.isnull(df_all["class_label"])]
 
 	#train_post = df_train.as_matrix(["message+desc"])
@@ -94,10 +95,20 @@ def extract_features(vocab):
 
 	n_features = len(bagOfWord[0])
 
-	#df_train = df_train.append(train_tf, coloumns=vocab)
-	#df_test = df_test.append(test_df, coloumns=vocab)
-	df_train.loc[:, vocab] = train_tf
-	df_test.loc[:, vocab] = test_tf
+	train_tf = train_tf.toarray()
+	test_tf = test_tf.toarray()
+	df_train1 = pd.DataFrame(train_tf, columns=vocab)
+	df_test1 = pd.DataFrame(test_tf, columns=vocab)
+	print(len(df_train1))
+
+	for word in vocab:
+		i = vocab.index(word)
+		df_train[word]=pd.DataFrame(train_tf[:,i], columns=[word])
+		df_test[word]=pd.DataFrame(test_tf[:,i], columns=[word])
+
+
+	#df_train = df_train.add(df_train1, axis='columns')
+	#df_test = df_test.add(df_test1, axis='columns')
 
 	train_file = './server/core/data_preprocessing/train_data.csv'
 	test_file = './server/core/data_preprocessing/test_data.csv'
