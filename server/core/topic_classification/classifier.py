@@ -1,7 +1,7 @@
 from server.core.topic_classification.classification_preprocessing import DOCUMENT_MAX_NUM_WORDS, \
     NUM_FEATURES
-# from keras.layers import LSTM, Dropout, Dense, Activation
-# from keras.models import Sequential
+from keras.layers import LSTM, Dropout, Dense, Activation
+from keras.models import Sequential
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score
 from sklearn.externals import joblib
@@ -42,7 +42,6 @@ class BaseClassifier(metaclass=abc.ABCMeta):
         return self.model
 
     def predict(self, X_test, y_test):
-        self.labels = self.y_train.unique()
         self.model = joblib.load(self.check_point)
         return self.model.predict(X_test)
 
@@ -116,7 +115,6 @@ class NNClassifier(BaseClassifier):
         # Train model
         self.model.fit(X_train, y_train, batch_size=128, nb_epoch=5,
                        validation_data=(X_test, y_test))
-        self.labels = y_train.unique()
         return self.model
 
     def predict(self, X_test, y_test):

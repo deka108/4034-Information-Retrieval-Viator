@@ -45,7 +45,7 @@ def split_train_test(X, y):
 
 def run():
     X,y = get_all_data()
-    X_train, X_test, y_train, y_test = split_train_test(X,y)
+    X_train, X_test, y_train, y_test = split_train_test(X[:, None],y)
     return X_train,X_test,y_train,y_test
 
 if __name__ == "__main__":

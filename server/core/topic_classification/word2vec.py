@@ -1,7 +1,7 @@
 from sklearn.model_selection import train_test_split
 import pandas as pd
 
-from server.core.topic_classification.classifier import RFClassifier,NBClassifier, NNClassifier
+from server.core.topic_classification.classifier import RFClassifier,NBClassifier
 from server.utils import data_util,text_util
 from nltk.tokenize import sent_tokenize, word_tokenize
 from server.core.topic_classification import classification_preprocessing as cf
@@ -10,7 +10,30 @@ import logging
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
+from bs4 import BeautifulSoup
+import re
+from nltk.corpus import stopwords
 
+def review_to_wordlist( review, remove_stopwords=False ):
+    # Function to convert a document to a sequence of words,
+    # optionally removing stop words.  Returns a list of words.
+    #
+    # 1. Remove HTML
+    review_text = BeautifulSoup(review).get_text()
+    #
+    # 2. Remove non-letters
+    review_text = re.sub("[^a-zA-Z]"," ", review_text)
+    #
+    # 3. Convert words to lower case and split them
+    words = review_text.lower().split()
+    #
+    # 4. Optionally remove stop words (false by default)
+    if remove_stopwords:
+        stops = set(stopwords.words("english"))
+        words = [w for w in words if not w in stops]
+    #
+    # 5. Return a list of words
+    return(words)
 
 def get_all_data():
     """Compile all data, return X (raw features) and y (class label)"""
@@ -80,28 +103,31 @@ def getAvgFeatureVecs(posts, model, num_features):
 
 def generate_features(model,X_train,X_test):
     clean_train_posts = []
-    for sentence in preprocess(X_train):
-        clean_train_posts += sentence
-    print(clean_train_posts)
+    for sentence in X_train:
+        print(sentence)
+        clean_train_posts.append(review_to_wordlist(sentence))
+    print("TEST")
+    print(len(X_train))
+    print(len(clean_train_posts))
     trainDataVecs = getAvgFeatureVecs(clean_train_posts,model,cf.NUM_FEATURES)
     print ("Creating average feature vecs for test")
     clean_test_posts = []
-    for sentence in preprocess(X_test):
-        clean_test_posts += sentence
+    for sentence in X_test:
+        clean_test_posts.append(review_to_wordlist(sentence))
     testDataVecs = getAvgFeatureVecs(clean_test_posts,model,cf.NUM_FEATURES)
     return trainDataVecs, testDataVecs
 
-def train_classifier(X_train, y_train, X_test, y_test, classifier_model):
-    """Generate trained model from the features, save the model. Use either
-    naive bayes, rf or neural network"""
-    if classifier_model == cf.RF_CLASSIFIER:
-        classifier = RFClassifier()
-    elif classifier_model == cf.NB_CLASSIFIER:
-        classifier = NBClassifier()
-    elif classifier_model == cf.NN_CLASSIFIER:
-        classifier = NNClassifier()
-
-    classifier.train_model(X_train, y_train, X_test, y_test)
+# def train_classifier(X_train, y_train, X_test, y_test, classifier_model):
+#     """Generate trained model from the features, save the model. Use either
+#     naive bayes, rf or neural network"""
+#     if classifier_model == cf.RF_CLASSIFIER:
+#         classifier = RFClassifier()
+#     elif classifier_model == cf.NB_CLASSIFIER:
+#         classifier = NBClassifier()
+#     elif classifier_model == cf.NN_CLASSIFIER:
+#         classifier = NNClassifier()
+#
+#     classifier.train_model(X_train, y_train, X_test, y_test)
 
 
 def predict_test(X_train, y_train, X_test, y_test):
@@ -113,21 +139,41 @@ def run():
     create_model()
     model = word2vec.Word2Vec.load("word2vec_features")
     X_train, X_test, y_train, y_test = cf.run()
-    # print(X_train, X_test, y_train, y_test)
     trainDataVecs, testDataVecs= generate_features(model,X_train,X_test)
-    trainDataVecs = trainDataVecs[~np.isnan(trainDataVecs)]
-    testDataVecs = testDataVecs[~np.isnan(testDataVecs)]
-    print("WHERE'S THE ERROR")
-    print(np.where(np.isnan(trainDataVecs)))
-    print(np.where(np.isnan(testDataVecs)))
-    classifier = RFClassifier()
-    classifier.run(trainDataVecs,y_train,testDataVecs,y_test)
+    trainDataVecs[np.isnan(trainDataVecs)] = 0
+    testDataVecs[np.isnan(testDataVecs)] = 0
+    # print(type(trainDataVecs))
+    # print(type(testDataVecs))
+    # print(trainDataVecs.shape)
+    # print(testDataVecs.shape)
+    # train_inds = np.where(np.isnan(trainDataVecs))
+    # trainDataVecs[train_inds] = np.take(" ", train_inds[0])
+    # test_inds = np.where(np.isnan(testDataVecs))
+    # testDataVecs[test_inds] = np.take(" ",test_inds[0])
+    # trainDataVecs = trainDataVecs[~np.isnan(trainDataVecs)]
+    # testDataVecs = testDataVecs[~np.isnan(testDataVecs)]
+
+    # print(trainDataVecs,testDataVecs)
+    # y_train = list(map(float, y_train))
+    # y_test = list(map(float, y_test))
+    y_train = y_train.apply(pd.to_numeric)
+    y_test = y_test.apply(pd.to_numeric)
+    # print("WHERE'S THE ERROR")
+    # print(X_test.shape)
+    # print(X_train.shape)
+    # print(y_train.shape)
+    # print(y_test.shape)
+    # classifier = RFClassifier()
+    # classifier.run(trainDataVecs,y_train,testDataVecs,y_test)
     # print(trainDataVecs)
 
     # print(type(trainDataVecs))
-    # forest = RandomForestClassifier(n_estimators=100)
-    # forest = forest.fit(trainDataVecs, y_train)
-    # result = forest.predict(testDataVecs)
-    # print(result)
+    forest = RandomForestClassifier(n_estimators=100)
+    forest = forest.fit(trainDataVecs, y_train)
+    result = forest.predict(testDataVecs)
+    print(result)
+    print(X_test)
+    # output = pd.DataFrame(data={"test_message": X_test, "label": result})
+    # output.to_csv("Word2Vec.csv", index=False, quoting=3)
 if __name__ == "__main__":
     run()
