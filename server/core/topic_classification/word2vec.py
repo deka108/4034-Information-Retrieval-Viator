@@ -5,11 +5,18 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from server.core.topic_classification import classification_preprocessing
 from gensim.models import Word2Vec,word2vec
 import logging
+import numpy as np
 
 SEED = 42
 RF_CLASSIFIER = "RF"
 NB_CLASSIFIER = "NB"
 NN_CLASSIFIER = "NN"
+
+NUM_FEATURES = 300  # Word vector dimensionality
+MIN_WORD_COUNT = 40  # Minimum word count
+NUM_WORKERS = 4  # Number of threads to run in parallel
+CONTEXT = 10  # Context window size
+DOWNSAMPLING = 1e-3  # Downsample setting for frequent words
 
 
 def preprocess(X):
@@ -30,22 +37,19 @@ def create_model(X):
     logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', \
                         level=logging.INFO)
 
-    num_features = 300  # Word vector dimensionality
-    min_word_count = 40  # Minimum word count
-    num_workers = 4  # Number of threads to run in parallel
-    context = 10  # Context window size
-    downsampling = 1e-3  # Downsample setting for frequent words
 
     print("Training model...")
-    model = word2vec.Word2Vec(X, workers=num_workers, \
-                              size=num_features, min_count=min_word_count, \
-                              window=context, sample=downsampling)
+    model = word2vec.Word2Vec(X, workers=NUM_WORKERS, \
+                              size=NUM_FEATURES, min_count=MIN_WORD_COUNT, \
+                              window=CONTEXT, sample=DOWNSAMPLING)
     model.init_sims(replace=True)
     model_name = "word2vec_features"
     model.save(model_name)
 
 def generate_features(X):
     pass
+
+def makeFeatureVec(words,model,num_features)
 
 def train_classifier(X, y, classifier_model):
     """Generate trained model from the features, save the model. Use either
