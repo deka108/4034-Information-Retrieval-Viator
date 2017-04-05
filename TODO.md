@@ -18,18 +18,18 @@
     - No of unique words: 40899
 ## Question 2: INDEXING AND QUERYING
 - [X] Build a simple Web interface for the search engine
-  - [ ] Filtering
-    - [ ] Time ID
-    - [ ] Page ID
-    - [ ] Topic
-    - [ ] Sentiment
-    - [ ] Location
-  - [ ] Sort by
-    - [ ] Latest
-    - [ ] Relevance
-    - [ ] Shares count
-    - [ ] Reactions count
-    - [ ] Sentiment 
+  - [X] Filtering
+    - [X] Time ID
+    - [X] Page ID
+    - [X] Topic
+    - [X] Sentiment
+    - [X] Location
+  - [X] Sort by
+    - [X] Latest
+    - [X] Relevance
+    - [X] Shares count
+    - [X] Reactions count
+    - [X] Sentiment 
   - POPULARITY DISTRIBUTION
   - This distribution is a combination between comments_cnt, shares_cnt, and reactions_cnt
     - Normal: 0 - 100 (3343 posts)
