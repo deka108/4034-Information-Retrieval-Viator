@@ -10,6 +10,7 @@ function InitializationService($q, $rootScope, DbDataService, SolrDataService, U
 
     this.initialize = function() {
         $q.all([
+            DbDataService.retrievePostIds(),
             DbDataService.retrievePageIds(),
             SolrDataService.retrievePageIndexes()
         ]).then((values) => { _on_initialized() }, (err) => _on_error(err));

@@ -17,9 +17,11 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
 
     $scope.$on(EVENTS.INITIALIZATION_FINISHED, function() {
         $scope.isInitial = false;
+        $scope.postIds = DbDataService.getPostIds();
         $scope.pageIds = DbDataService.getPageIds();
         $scope.updatePageIndexes(SolrDataService.getPageIndexes());
         // $scope.displayPageIndexes();
+        console.log($scope.postIds);
         console.log($scope.pageIds);
         console.log($scope.pageIndexes);
     });
@@ -29,15 +31,22 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
         $scope.pageIdsCount = _.size($scope.pageIds);
     });
 
+    $scope.$on(EVENTS.POST_ID_RECEIVED, function() {
+        $scope.postIds = DbDataService.getPostIds();
+        $scope.postIdsCount = _.size($scope.postIds);
+    });
+
     $scope.$on(EVENTS.PAGE_INDEX_RECEIVED, function() {
         $scope.updatePageIndexes(SolrDataService.getPageIndexes());
     });
 
     $scope.updatePageIndexes = function(response) {
-        $scope.tmpPageIndexes = response.facet_counts.facet_fields.page_id;
-        $scope.pageIndexCounts = $scope.tmpPageIndexes.length/2;
+        console.log(response);
+        $scope.pageIndexes = response;
+        // $scope.tmpPageIndexes = response.facet_counts.facet_fields.page_id;
+        // $scope.pageIndexCounts = $scope.tmpPageIndexes.length/2;
         
-        $scope.displayPageIndexes();
+        // $scope.displayPageIndexes();
 
         // for (let i = 0; i < tmpPageIndexes.length; i++) {
         //     if (i % 2 == 0) {
@@ -51,19 +60,19 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
         // $scope.pageIndexCounts = _.size($scope.pageIndexes);
     }
 
-    $scope.displayPageIndexes = function(){
-        $scope.pageIndexes = {};
-        let prev = "";
+    // $scope.displayPageIndexes = function(){
+    //     $scope.pageIndexes = {};
+    //     let prev = "";
 
-        for (let i = ($scope.query.page-1)*$scope.query.limit*2; i < ($scope.query.page * $scope.query.limit)*2 && i < $scope.tmpPageIndexes.length; i++) {
-            if (i % 2 == 0) {
-                prev = $scope.tmpPageIndexes[i];
-                // console.log(prev);
-            } else {
-                $scope.pageIndexes[prev] = $scope.tmpPageIndexes[i];
-            }
-        }
-    }
+    //     for (let i = ($scope.query.page-1)*$scope.query.limit*2; i < ($scope.query.page * $scope.query.limit)*2 && i < $scope.tmpPageIndexes.length; i++) {
+    //         if (i % 2 == 0) {
+    //             prev = $scope.tmpPageIndexes[i];
+    //             // console.log(prev);
+    //         } else {
+    //             $scope.pageIndexes[prev] = $scope.tmpPageIndexes[i];
+    //         }
+    //     }
+    // }
 
     $scope.$on(EVENTS.PAGE_MODIFIED, function() {
         $scope.dbPromise = DbDataService.retrievePageIds();
@@ -148,6 +157,12 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
         page: 1
     };
 
+    $scope.postQuery = {
+        order: 'name',
+        limit: 10,
+        page: 1
+    };
+
     function DialogController($scope, $mdDialog, $window, DbDataService) {
         $scope.hide = function() {
             $mdDialog.hide();
@@ -168,38 +183,38 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
         };
     }
 
-    $interval(function() {
-        if($scope.pageIdsProgress < 70){
-            $scope.pageIdsProgress += i;
-            i+=0.2;
-        }
-        else {
-            if($scope.pageIds != false){
-                if($scope.pageIdsProgress <= 100){
-                    $scope.pageIdsProgress += i;
-                }
-            }
-            else {
-                $scope.pageIdsProgress += j;
-                j /= 2;
-            }
-        }
-        if($scope.pageIndexesProgress < 70){
-            $scope.pageIndexesProgress += k;
-            k+=0.2;
-        }
-        else {
-            if($scope.pageIndexes != false){
-                if($scope.pageIndexesProgress <= 100){
-                    $scope.pageIndexesProgress += i;
-                }
-            }
-            else {
-                $scope.pageIdsProgress += l;
-                l /= 2;
-            }
-        }
-    }, 200, 0, true)
+    // $interval(function() {
+    //     if($scope.pageIdsProgress < 70){
+    //         $scope.pageIdsProgress += i;
+    //         i+=0.2;
+    //     }
+    //     else {
+    //         if($scope.pageIds != false){
+    //             if($scope.pageIdsProgress <= 100){
+    //                 $scope.pageIdsProgress += i;
+    //             }
+    //         }
+    //         else {
+    //             $scope.pageIdsProgress += j;
+    //             j /= 2;
+    //         }
+    //     }
+    //     if($scope.pageIndexesProgress < 70){
+    //         $scope.pageIndexesProgress += k;
+    //         k+=0.2;
+    //     }
+    //     else {
+    //         if($scope.pageIndexes != false){
+    //             if($scope.pageIndexesProgress <= 100){
+    //                 $scope.pageIndexesProgress += i;
+    //             }
+    //         }
+    //         else {
+    //             $scope.pageIdsProgress += l;
+    //             l /= 2;
+    //         }
+    //     }
+    // }, 200, 0, true)
 
 }
 
