@@ -170,7 +170,7 @@ def run_2():
     X_clean = preprocess(X_model)
     create_model(X_clean, Y_model)
     model = Word2Vec.load("word2vec_features")
-    X, y = cf.get_all_data()
+    X, y = cf.get_all_data_with_name()
     X_train, X_test, y_train, y_test = cf.split_train_test(X, y)
     clean_train_reviews = []
     clean_test_reviews = []
@@ -226,7 +226,7 @@ def run_2():
 
 def run():
     #TODAYYYY
-    X,y = cf.get_all_data()
+    X,y = cf.get_all_data_with_name()
     X_clean = preprocess(X)
     # print(X_clean)
     create_model(X_clean,y)

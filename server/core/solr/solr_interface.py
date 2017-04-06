@@ -6,6 +6,7 @@ from nltk.stem.porter import *
 
 from server import config
 from server.utils import data_util
+from server.utils.data_util import LOGGING_SOLR_FILENAME
 
 s = requests.Session()
 s.mount('http://', requests.adapters.HTTPAdapter(max_retries=5))
@@ -135,11 +136,12 @@ def get_schema():
 
 
 def index_specific(page_id):
+    print("Indexing page:{}...".format(page_id))
+    start_time = datetime.time.time()
     try:
         temp_json = data_util.get_preprocessed_json_data_by_page_id(page_id)
-        records_count = data_util.get_records()
-        records_count[page_id] = len(temp_json)
-        records_time = data_util.get_records_time()
+        solr_records = data_util.get_solr_records()
+
 
         if temp_json:
             for post in temp_json:
@@ -152,20 +154,36 @@ def index_specific(page_id):
                 send_to_solr(payload)
             print("Successfully indexed {}".format(page_id))
 
-        records_time[page_id] = str(datetime.datetime.now())
-        data_util.write_records_to_json(records_count)
-        data_util.write_records_time_to_json(records_time)
+        end_time = datetime.time.time()
+        elapsed_time = end_time - start_time
+        solr_records[page_id] = {
+            "count": len(temp_json),
+            "last_updated": str(datetime.datetime.now())
+        }
+
+        log = "Finish indexing page:{}! Elapsed Time: {}".format(page_id,
+                                                                 elapsed_time)
+        print(log)
+        data_util.write_solr_records_to_json(solr_records)
+        data_util.write_text_to_txt(log, LOGGING_SOLR_FILENAME)
         return True
     except:
         return False
 
 
 def index_all():
+    print("Indexing all facebook pages...")
     try:
+        start_time = datetime.time.time()
         delete_all_index()
         page_ids = data_util.get_page_ids()
         for page_id in page_ids:
             index_specific(page_id)
+        end_time = datetime.time.time()
+        elapsed_time = end_time - start_time
+        log = "Finished indexing all pages! Elapsed time: {}".format(elapsed_time)
+        print(log)
+        data_util.write_text_to_txt(log, LOGGING_SOLR_FILENAME)
         return True
     except:
         return False
