@@ -2,14 +2,17 @@ from datetime import datetime
 from server.utils import data_util as du
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import sent_tokenize, RegexpTokenizer
 import re
 import string
-from nltk.stem import WordNetLemmatizer
+
 
 printable = set(string.printable)
 stop_words = set(stopwords.words('english'))
 stemmer = SnowballStemmer('english')
 lemmatizer = WordNetLemmatizer()
+regexp_tokenizer = RegexpTokenizer('[\'a-zA-Z]+')
 
 TEXT_COLUMNS = ["message", "description"]
 EXTRACTED_COLUMNS = TEXT_COLUMNS + ["id", "page_id"]
@@ -60,6 +63,21 @@ def clean_text(text):
     text = " ".join(word for word in text.split())
 
     return text
+
+
+def tokenize(text, rebuild_text=True):
+    words = []
+
+    for sentence in sent_tokenize(text):
+        tokens = [lemmatizer.lemmatize(t.lower())
+                  for t in regexp_tokenizer.tokenize(sentence) if
+                  t.lower() not in stop_words]
+        words += tokens
+
+    if rebuild_text:
+        return ' '.join(words).strip()
+    else:
+        return words
 
 
 def remove_http_symbols(text):

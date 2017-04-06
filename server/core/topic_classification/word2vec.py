@@ -33,7 +33,8 @@ def review_to_wordlist( review, remove_stopwords=False ):
         words = [w for w in words if not w in stops]
     #
     # 5. Return a list of words
-    return(words)
+    return words
+
 
 def get_all_data():
     """Compile all data, return X (raw features) and y (class label)"""
@@ -50,6 +51,7 @@ def get_all_data():
     X = df_all["message+desc"]
     y = df_all["class_label"]
     return X,y
+
 
 def preprocess(X):
     """Accept X, preprocess X data return cleaned text"""
