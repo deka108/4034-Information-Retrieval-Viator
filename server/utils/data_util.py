@@ -7,11 +7,11 @@ JSON_FILENAME = "{}.json"
 TXT_FILENAME = "{}.txt"
 PAGE_JSON_FILENAME = "{}_facebook"
 PAGE_CSV_FILENAME = "{}_facebook"
+PAGE_LOCATION_FILENAME = "{}_locations"
 ALL_POSTS_FILENAME = "all_posts"
 ALL_POSTS_LOCATIONS_FILENAME = "all_posts_with_locations"
 ALL_POSTS_COMMENTS_FILENAME = "all_posts_with_comments"
 ALL_LOCATION_CORPUS_FILENAME = "location_corpus_all"
-PAGE_LOCATION_FILENAME = "{}_locations"
 ORDERED_DATA_FILENAME = "ordered_data"
 SHUFFLED_DATA_FILENAME = "shuffled_data"
 TOPIC_LABELLED_FILENAME = "topic_labelled"
@@ -67,10 +67,6 @@ def get_splitted_csv_filepath(id):
 def get_labelled_csv_filepath(id):
     return config.get_labelled_data_path(get_csv_filename(
         SPLITTED_DATA_FILENAME.format(id)))
-
-
-def init_records():
-    global RECORDS
 
 
 def init_db_records():
@@ -248,3 +244,55 @@ def write_text_to_txt(text, file_name, write_mode="a"):
     with open(data_path, mode=write_mode, encoding="utf-8") as file_handler:
         file_handler.write(text)
         file_handler.write("\n\n")
+
+
+def delete_file(file_path):
+    if config.check_data_path(file_path):
+        config.delete_file(file_path)
+        print("File {} is successfully deleted".format(file_path))
+    else:
+        print("Couldn't find file {}".format(file_path))
+
+
+def delete_files_page_id(page_id):
+    # Remove original json
+    file_path = get_json_filepath(get_page_json_filename(page_id))
+    delete_file(file_path)
+    # Remove preprocessed csv
+    file_path = get_csv_filepath(get_page_csv_filename(page_id))
+    delete_file(file_path)
+    # Remove locations csv
+    file_path = get_csv_filepath(PAGE_LOCATION_FILENAME.format(page_id))
+    delete_file(file_path)
+
+
+def delete_db_record(page_id):
+    delete_files_page_id(page_id)
+    global RECORDS_DB
+    RECORDS_DB.pop(page_id, None)
+    write_db_records_to_json(RECORDS_DB)
+    return True
+
+
+def delete_db_records():
+    page_ids = get_page_ids()
+    for page_id in page_ids:
+        delete_db_record(page_id)
+    global RECORDS_DB
+    RECORDS_DB = {}
+    write_db_records_to_json(RECORDS_DB)
+    return True
+
+
+def delete_solr_record(page_id):
+    global RECORDS_SOLR
+    RECORDS_SOLR.pop(page_id, None)
+    write_solr_records_to_json(RECORDS_SOLR)
+    return True
+
+
+def delete_solr_records():
+    global RECORDS_SOLR
+    RECORDS_SOLR = {}
+    write_solr_records_to_json(RECORDS_SOLR)
+    return True
