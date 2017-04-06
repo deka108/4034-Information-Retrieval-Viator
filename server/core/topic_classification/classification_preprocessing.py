@@ -1,8 +1,8 @@
 from sklearn.model_selection import train_test_split
 import pandas as pd
-from server.utils import data_util,text_util
-from nltk.tokenize import sent_tokenize, word_tokenize
-from nltk.stem import WordNetLemmatizer
+from server.utils import data_util, text_util
+from nltk.tokenize import sent_tokenize
+from collections import namedtuple
 
 SEED = 42
 RF_CLASSIFIER = "RF"
@@ -18,7 +18,6 @@ NUM_WORKERS = 4  # Number of threads to run in parallel
 CONTEXT = 10  # Context window size
 DOWNSAMPLING = 1e-3  # Downsample setting for frequent words
 
-lemmatizer = WordNetLemmatizer()
 
 def get_all_data_with_name():
     """Compile all data, return X (raw features) and y (class label)"""
@@ -79,6 +78,29 @@ def run():
     X,y = get_all_data_with_name()
     X_train, X_test, y_train, y_test = split_train_test(X[:, None],y)
     return X_train,X_test,y_train,y_test
+
+def preprocess(X):
+    """Accept X, preprocess X data return cleaned text"""
+    clean_sentence_list= []
+    message_list = X.tolist()
+    for message in message_list:
+        sentence = sent_tokenize(message)
+        clean_sentence = [text_util.preprocess_text(x,lemmatize=True) for x in sentence]
+        # print(clean_sentence)
+        clean_sentence_list += clean_sentence
+    return clean_sentence_list
+
+def preprocess_docs(X):
+    """Accept X, preprocess X data return cleaned text"""
+    all_docs = []
+    PostDocument = namedtuple("PostDocument", "words tags")
+    message_list = X.tolist()
+    for i, message in enumerate(message_list):
+        words = text_util.preprocess_text(message, lemmatize=True)
+        tags = [i]
+        # print(clean_sentence)
+        all_docs.append(PostDocument(words, tags))
+    return all_docs
 
 if __name__ == "__main__":
     run()

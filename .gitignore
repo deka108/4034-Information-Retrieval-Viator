@@ -166,7 +166,7 @@ etc/
 
 cz4034_ir_solr/
 *.pkl
-/server/core/auto_categorisation/tmp/
+/server/core/gensim/tmp/
 /server/data/*.csv
 !/server/data/*locations.csv
 /server/core/data_preprocessing/*.csv
