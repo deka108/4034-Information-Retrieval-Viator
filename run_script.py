@@ -13,15 +13,12 @@ import nltk
 def run():
     # COMMENT / UNCOMMENT AS NECESSARY, all pages vs specific page
 
-<<<<<<< HEAD
+
     #preprocessing.preprocess_all_pages()
-=======
-    # Preprocess all pages
-    preprocessing.preprocess_all_pages()
->>>>>>> 752c87e0ac945f2a9b827b3979cd2f8976a0d913
+
 
     # Computing statistics
-    statistic.compute_words(du.ALL_POSTS_FILENAME)
+    #statistic.compute_words(du.ALL_POSTS_FILENAME)
 
     # Adding sentiment
     # sentiment.get_sentiment_all_pages()
@@ -42,11 +39,10 @@ def run():
     # extract_geocoding.run()
     # extract_geocoding.run_pageid(page_id)
 
-<<<<<<< HEAD
+
     gm.run()
     tc.add_topic_to_all_pages()
-=======
->>>>>>> 752c87e0ac945f2a9b827b3979cd2f8976a0d913
+
 
 
 
