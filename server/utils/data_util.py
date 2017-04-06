@@ -69,8 +69,13 @@ def get_labelled_csv_filepath(id):
         SPLITTED_DATA_FILENAME.format(id)))
 
 
+def init_records():
+    global RECORDS
+
+
 def init_db_records():
     global RECORDS_DB
+
     with open(config.INITIAL_RECORDS_DATA_PATH, 'r', encoding='utf-8') as \
             file_handler:
         RECORDS_DB = json.load(file_handler)

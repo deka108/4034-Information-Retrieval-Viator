@@ -3,6 +3,10 @@ function DbDataService($http, $rootScope, URL, EVENTS) {
         $rootScope.$broadcast(EVENTS.PAGE_ID_RECEIVED);
     }
 
+    function _on_post_id_received() {
+        $rootScope.$broadcast(EVENTS.POST_ID_RECEIVED);
+    }
+
     function _on_post_data_received() {
         $rootScope.$broadcast(EVENTS.POST_DATA_RECEIVED);
     }
@@ -19,6 +23,10 @@ function DbDataService($http, $rootScope, URL, EVENTS) {
         pageIds = newData;
     }
 
+    function _update_post_ids(newData) {
+        postIds = newData;
+    }
+
     function _update_page_infos(newData) {
         pageInfos = newData;
     }
@@ -29,6 +37,7 @@ function DbDataService($http, $rootScope, URL, EVENTS) {
         }
     }
 
+    let postIds = null;
     let pageIds = null;
     let pageInfos = null;
     let postData = null;
@@ -41,16 +50,32 @@ function DbDataService($http, $rootScope, URL, EVENTS) {
         return pageIds;
     }
 
+    this.getPostIds = function() {
+        return postIds;
+    }
+
     this.getPageInfos = function() {
         return pageInfos;
     }
 
     // db related
     this.retrievePageIds = function() {
-        return $http.get(URL.DB_READ).then(
+        return $http.get(URL.DB_READ_PAGES).then(
             function success(response) {
                 _update_page_ids(response.data);
                 _on_page_id_received();
+            },
+            function error(response) {
+                _on_error(response);
+            }
+        )
+    }
+
+    this.retrievePostIds = function() {
+        return $http.get(URL.DB_READ_POSTS).then(
+            function success(response) {
+                _update_post_ids(response.data);
+                _on_post_id_received();
             },
             function error(response) {
                 _on_error(response);

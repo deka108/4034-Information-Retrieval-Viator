@@ -13,11 +13,17 @@ import nltk
 def run():
     # COMMENT / UNCOMMENT AS NECESSARY, all pages vs specific page
 
-    # Preprocess all pages
-    preprocessing.preprocess_all_pages()
+
+    #preprocessing.preprocess_all_pages()
+
+
+    # Example of getting json based on page_id
+    # page_id = "koreatourism"
+    # korea = data_util.get_preprocessed_json_data_by_page_id(page_id)
+
 
     # Computing statistics
-    statistic.compute_words(du.ALL_POSTS_FILENAME)
+    #statistic.compute_words(du.ALL_POSTS_FILENAME)
 
     # Adding sentiment
     # sentiment.get_sentiment_all_pages()
@@ -26,6 +32,7 @@ def run():
     # Topic classification
     # gm.run()
     # tc.add_topic_to_all_pages()
+
 
     # GEOLOCATION: performing Location NER + extract geocoding
 
@@ -37,6 +44,10 @@ def run():
     # Add Geocoding (coordinates to posts)
     # extract_geocoding.run()
     # extract_geocoding.run_pageid(page_id)
+
+
+    gm.run()
+    tc.add_topic_to_all_pages()
 
 
 
