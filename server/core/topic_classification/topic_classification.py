@@ -40,6 +40,10 @@ def add_topic(page_id):
     test_df = du.get_csv_data_by_pageid(page_id)
 
     test = test_df.loc[test_df["page_id"] == page_id]
+    headers = test.columns.tolist()
+    if 'predicted_class' in headers:
+        headers.remove('predicted_class')
+    test = test.loc[:, headers]
     test_data = test.loc[:, ["id", "page_id", "message", "description"]]
     test_id = test_data.loc[:, ["id"]]
     test_msg = test_data.loc[:, ["message"]]
@@ -60,7 +64,7 @@ def add_topic(page_id):
                                  tokenizer=LemmaTokenizer())
     test_count = vectorizer.fit_transform(test_post)
 
-    test_transformer = TfidfTransformer(use_idf=False).fit(test_count)
+    test_transformer = TfidfTransformer(use_idf=True).fit(test_count)
     test_tf = test_transformer.transform(test_count)
 
     test_result = model.predict(test_tf)
@@ -81,10 +85,13 @@ def add_topic(page_id):
 
     result_df = pd.DataFrame(id_result, columns = ["id", "predicted_class"])
 
+
+
+
     predicted = test.merge(result_df, on=["id"])
     #print(predicted)
 
-    filename = page_id + "_facebook"
+    filename = page_id + "_facebook.csv"
     filepath = config.get_data_path(filename)
     predicted.to_csv(filepath, encoding='utf-8')
     #du.write_df_to_csv(predicted, predicted.columns, filename)
