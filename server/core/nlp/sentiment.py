@@ -10,9 +10,9 @@ csv_headers = ["comments_sentiment","comments_subjectivity",]
 
 
 def get_sentiment(page_id):
-    print("Recognising locations for page:{}...".format(page_id))
+    print("Recognising sentiments for page:{}...".format(page_id))
     start_time = time.time()
-    # page_id = data_util.ALL_POSTS_COMMENTS_FILENAME
+
     data= []
     counter = 0
     df = data_util.get_csv_data_by_pageid(page_id)
@@ -50,7 +50,7 @@ def get_sentiment(page_id):
     #return data
     end_time = time.time()
     elapsed_time = end_time - start_time
-    log = "Finish recognising locations for page:{}! Elapsed Time: {}".format(
+    log = "Finish recognising sentiments for page:{}! Elapsed Time: {}".format(
         page_id, elapsed_time)
     print(log)
     df_new = pd.DataFrame(data)
