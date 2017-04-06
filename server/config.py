@@ -51,7 +51,6 @@ def get_labelled_data_path(file_name):
     return os.path.join(LABELLED_DATA_PATH,file_name)
 
 
-
 def check_data_path(file_path):
     print(file_path)
     return os.path.isfile(file_path)
@@ -63,3 +62,7 @@ def get_stanford_pos(file):
 
 def get_stanford_ner(file):
     return os.path.join(STANFORD_NER_PATH, file)
+
+
+def delete_file(file_path):
+    return os.remove(file_path)

@@ -5,11 +5,11 @@
     - Library: Facebook SDK for Python 
     - Source: 12 Facebook Travel Pages
     - Keywords: ? 
-  - [X] How you stored them? (whether a record corresponds to a file or a line, meta information like publication date, author  
+  - [X] How you stored them? (whether a record corresponds to a file or a line, meta information like publication date, author 
   name, record ID)
     - Each pages is saved inside json file. Each json header corresponds to the field or information of the posts (post ID,  
     author, created_time)
-- [ ] Information users might like to retrieve from your crawled corpus:
+- [ ] [LUCI + FELIX] Information users might like to retrieve from your crawled corpus:
   - [ ] Example queries
 - [X] Statistics:
   - [X] The numbers of records, words, and types(UNIQUE WORDS) in the corpus
@@ -36,11 +36,14 @@
     - Popular: 100 - 5000 (9926 posts)
     - Very Popular: 5000-10000(685 posts)
     - Extremely Popular: (594 posts)
- 
+ [LUCI] screenshot
 - [X] A simple UI for crawling and incremental indexing of new data would be a bonus  
 (but not compulsory) [VIDEO]
-  - [ ] Update time + Locations DK
-- [ ] Write five queries, get their results, and measure the speed of the querying
+  - [ ] Adding new page
+  - [ ] Deleting existing / all pages
+  - [ ] Updating all pages (ga perlu lah buat video)
+  - [X] Show last updated time + Locations
+- [ ] [FELIX + LUCI] Write five queries, get their results, and measure the speed of the querying
 
 ## Question 3: ENHANCING INDEXING AND RANKING
 - [X] Explain how the enhancement can solve specific problems, illustrated with examples.
@@ -68,7 +71,11 @@ of the system
 - [ ] A simple UI for visualizing classified data would be a bonus (but not compulsory)
 
 ## Question 5: ENHANCING CLASSIFICATION
-- [ ] 70% Provide some innovation for classification and explain why they are important with  
-examples
+- [ ] Provide some innovation for classification and explain why they are important with   examples
+  - [X] Word2Vec
+  - [X] Doc2Vec
+  - [X] TfIdf
+  - [X] Lsi
+  - [X] Lda
 - [X] Ensemble classification
-- [X] Cognitive classification
+- [ ] 60% Cognitive classification

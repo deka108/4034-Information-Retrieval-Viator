@@ -117,11 +117,13 @@ def send_to_solr(body_payload):
 
 def delete_all_index():
     r = s.get("{url}/update?stream.body=<delete><query>*:*</query></delete>&commit=true".format(url=config.SOLR_BASE_URL))
+    data_util.delete_solr_records()
     return r.status_code
 
 
 def delete_index_by_page(page_id):
     r = s.get("{url}/update?stream.body=<delete><query>page_idss:{page_id}</query></delete>&commit=true".format(url=config.SOLR_BASE_URL, page_id=page_id))
+    data_util.delete_solr_record(page_id)
     return r.status_code
 
 

@@ -47,6 +47,7 @@ def crawl():
             "access_token": access_token
         })
     except Exception as e:
+        print(e)
         return make_response(str(e), 404)
 
 
@@ -72,6 +73,7 @@ def add_location():
             "status": "Added topic class to page: {}".format(page_id)
         })
     except Exception as e:
+        print(e)
         return make_response(str(e), 404)
 
 
@@ -108,18 +110,17 @@ def read_data(page_id):
 
 @db_manager.route('/delete/', methods=['DELETE'])
 def delete_all_data():
-    file_names = data_util.get_page_ids()
-    if file_names:
-        return jsonify(file_names)
-    return make_response("Data does not exist", 404)
+    if data_util.delete_db_records():
+        return make_response("All data is deleted successfully", 200)
+    return make_response("Fail to delete all pages", 404)
 
 
 @db_manager.route('/delete/<page_id>', methods=['DELETE'])
 def delete_data(page_id):
-    file_name = data_util.get_page_json_filename(page_id)
-    if file_name:
-        return db_manager.send_static_file(file_name)
-    return make_response("Page Id does not exist", 404)
+    if data_util.delete_db_record(page_id):
+        return make_response("{} is deleted successfully".format(page_id), 200)
+    return make_response("Fail to delete page id: {} data".format(page_id),
+                         404)
 
 
 @db_manager.route('/read_split/<split_id>', methods=['GET'])
