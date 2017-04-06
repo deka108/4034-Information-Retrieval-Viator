@@ -43,15 +43,18 @@ class BaseClassifier(metaclass=abc.ABCMeta):
 
     def predict(self, X_test, y_test):
         self.model = joblib.load(self.check_point)
-        return self.model.predict(X_test)
+        result = self.model.predict(X_test)
+        print(self.model.score(X_test, y_test))
+        return result
 
     def compute_score(self, true_y, pred_y):
         print("====={} results=====".format(self.name))
+
         scores = {
             "accuracy": accuracy_score(true_y, pred_y),
-            "precision": precision_score(true_y, pred_y),
-            "recall": recall_score(true_y, pred_y),
-            "f1_score": f1_score(true_y, pred_y, self.labels)
+            # "precision": precision_score(true_y, pred_y),
+            # "recall": recall_score(true_y, pred_y),
+            # "f1_score": f1_score(true_y, pred_y, self.labels)
         }
 
         for score in scores:
@@ -102,8 +105,8 @@ class NNClassifier(BaseClassifier):
     def create_model(self):
         self.model = Sequential()
 
-        self.model.add(LSTM(int(DOCUMENT_MAX_NUM_WORDS * 1.5),
-                       input_shape=(DOCUMENT_MAX_NUM_WORDS, NUM_FEATURES)))
+        self.model.add(LSTM(int(1433 * 1.5),
+                       input_shape=(1433, NUM_FEATURES)))
         self.model.add(Dropout(0.3))
         self.model.add(Dense(NUM_CATEGORIES))
         self.model.add(Activation('sigmoid'))

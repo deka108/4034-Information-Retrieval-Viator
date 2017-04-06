@@ -15,6 +15,7 @@ RECORDS_DATA_PATH = os.path.join(DATA_DIR, 'records.json')
 RECORDS_TIME_DATA_PATH = os.path.join(DATA_DIR, 'records_time.json')
 SPLITTED_DATA_PATH = os.path.join(DATA_DIR, 'splitted_data_for_labelling')
 LABELLED_DATA_PATH = os.path.join(DATA_DIR,'labelled_data')
+LABELLED_WORD2VEC_DATA_PATH = os.path.join(DATA_DIR,'labelled_data_word2vec')
 SCHEMA_DATA_PATH = os.path.join(DATA_DIR, 'schema.json')
 INITIAL_RECORDS_DATA_PATH = os.path.join(DATA_DIR, 'initial_records.json')
 STANFORD_POS_FILENAME = "stanford-postagger-full-2016-10-31"
@@ -48,6 +49,11 @@ def get_labelled_data_path(file_name):
     if not os.path.exists(LABELLED_DATA_PATH):
         os.makedirs(LABELLED_DATA_PATH)
     return os.path.join(LABELLED_DATA_PATH,file_name)
+
+def get_labelled_word2vec_data_path(file_name):
+    if not os.path.exists(LABELLED_WORD2VEC_DATA_PATH):
+        os.makedirs(LABELLED_WORD2VEC_DATA_PATH)
+    return os.path.join(LABELLED_WORD2VEC_DATA_PATH,file_name)
 
 def check_data_path(file_path):
     print(file_path)

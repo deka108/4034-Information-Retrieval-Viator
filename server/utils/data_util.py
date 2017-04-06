@@ -53,6 +53,10 @@ def get_labelled_csv_filepath(id):
     return config.get_labelled_data_path(get_csv_filename(
         SPLITTED_DATA_FILENAME.format(id)))
 
+def get_labelled_csv_word2vec_filepath(id):
+    return config.get_labelled_word2vec_data_path(get_csv_filename(
+        SPLITTED_DATA_FILENAME.format(id)))
+
 def init_records():
     global RECORDS
     with open(config.INITIAL_RECORDS_DATA_PATH, 'r', encoding='utf-8') as \
