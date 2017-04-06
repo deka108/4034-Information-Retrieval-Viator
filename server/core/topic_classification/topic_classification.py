@@ -77,7 +77,7 @@ def add_topic(page_id):
     log = "Finish recognising locations for page:{}! Elapsed Time: {}".format(
         page_id, elapsed_time)
     print(log)
-    print("samples record per second = " + str(speed))
+    print("samples per second = " + str(speed))
 
     result_df = pd.DataFrame(id_result, columns = ["id", "predicted_class"])
 
@@ -113,7 +113,7 @@ def add_topic_to_all_pages():
     log = "Finished recognising topics for all pages! Elapsed time: {}"\
         .format(elapsed_time)
     print(log)
-    print("Overall speed= " + str(ov_speed))
+    print("Overall samples per second = " + str(ov_speed))
     du.write_text_to_txt(log, LOGGING_TOPIC_FILENAME)
 
 
