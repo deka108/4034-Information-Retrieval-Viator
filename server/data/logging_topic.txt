@@ -1,0 +1,10 @@
+Finished recognising topics for all pages! Elapsed time: 33.95207190513611
+
+Finished recognising topics for all pages! Elapsed time: 35.01501202583313
+
+Finished recognising topics for all pages! Elapsed time: 35.66324591636658
+
+Finished recognising topics for all pages! Elapsed time: 30.716254949569702
+
+Finished recognising topics for all pages! Elapsed time: 30.35349702835083
+

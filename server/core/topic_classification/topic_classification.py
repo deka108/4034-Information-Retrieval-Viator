@@ -6,6 +6,7 @@ from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score, classification_report, precision_score
 from sklearn.externals import joblib
 from server.core.topic_classification import classification_preprocessing as cp
+from server.core.topic_classification.classifier import VClassifier
 from server.utils import data_util as du
 from server import config
 import pandas as pd
@@ -13,7 +14,6 @@ import numpy as np
 import nltk
 import time
 import pickle
-
 from server.utils.data_util import LOGGING_TOPIC_FILENAME
 
 
@@ -32,7 +32,9 @@ def add_topic(page_id):
     print("Recognising topics for page:{}...".format(page_id))
     start_time = time.time()
     vocab = joblib.load('vocab.pkl')
-    clf = joblib.load('rf_tfidf.pkl')
+    model = VClassifier()
+
+    #clf = joblib.load('rf_tfidf.pkl')
 
     test_df = du.get_csv_data_by_pageid(page_id)
 
@@ -60,7 +62,7 @@ def add_topic(page_id):
     test_transformer = TfidfTransformer(use_idf=False).fit(test_count)
     test_tf = test_transformer.transform(test_count)
 
-    test_result = clf.predict(test_tf)
+    test_result = model.predict(test_tf)
 
     test_result = list(map(float, test_result))
     test_result = list(map(int, test_result))
@@ -68,52 +70,49 @@ def add_topic(page_id):
     id_result = np.column_stack((test_id, test_result))
     end_time = time.time()
     elapsed_time = end_time - start_time
+    speed = test_tf.shape[0]/elapsed_time
+
     log = "Finish recognising locations for page:{}! Elapsed Time: {}".format(
         page_id, elapsed_time)
     print(log)
+    print("samples record per second = " + str(speed))
 
-	test_transformer = TfidfTransformer(use_idf=True).fit(test_count)
-	test_tf = test_transformer.transform(test_count)
-
-
-	test_result = clf.predict(test_tf)
-
+    result_df = pd.DataFrame(id_result, columns = ["id", "predicted_class"])
 
     predicted = test.merge(result_df, on=["id"])
+    #print(predicted)
 
-	"""
-	if "predicted_class" in test.columns:
-		test.drop("predicted_class", axis=1, inplace=True)
-	"""
-	predicted = test.merge(result_df, on=["id"])
-	#print(predicted)
+    filename = page_id + "_facebook"
+    filepath = config.get_data_path(filename)
+    predicted.to_csv(filepath, encoding='utf-8')
+    #du.write_df_to_csv(predicted, predicted.columns, filename)
+    print("predicted class saved to " + filename)
 
-	filename = page_id + "_facebook"
-	filepath = config.get_data_path(filename)
-	predicted.to_csv(filepath, encoding='utf-8')
-	#du.write_df_to_csv(predicted, predicted.columns, filename)
-	print("predicted class saved to " + filename)
-	#1. Food
-	#2. Event
-	#3. Nature
-	#4. Accommodation
-	#5. Attraction
+    return test_tf.shape[0]
+    #1. Food
+    #2. Event
+    #3. Nature
+    #4. Accommodation
+    #5. Attraction
 
 
-	#TODO: classification time, samples per second
+    #TODO: classification time, samples per second
 
 def add_topic_to_all_pages():
     page_ids = du.get_page_ids()
     print("Recognising topic for all pages...")
     start_time = time.time()
+    length = 0
     for page_id in page_ids:
-        add_topic(page_id)
+        length += add_topic(page_id)
     end_time = time.time()
     elapsed_time = end_time - start_time
+    ov_speed = length/elapsed_time
     log = "Finished recognising topics for all pages! Elapsed time: {}"\
         .format(elapsed_time)
     print(log)
-    data_util.write_text_to_txt(log, LOGGING_TOPIC_FILENAME)
+    print("Overall speed= " + str(ov_speed))
+    du.write_text_to_txt(log, LOGGING_TOPIC_FILENAME)
 
 
 if __name__ == "__main__":

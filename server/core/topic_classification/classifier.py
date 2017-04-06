@@ -2,8 +2,10 @@ from server.core.topic_classification.classification_preprocessing import DOCUME
     NUM_FEATURES
 from keras.layers import LSTM, Dropout, Dense, Activation
 from keras.models import Sequential
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.ensemble import RandomForestClassifier, VotingClassifier
+from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
 from sklearn.externals import joblib
 import abc
 import json
@@ -32,7 +34,7 @@ class BaseClassifier(metaclass=abc.ABCMeta):
         self.score_result = self.score_result.format(self.name)
 
     @abc.abstractmethod
-    def create_model(self):
+    def create_model(self, *args):
         """Implement model"""
         return
 
@@ -41,32 +43,31 @@ class BaseClassifier(metaclass=abc.ABCMeta):
         joblib.dump(self.model, self.check_point)
         return self.model
 
-    def predict(self, X_test, y_test):
+    def predict(self, X_test):
         self.model = joblib.load(self.check_point)
         result = self.model.predict(X_test)
-        print(self.model.score(X_test, y_test))
         return result
 
     def compute_score(self, true_y, pred_y):
         print("====={} results=====".format(self.name))
-
+        target = ["Food", "Events", "Nature", "Accommodation", "Attraction"]
         scores = {
             "accuracy": accuracy_score(true_y, pred_y),
-            # "precision": precision_score(true_y, pred_y),
-            # "recall": recall_score(true_y, pred_y),
-            # "f1_score": f1_score(true_y, pred_y, self.labels)
+            "confusion_matrix": confusion_matrix(true_y, pred_y),
+            "classification_report": classification_report(true_y, pred_y, target_names=target)
         }
 
         for score in scores:
             print("{}: {}".format(score, scores[score]))
 
+        scores["confusion_matrix"] = scores.get("confusion_matrix").tolist()
         with open(self.score_result, "w") as fh:
             json.dump(scores, fh)
 
     def run(self, X_train, y_train, X_test, y_test):
         self.create_model()
         self.train_model(X_train, y_train, X_test, y_test)
-        pred_y = self.predict(X_test, y_test)
+        pred_y = self.predict(X_test)
         self.compute_score(y_test, pred_y)
 
     def print_all(self):
@@ -82,7 +83,34 @@ class RFClassifier(BaseClassifier):
         self.create_model()
 
     def create_model(self):
-        self.model = RandomForestClassifier(n_estimators=100)
+        self.model = RandomForestClassifier(n_estimators=110, random_state=1)
+        return self.model
+
+class VClassifier(BaseClassifier):
+    def __init__(self):
+        BaseClassifier.__init__(self)
+        self.init_params("vc")
+        self.create_model()
+
+    def create_model(self, *args):
+        arg = list()
+        for count, clf in enumerate(args):
+            a = (clf.name, clf.model)
+            arg.append(a)
+
+        self.model=VotingClassifier(estimators=arg, voting='hard')
+
+        return self.model
+
+
+class LRClassifier(BaseClassifier):
+    def __init__(self):
+        BaseClassifier.__init__(self)
+        self.init_params("lr")
+        self.create_model()
+
+    def create_model(self):
+        self.model = LogisticRegression(random_state=1)
         return self.model
 
 

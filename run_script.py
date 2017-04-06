@@ -30,8 +30,8 @@ def run():
     # sentiment.get_sentiment(page_id)
 
     # Topic classification
-    # gm.run()
-    # tc.add_topic_to_all_pages()
+    gm.run()
+    tc.add_topic_to_all_pages()
 
 
     # GEOLOCATION: performing Location NER + extract geocoding
@@ -44,10 +44,6 @@ def run():
     # Add Geocoding (coordinates to posts)
     # extract_geocoding.run()
     # extract_geocoding.run_pageid(page_id)
-
-
-    gm.run()
-    tc.add_topic_to_all_pages()
 
 
 
