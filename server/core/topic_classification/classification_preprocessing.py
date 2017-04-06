@@ -8,6 +8,15 @@ SEED = 42
 RF_CLASSIFIER = "RF"
 NB_CLASSIFIER = "NB"
 NN_CLASSIFIER = "NN"
+DOCUMENT_MAX_NUM_WORDS = 100
+NUM_FEATURES = 300  # Word vector dimensionality
+
+
+NUM_FEATURES = 300  # Word vector dimensionality
+MIN_WORD_COUNT = 40  # Minimum word count
+NUM_WORKERS = 4  # Number of threads to run in parallel
+CONTEXT = 10  # Context window size
+DOWNSAMPLING = 1e-3  # Downsample setting for frequent words
 
 lemmatizer = WordNetLemmatizer()
 
@@ -44,7 +53,7 @@ def split_train_test(X, y):
 
 def run():
     X,y = get_all_data()
-    X_train, X_test, y_train, y_test = split_train_test(X,y)
+    X_train, X_test, y_train, y_test = split_train_test(X[:, None],y)
     return X_train,X_test,y_train,y_test
 
 if __name__ == "__main__":

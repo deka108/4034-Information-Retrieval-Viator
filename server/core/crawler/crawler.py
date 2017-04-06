@@ -36,9 +36,8 @@ def crawl_page(page_id, access_token):
     posts = graph.get_connections(profile['id'], fields)
     print("Start crawling " + page_id + "\n")
     post_list = []
-    records = data_util.get_records()
-    records_time = data_util.get_records_time()
-    print(records)
+    db_records = data_util.get_db_records()
+    print(db_records)
 
     try:
         while has_next_page:
@@ -58,13 +57,13 @@ def crawl_page(page_id, access_token):
             else:
                 has_next_page = False
                 print(num_processed)
-                records[page_id] = num_processed
+                db_records[page_id] = {
+                    "count": num_processed,
+                    "last_updated": str(datetime.datetime.now())
+                }
 
         data_util.write_page_data_to_json(post_list, page_id)
-        data_util.write_records_to_json(records)
-        records_time[page_id] = ""
-        data_util.write_records_time_to_json(records_time)
-
+        data_util.write_db_records_to_json(db_records)
 
         print("Done crawling " + page_id + "\n")
         return True
@@ -74,8 +73,8 @@ def crawl_page(page_id, access_token):
 
 def crawl_all(access_token):
     try:
-        data_util.init_records()
-        records = data_util.get_records()
+        data_util.init_db_records()
+        records = data_util.get_db_records()
         for page_id in records:
             crawl_page(page_id, access_token)
         return True

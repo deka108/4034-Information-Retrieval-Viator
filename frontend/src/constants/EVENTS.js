@@ -4,6 +4,7 @@ const EVENTS = {
 
     PAGE_ID_RECEIVED: 'page-id-received',
     POST_DATA_RECEIVED: 'post-data-received',
+    POST_ID_RECEIVED: 'post-id-received',
     // CRAWL_ALL_PAGES: 'crawl-all',
     // CRAWL_PAGE: 'crawl-page',
     // DELETE_ALL_PAGES: 'delete-all',

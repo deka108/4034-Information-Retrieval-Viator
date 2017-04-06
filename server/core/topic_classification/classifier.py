@@ -1,4 +1,4 @@
-from server.core.topic_classification.word2vec import DOCUMENT_MAX_NUM_WORDS, \
+from server.core.topic_classification.classification_preprocessing import DOCUMENT_MAX_NUM_WORDS, \
     NUM_FEATURES
 from keras.layers import LSTM, Dropout, Dense, Activation
 from keras.models import Sequential
@@ -42,7 +42,6 @@ class BaseClassifier(metaclass=abc.ABCMeta):
         return self.model
 
     def predict(self, X_test, y_test):
-        self.labels = self.y_train.unique()
         self.model = joblib.load(self.check_point)
         return self.model.predict(X_test)
 
@@ -63,8 +62,8 @@ class BaseClassifier(metaclass=abc.ABCMeta):
 
     def run(self, X_train, y_train, X_test, y_test):
         self.create_model()
-        self.train_model(X_train, y_train)
-        pred_y = self.predict(X_test)
+        self.train_model(X_train, y_train, X_test, y_test)
+        pred_y = self.predict(X_test, y_test)
         self.compute_score(y_test, pred_y)
 
     def print_all(self):
@@ -116,7 +115,6 @@ class NNClassifier(BaseClassifier):
         # Train model
         self.model.fit(X_train, y_train, batch_size=128, nb_epoch=5,
                        validation_data=(X_test, y_test))
-        self.labels = y_train.unique()
         return self.model
 
     def predict(self, X_test, y_test):

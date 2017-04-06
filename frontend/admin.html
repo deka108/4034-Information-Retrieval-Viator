@@ -79,45 +79,12 @@
                     </md-card-content>
                 </md-card>
                 <md-card cg-busy="{promise:loadingPromise,templateUrl:'loading.html'}">
-                    <md-toolbar class="md-table-toolbar md-default">
-                        <div class="md-toolbar-tools">
-                            <span>Existing Data in the Server</span>
-                        </div>
-                    </md-toolbar>
 
-                    <md-table-container>
-                        <table md-table md-progress="dbPromise">
-                            <thead md-head md-order="query.order">
-                                <tr md-row>
-                                    <th md-column><span>Page Id</span></th>
-                                    <th md-column><span>Message</span></th>
-                                    <th md-column><span>Updated Time</span></th>
-                                    <th md-column><span>Actions</span></th>
-                                </tr>
-                            </thead>
-                            <thead>
-                                <tr>
-                                    <th colspan="9">
-                                        <md-progress-linear md-mode="determinate" value="{{pageIdsProgress}}" ng-if="pageIdsProgress < 100" style="height: 2px"></md-progress-linear>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody md-body>
-                                <tr md-row md-select="data" ng-repeat="(key, value) in pageIds | limitTo: dataQuery.limit : (dataQuery.page -1) * dataQuery.limit">
-                                    <td md-cell>{{ value.page_id }}</td>
-                                    <td md-cell>{{ value.message }}</td>
-                                    <td md-cell>{{ value.updated_time }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </md-table-container>
-                    <md-table-pagination md-limit='query.limit' md-limit-options="[5, 10, 15]" md-page="dataQuery.page" md-total="{{pageIdsCount}}" md-page-select="true"></md-table-pagination>
                     <md-toolbar class="md-table-toolbar md-default">
                         <div class="md-toolbar-tools">
                             <span>Existing Index in Solr Database</span>
                         </div>
                     </md-toolbar>
-
                     <md-table-container>
                         <table md-table md-progress="solrPromise">
                             <thead md-head md-order="query.order" md-on-reorder="displayPageIndexes">
@@ -128,21 +95,42 @@
                                     <th md-column><span>Actions</span></th>
                                 </tr>
                             </thead>
-                            <thead>
-                                <tr>
-                                    <th colspan="9">
-                                        <md-progress-linear md-mode="determinate" value="{{pageIndexesProgress}}" ng-if="pageIdsProgress < 100" style="height: 2px"></md-progress-linear>
-                                    </th>
-                                </tr>
-                            </thead>
                             <tbody md-body>
-                                <tr md-row md-select="data" ng-repeat="(key, value) in pageIndexes">
+                                <tr md-row md-select="data" ng-repeat="(key, value) in pageIndexes | limitTo: query.limit : (query.page -1) * query.limit">
                                     <td md-cell>{{ key }}</td>
-                                    <td md-cell>{{ value }}</td>
-                                    <td md-cell>{{ pageIndex.updated_time }}</td>
+                                    <td md-cell>{{ value.count }}</td>
+                                    <td md-cell>{{ value.last_updated }}</td>
                                     <td md-cell>
                                         <md-button class="md-accent md-raised" ng-click="reindexPage(key)">Re-index!</md-button>
                                         <md-button class="md-warn md-raised" ng-click="deleteIndex(key)">Delete Index</md-button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </md-table-container>
+                    <!--<md-table-pagination md-limit='query.limit' md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{pageIndexCounts}}" md-page-select="true" md-on-paginate="displayPageIndexes"></md-table-pagination>-->
+                    <hr>
+                    <md-toolbar class="md-table-toolbar md-default">
+                        <div class="md-toolbar-tools">
+                            <span>Existing Pages in the Server</span>
+                        </div>
+                    </md-toolbar>
+                    <md-table-container>
+                        <table md-table md-progress="dbPromise">
+                            <thead md-head md-order="query.order">
+                                <tr md-row>
+                                    <th md-column><span>Page Id</span></th>
+                                    <th md-column><span>Message</span></th>
+                                    <th md-column><span>Updated Time</span></th>
+                                    <th md-column><span>Actions</span></th>
+                                </tr>
+                            </thead>
+                            <tbody md-body>
+                                <tr md-row md-select="data" ng-repeat="(key, value) in pageIds">
+                                    <td md-cell>{{ key }}</td>
+                                    <td md-cell>{{ value.count }}</td>
+                                    <td md-cell>{{ value.last_updated }}</td>
+                                    <td md-cell>
                                         <md-button class="md-accent md-raised" ng-click="showGetTokenDialog($event,key)">Re-crawl Page</md-button>
                                         <md-button class="md-warn md-raised" ng-click="deleteData(value.key)">Delete Page</md-button>
                                     </td>
@@ -150,7 +138,33 @@
                             </tbody>
                         </table>
                     </md-table-container>
-                    <md-table-pagination md-limit='query.limit' md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{pageIndexCounts}}" md-page-select="true" md-on-paginate="displayPageIndexes"></md-table-pagination>
+                    <!--<md-table-pagination md-limit='dataQuery.limit' md-limit-options="[5, 10, 15]" md-page="dataQuery.page" md-total="{{pageIdsCount}}" md-page-select="true"></md-table-pagination>-->
+                    <hr>
+                    <md-toolbar class="md-table-toolbar md-default">
+                        <div class="md-toolbar-tools">
+                            <span>Existing Posts in the Server</span>
+                        </div>
+                    </md-toolbar>
+                    <md-table-container>
+                        <table md-table md-progress="dbPromise">
+                            <thead md-head md-order="query.order">
+                                <tr md-row>
+                                    <th md-column><span>Post Id</span></th>
+                                    <th md-column><span>Message</span></th>
+                                    <th md-column><span>Updated Time</span></th>
+                                </tr>
+                            </thead>
+                            <tbody md-body>
+                                <tr md-row md-select="data" ng-repeat="(key, value) in postIds">
+                                    <td md-cell>{{ value.id }}</td>
+                                    <td md-cell>{{ value.message }}</td>
+                                    <td md-cell>{{ value.updated_time }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </md-table-container>
+                    <md-table-pagination md-limit='dataQuery.limit' md-limit-options="[5, 10, 15]" md-page="postQuery.page" md-total="{{postIdsCount}}" md-page-select="true"></md-table-pagination>
+                    
                 </md-card>
             </div>
         </div>

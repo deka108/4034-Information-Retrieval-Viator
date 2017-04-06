@@ -5,16 +5,26 @@ import pandas as pd
 import ast
 import time
 
+from server.utils.data_util import ALL_POSTS_LOCATIONS_FILENAME, \
+    PAGE_LOCATION_FILENAME, LOGGING_NER_FILENAME
+
 nlp = StanfordCoreNLP('http://localhost:9000')
 NER_COLUMNS = text_util.EXTRACTED_COLUMNS + ['full_text', 'locations']
 
 
 def run():
+    """Extract NER from all posts"""
     extract_location_all()
-    get_all_locations()
+    update_all_locations()
 
 
-def get_all_locations():
+def run_pageid(page_id):
+    """Extract NER from specific page ID"""
+    extract_location_page_id(page_id)
+    update_all_locations()
+
+
+def update_all_locations():
     page_ids = data_util.get_page_ids()
     all_locations = []
     for page_id in page_ids:
@@ -22,11 +32,17 @@ def get_all_locations():
             data = get_location_pageid(page_id)
             all_locations.append(data)
         except:
-            print("{} does not exist yet in the database".format(
-                data_util.PAGE_LOCATION_FILENAME.format(page_id)))
+            print("{} does not exist yet in the database. Please run "
+                  "extract_location_page_id for page {} first.".format(
+                data_util.PAGE_LOCATION_FILENAME.format(page_id), page_id))
     all_locations = pd.concat(all_locations)
     data_util.write_df_to_csv(all_locations, NER_COLUMNS,
-                              data_util.ALL_POSTS_LOCATIONS_FILENAME)
+                              ALL_POSTS_LOCATIONS_FILENAME)
+
+
+def get_all_locations():
+    all_locations = data_util.get_csv_data_from_filename(
+        ALL_POSTS_LOCATIONS_FILENAME)
     return all_locations
 
 
@@ -36,33 +52,36 @@ def get_location_pageid(page_id):
     return location_data
 
 
-def run_get_location_pageid(page_id):
-    extract_location_page_id(page_id)
-    get_all_locations()
-
-
 def extract_location_all():
+    """Extracting location NER for all pages"""
     print("Recognising locations for all pages...")
     start_time = time.time()
     page_ids = data_util.get_page_ids()
     for page_id in page_ids:
         extract_location_page_id(page_id)
     end_time = time.time()
-    print("Elapsed time: {}".format(end_time - start_time))
-    print("Finished recognising locations for all pages!")
+    elapsed_time = end_time - start_time
+    log = "Finished recognising locations for all pages! Elapsed time: {}"\
+        .format(elapsed_time)
+    print(log)
+    data_util.write_text_to_txt(log, LOGGING_NER_FILENAME)
 
 
 def extract_location_page_id(page_id):
+    """Extract Location for current page id"""
     print("Recognising locations for page:{}...".format(page_id))
     start_time = time.time()
     data = data_util.get_csv_data_by_pageid(page_id)
     data['full_text'] = text_util.get_text_data(data)['full_text']
     data['locations'] = data['full_text'].apply(extract_location_from_text)
     end_time = time.time()
-    print("Elapsed time: {}".format(end_time - start_time))
+    elapsed_time = end_time - start_time
     data_util.write_df_to_csv(data, NER_COLUMNS,
-                              data_util.PAGE_LOCATION_FILENAME.format(page_id))
-    print("Finish recognising locations for page:{}!")
+                              PAGE_LOCATION_FILENAME.format(page_id))
+    log = "Finish recognising locations for page:{}! Elapsed Time: {}".format(
+        page_id, elapsed_time)
+    print(log)
+    data_util.write_text_to_txt(log, LOGGING_NER_FILENAME)
 
 
 def extract_location_from_text(text):
@@ -97,7 +116,7 @@ def extract_location_from_text(text):
             locations.add(location)
 
     if len(locations) > 0:
-        return '$$'.join(locations)
+        return "$$".join(locations)
     else:
         return ""
 
