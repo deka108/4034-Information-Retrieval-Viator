@@ -32,12 +32,12 @@ def update_all_locations():
             data = get_location_pageid(page_id)
             all_locations.append(data)
         except:
-            print("{} does not exist yet in the database".format(
-                data_util.PAGE_LOCATION_FILENAME.format(page_id)))
+            print("{} does not exist yet in the database. Please run "
+                  "extract_location_page_id for page {} first.".format(
+                data_util.PAGE_LOCATION_FILENAME.format(page_id), page_id))
     all_locations = pd.concat(all_locations)
     data_util.write_df_to_csv(all_locations, NER_COLUMNS,
                               ALL_POSTS_LOCATIONS_FILENAME)
-    return all_locations
 
 
 def get_all_locations():

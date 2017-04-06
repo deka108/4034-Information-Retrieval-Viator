@@ -16,6 +16,8 @@ ORDERED_DATA_FILENAME = "ordered_data"
 SHUFFLED_DATA_FILENAME = "shuffled_data"
 TOPIC_LABELLED_FILENAME = "topic_labelled"
 LOGGING_NER_FILENAME = "logging_ner"
+LOGGING_GEOCODING_FILENAME = "logging_geocoding"
+LOGGING_SOLR_FILENAME = "logging_solr"
 LOGGING_TOPIC_FILENAME = "logging_topic"
 LOGGING_SENTIMENT_FILENAME = "logging_sentiment"
 SPLITTED_DATA_FILENAME = "splitted_data_{}"
@@ -230,7 +232,8 @@ def write_df_to_existing_csv(new_df, headers, file_name):
     print(new_df)
     df_csv[headers] = new_df[headers]
 
-    df_csv.to_csv(data_path, columns = df_csv.columns, index=False, encoding='utf-8')
+    df_csv.to_csv(data_path, columns=df_csv.columns, index=False,
+                  encoding='utf-8')
     # write_df_to_csv(df_csv, df_csv.columns, file_name)
 
 

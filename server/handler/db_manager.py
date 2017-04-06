@@ -6,7 +6,7 @@ from flask import make_response
 
 from server.utils import data_util
 from server.core.data_preprocessing import preprocessing
-from server.core.nlp import sentiment
+from server.core.nlp import sentiment, extract_geocoding, location_ner_stanford
 from server.core.topic_classification import topic_classification
 from server.core.crawler import crawler
 # access_token = 'EAACEdEose0cBAP9s5lDmTubZAGr2KBKnAaQulX54mUvVV0mniQrhvbRDG3xcvzmsaMfMQFbkF2UFpluEX18kP7w5dgFjNjORmy7xJenpP8j4AbXZBD2DNfh4VsGTEgP0S5I5tChl7mY4UmtRt9pzvWBAyMEsz3LR63aTmscU0uVURQQUxIsO7a8lg77o5ZBHH5oyzif7wZDZD'
@@ -50,52 +50,6 @@ def crawl():
         return make_response(str(e), 404)
 
 
-@db_manager.route('/classify_sentiment/', methods=["POST"])
-def add_sentiment():
-    try:
-        request_data = json.loads(request.get_data())
-        print("Performing sentiment analysis...")
-
-        if request_data:
-            page_id = request_data.get("page_id")
-
-        if not page_id:
-            sentiment.get_sentiment_all_pages()
-            page_id = "all"
-        else:
-            sentiment.get_sentiment(page_id)
-
-        return jsonify({
-            "page_id": page_id,
-            "status": "Added sentiment analysis to page: {}".format(page_id)
-        })
-    except Exception as e:
-        return make_response(str(e), 404)
-
-
-@db_manager.route('/classify_topic/', methods=["POST"])
-def add_topic():
-    try:
-        request_data = json.loads(request.get_data())
-        print("Performing topic classification...")
-
-        if request_data:
-            page_id = request_data.get("page_id")
-
-        if not page_id:
-            sentiment.get_sentiment_all_pages()
-            page_id = "all"
-        else:
-            sentiment.get_sentiment(page_id)
-
-        return jsonify({
-            "page_id": page_id,
-            "status": "Added topic class to page: {}".format(page_id)
-        })
-    except Exception as e:
-        return make_response(str(e), 404)
-
-
 @db_manager.route('/classify_location/', methods=["POST"])
 def add_location():
     try:
@@ -106,11 +60,12 @@ def add_location():
             page_id = request_data.get("page_id")
 
         if not page_id:
-            # sentiment.get_sentiment_all_pages()
+            location_ner_stanford.run()
+            extract_geocoding.run()
             page_id = "all"
         else:
-            # sentiment.get_sentiment(page_id)
-            pass
+            location_ner_stanford.run_pageid(page_id)
+            extract_geocoding.run_pageid(page_id)
 
         return jsonify({
             "page_id": page_id,

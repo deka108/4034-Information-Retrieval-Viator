@@ -19,8 +19,7 @@ LOCATION_CORPUS = LOCATION_CORPUS.fillna("")
 LOCATION_CORPUS = LOCATION_CORPUS.set_index("location").to_dict(orient='index')
 
 # Pipeline:
-# 0: Extract NER of all posts (only if the location does not exist
-# yet in the csv)
+# 0: Extract NER of all posts (done by location_ner_stanford module)
 # 1: Update location corpus
 # 2: Add locations to all posts using the updated location corpus
 
@@ -28,7 +27,7 @@ LOCATION_CORPUS = LOCATION_CORPUS.set_index("location").to_dict(orient='index')
 def update_location_corpus():
     """1. Update Location corpus: extract the coordinates for new locations"""
     # Get all location NER from all posts (already done)
-    all_locations = lns.update_all_locations()
+    all_locations = lns.get_all_locations()
 
     # Extract new locations from all posts
     ordered_loc, new_location_data = get_new_locations(all_locations)
@@ -166,7 +165,6 @@ def add_locations_to_all_posts():
     print("Adding locations to all page ids...")
     for page_id in page_ids:
         add_locations_to_pageid(page_id)
-    print("Locations added to all page ids!")
 
 
 def add_locations_to_pageid(page_id):
@@ -208,10 +206,12 @@ def extract_coordinates(row):
 
 
 def run():
+    update_location_corpus()
     add_locations_to_all_posts()
 
 
 def run_pageid(page_id):
+    update_location_corpus()
     add_locations_to_pageid(page_id)
 
 
