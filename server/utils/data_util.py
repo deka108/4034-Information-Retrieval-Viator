@@ -4,21 +4,29 @@ import pandas as pd
 
 CSV_FILENAME = "{}.csv"
 JSON_FILENAME = "{}.json"
+TXT_FILENAME = "{}.txt"
 PAGE_JSON_FILENAME = "{}_facebook"
 PAGE_CSV_FILENAME = "{}_facebook"
 ALL_POSTS_FILENAME = "all_posts"
 ALL_POSTS_LOCATIONS_FILENAME = "all_posts_with_locations"
 ALL_POSTS_COMMENTS_FILENAME = "all_posts_with_comments"
-ALL_LOCATION_CORPUS = "location_corpus_all"
+ALL_LOCATION_CORPUS_FILENAME = "location_corpus_all"
 PAGE_LOCATION_FILENAME = "{}_locations"
 ORDERED_DATA_FILENAME = "ordered_data"
 SHUFFLED_DATA_FILENAME = "shuffled_data"
 TOPIC_LABELLED_FILENAME = "topic_labelled"
+LOGGING_NER_FILENAME = "logging_ner"
+LOGGING_TOPIC_FILENAME = "logging_topic"
+LOGGING_SENTIMENT_FILENAME = "logging_sentiment"
 SPLITTED_DATA_FILENAME = "splitted_data_{}"
+NEW_LOCATION_CORPUS_FILENAME = "new_location_corpus"
+NEW_LOCATION_CORPUS_ALL_FILENAME = "new_location_corpus_all"
+SPLIT_LOCATION_CORPUS_FILENAME = "new_location_corpus_{}"
+
 TESTING = "testing"
 
-RECORDS = {}
-RECORDS_TIME = {}
+RECORDS_DB = {}
+RECORDS_SOLR = {}
 
 
 def get_json_filename(file_name):
@@ -31,6 +39,10 @@ def get_page_json_filename(page_id):
 
 def get_csv_filename(file_name):
     return CSV_FILENAME.format(file_name)
+
+
+def get_txt_filename(file_name):
+    return TXT_FILENAME.format(file_name)
 
 
 def get_page_csv_filename(page_id):
@@ -49,30 +61,32 @@ def get_splitted_csv_filepath(id):
     return config.get_splitted_data_path(get_csv_filename(
         SPLITTED_DATA_FILENAME.format(id)))
 
+
 def get_labelled_csv_filepath(id):
     return config.get_labelled_data_path(get_csv_filename(
         SPLITTED_DATA_FILENAME.format(id)))
 
-def init_records():
-    global RECORDS
+
+def init_db_records():
+    global RECORDS_DB
     with open(config.INITIAL_RECORDS_DATA_PATH, 'r', encoding='utf-8') as \
             file_handler:
-        RECORDS = json.load(file_handler)
+        RECORDS_DB = json.load(file_handler)
 
 
-def update_records():
-    global RECORDS
-    with open(config.RECORDS_DATA_PATH, 'r', encoding='utf-8') as file_handler:
-        RECORDS = json.load(file_handler)
+def update_db_records():
+    global RECORDS_DB
+    with open(config.DB_RECORDS_DATA_PATH, 'r', encoding='utf-8') as file_handler:
+        RECORDS_DB = json.load(file_handler)
 
 
-def update_records_time():
-    global RECORDS_TIME
-    with open(config.RECORDS_TIME_DATA_PATH, 'r', encoding='utf-8') as file_handler:
-        RECORDS_TIME = json.load(file_handler)
+def update_solr_records():
+    global RECORDS_SOLR
+    with open(config.SOLR_RECORDS_DATA_PATH, 'r', encoding='utf-8') as file_handler:
+        RECORDS_SOLR = json.load(file_handler)
 
-update_records()
-update_records_time()
+update_db_records()
+update_solr_records()
 
 
 def get_preprocessed_json_data_by_page_id(page_id):
@@ -153,38 +167,38 @@ def get_schema_data(file_name=None):
 
 def get_page_ids():
     """Get page ids"""
-    return RECORDS.keys()
+    return RECORDS_DB.keys()
 
 
-def get_records():
+def get_db_records():
     """Get page records with page id maps to count"""
-    return RECORDS
+    return RECORDS_DB
 
 
-def get_records_time():
+def get_solr_records():
     """Get page records with page id maps to count"""
-    return RECORDS_TIME
+    return RECORDS_SOLR
 
 
-def write_records_to_json(data):
+def write_db_records_to_json(data):
     """Update records and write records to json."""
 
-    with open(config.RECORDS_DATA_PATH, mode='w',  encoding='utf-8') as file_handler:
+    with open(config.DB_RECORDS_DATA_PATH, mode='w', encoding='utf-8') as file_handler:
         json.dump(data, file_handler, indent=2, sort_keys=True)
     
-    global RECORDS
-    RECORDS = data
+    global RECORDS_DB
+    RECORDS_DB = data
 
 
-def write_records_time_to_json(data):
+def write_solr_records_to_json(data):
     """Update records and write time records to json."""
 
-    with open(config.RECORDS_TIME_DATA_PATH, mode='w',
-              encoding='utf-8') as file_handler:
+    with open(config.SOLR_RECORDS_DATA_PATH, mode='w', encoding='utf-8') as \
+            file_handler:
         json.dump(data, file_handler, indent=2, sort_keys=True)
 
-    global RECORDS_TIME
-    RECORDS_TIME = data
+    global RECORDS_SOLR
+    RECORDS_SOLR = data
 
 
 def write_page_data_to_json(data, page_id):
@@ -218,3 +232,11 @@ def write_df_to_existing_csv(new_df, headers, file_name):
 
     df_csv.to_csv(data_path, columns = df_csv.columns, index=False, encoding='utf-8')
     # write_df_to_csv(df_csv, df_csv.columns, file_name)
+
+
+def write_text_to_txt(text, file_name, write_mode="a"):
+    data_path = config.get_data_path(get_txt_filename(file_name))
+
+    with open(data_path, mode=write_mode, encoding="utf-8") as file_handler:
+        file_handler.write(text)
+        file_handler.write("\n\n")

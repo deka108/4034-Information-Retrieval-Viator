@@ -12,7 +12,7 @@ import nltk
 
 def run():
 
-    preprocessing.preprocess_all_pages()
+    # preprocessing.preprocess_all_pages()
 
     # generate_csv.generate_splitted_csv_for_labelling()
     # statistic.compute_words(du.ALL_POSTS_FILENAME)
@@ -32,8 +32,8 @@ def run():
 
     """CLASSIFY BY TOPIC"""
 
-    #gm.run()
-    #tc.add_topic_to_allpages()
+    # gm.run()
+    tc.add_topic_to_all_pages()
 
 
 

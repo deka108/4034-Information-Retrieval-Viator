@@ -106,10 +106,11 @@ def add_location():
             page_id = request_data.get("page_id")
 
         if not page_id:
-            sentiment.get_sentiment_all_pages()
+            # sentiment.get_sentiment_all_pages()
             page_id = "all"
         else:
-            sentiment.get_sentiment(page_id)
+            # sentiment.get_sentiment(page_id)
+            pass
 
         return jsonify({
             "page_id": page_id,
@@ -119,19 +120,19 @@ def add_location():
         return make_response(str(e), 404)
 
 
-@db_manager.route('/records/', methods=['GET'])
+@db_manager.route('/db_records/', methods=['GET'])
 def get_all_data():
-    file_infos = data_util.get_records()
-    if file_infos:
-        return jsonify(file_infos)
+    db_records = data_util.get_db_records()
+    if db_records:
+        return jsonify(db_records)
     return make_response("Record does not exist", 404)
 
 
-@db_manager.route('/records_time/', methods=['GET'])
+@db_manager.route('/solr_records/', methods=['GET'])
 def get_all_time_data():
-    file_infos = data_util.get_records_time()
-    if file_infos:
-        return jsonify(file_infos)
+    solr_infos = data_util.get_solr_records()
+    if solr_infos:
+        return jsonify(solr_infos)
     return make_response("Record does not exist", 404)
 
 

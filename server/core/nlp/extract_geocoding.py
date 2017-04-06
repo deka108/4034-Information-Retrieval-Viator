@@ -1,24 +1,117 @@
-import math
-from requests import ReadTimeout
-
-from server.utils import data_util
-from server.core.nlp import location_ner_stanford as lns
-import pandas as pd
-import geocoder
 import csv
-import json
+import math
 import re
 import time
-from pprint import pprint
 
-NEW_LOCATION_CORPUS_FILENAME = "new_location_corpus.csv"
-NEW_LOCATION_CORPUS_ALL_FILENAME = "new_location_corpus_all.csv"
+import geocoder
+import pandas as pd
+from requests import ReadTimeout
 
-LOCATION_CORPUS_ID_FILENAME = "location_corpus_{}.csv"
+from server.core.nlp import location_ner_stanford as lns
+from server.utils import data_util
+from server.utils.data_util import NEW_LOCATION_CORPUS_FILENAME, \
+    SPLIT_LOCATION_CORPUS_FILENAME, ALL_LOCATION_CORPUS_FILENAME
+
 LOCATION_COLUMNS = ["location", "lat", "long", "post_ids"]
-LOCATION_CORPUS = data_util.get_csv_data_from_filename(data_util.ALL_LOCATION_CORPUS)
+LOCATION_CORPUS = data_util.get_csv_data_from_filename(
+    ALL_LOCATION_CORPUS_FILENAME)
 LOCATION_CORPUS = LOCATION_CORPUS.fillna("")
 LOCATION_CORPUS = LOCATION_CORPUS.set_index("location").to_dict(orient='index')
+
+# Pipeline:
+# 0: Extract NER of all posts (only if the location does not exist
+# yet in the csv)
+# 1: Update location corpus
+# 2: Add locations to all posts using the updated location corpus
+
+
+def update_location_corpus():
+    """1. Update Location corpus: extract the coordinates for new locations"""
+    # Get all location NER from all posts (already done)
+    all_locations = lns.update_all_locations()
+
+    # Extract new locations from all posts
+    ordered_loc, new_location_data = get_new_locations(all_locations)
+
+    # Split new locations to 1000 due to the rate limit of the geocoding API
+    n_split = split_locations(ordered_loc, new_location_data)
+    for i in range(n_split):
+        # Extract coordinates
+        get_lat_long(i)
+
+    # Compile splitted new coordinates
+    compile_new_lat_long(n_split)
+
+    # Update the existing corpus with new coordinates
+    compile_all_corpus()
+
+
+def get_new_locations(all_locations):
+    """1.a. Get new locations ie. does not exist in the location corpus"""
+    new_locations = {}
+
+    for index, row in all_locations.iterrows():
+        if pd.notnull(row["locations"]):
+            locs = extract_locations(row["locations"])
+            post_id = row["id"]
+            for loc in locs:
+                # Add new if the loc does not exist in location corpus
+                if loc not in LOCATION_CORPUS:
+                    if loc in new_locations:
+                        new_locations[loc].append(post_id)
+                    else:
+                        new_locations[loc] = [post_id]
+
+    print(new_locations)
+
+    csv_path = data_util.get_csv_filepath(NEW_LOCATION_CORPUS_FILENAME)
+    with open(csv_path, "w") as fp:
+        csvwriter = csv.writer(fp)
+        sort_locs = list(new_locations.keys())
+        sort_locs.sort()
+        csvwriter.writerow(LOCATION_COLUMNS)
+        for loc in sort_locs:
+            csvwriter.writerow([loc, "", "", "$$".join(new_locations[loc])])
+
+    return sort_locs, new_locations
+
+
+def extract_locations(locations):
+    locs = locations.split("$$")
+    locs = [loc.lower() for loc in locs]
+    locs = [re.sub(r"[^a-z\s]", "", loc) for loc in locs]
+    return locs
+
+
+def split_locations(ordered_loc, location_data):
+    """1.b. Split new locations into 1000 chunks"""
+    start = 0
+    step = 1000
+    end = len(ordered_loc)
+    for i in range(start, end, step):
+        if i + step - 1 < end:
+            locs = ordered_loc[i:(i + step)]
+        else:
+            locs = ordered_loc[i:]
+
+        file_name = SPLIT_LOCATION_CORPUS_FILENAME.format(int(i / 1000))
+        csv_path = data_util.get_csv_filepath(file_name)
+        with open(csv_path, "w") as fp:
+            csvwriter = csv.writer(fp)
+            csvwriter.writerow(LOCATION_COLUMNS)
+            for loc in locs:
+                csvwriter.writerow(
+                    [loc, "", "", "$$".join(location_data[loc])])
+    return math.ceil(end*1.0/(step - start))
+
+
+def get_lat_long(split_id):
+    """1.c. Extract coordinates for the new location corpus"""
+    file_name = SPLIT_LOCATION_CORPUS_FILENAME.format(split_id)
+    df = data_util.get_csv_data_from_filename(file_name)
+    df.fillna("")
+    df = df.apply(extract_lat_long_row, axis=1)
+    data_util.write_df_to_csv(df, LOCATION_COLUMNS, file_name)
 
 
 def extract_lat_long(location):
@@ -46,155 +139,29 @@ def extract_lat_long_row(row):
     return row
 
 
-def compile_new_lat_long():
+def compile_new_lat_long(n):
+    """1.d. Compile the splitted new coordinates"""
     all_df = []
-    for i in range(6):
-        file_name = LOCATION_CORPUS_ID_FILENAME.format(i)
-        df = pd.read_csv(file_name)
+    for i in range(n):
+        file_name = SPLIT_LOCATION_CORPUS_FILENAME.format(i)
+        df = data_util.get_csv_data_from_filename(file_name)
         all_df.append(df)
     all_df = pd.concat(all_df)
-    all_df.to_csv(NEW_LOCATION_CORPUS_FILENAME, header=LOCATION_COLUMNS,
-                  encoding='utf-8', index=False)
+    data_util.write_df_to_csv(all_df, LOCATION_COLUMNS,
+                              NEW_LOCATION_CORPUS_FILENAME)
     return all_df
 
 
 def compile_all_corpus(new_locations):
+    """1.e. Update the existing location corpus with the new coordinates"""
     LOCATION_CORPUS.append(new_locations)
     LOCATION_CORPUS.sort(['location'], inplace=True)
     data_util.write_df_to_csv(LOCATION_CORPUS, LOCATION_CORPUS.columns,
-                              data_util.ALL_LOCATION_CORPUS)
-
-
-def update_location_corpus():
-    all_locations = lns.get_all_locations()
-    ordered_loc, new_location_data = get_new_locations(all_locations)
-    n_split = split_locations(ordered_loc, new_location_data)
-    for i in range(n_split):
-        get_lat_long(i)
-    compile_new_lat_long()
-    compile_all_corpus()
-
-
-def get_lat_long(split_id):
-    file_name = LOCATION_CORPUS_ID_FILENAME.format(split_id)
-    df = pd.read_csv(file_name)
-    df.fillna("")
-    df = df.apply(extract_lat_long_row, axis=1)
-    df.to_csv(file_name, header=LOCATION_COLUMNS, encoding='utf-8',
-              index=False)
-
-
-def split_locations(ordered_loc, location_data):
-    start = 0
-    step = 1000
-    end = len(ordered_loc)
-    for i in range(start, end, step):
-        if i + step - 1 < end:
-            locs = ordered_loc[i:(i + step)]
-        else:
-            locs = ordered_loc[i:]
-
-        with open(LOCATION_CORPUS_ID_FILENAME.format(int(i/1000)), "w") as fp:
-            csvwriter = csv.writer(fp)
-            csvwriter.writerow(LOCATION_COLUMNS)
-            for loc in locs:
-                csvwriter.writerow(
-                    [loc, "", "", "$$".join(location_data[loc])])
-    return math.ceil(end*1.0/(step - start))
-
-
-def get_new_locations(locations):
-    new_locations = {}
-
-    for index, row in locations.iterrows():
-        if pd.notnull(row["locations"]):
-            locs = extract_locations(row["locations"])
-            post_id = row["id"]
-            for loc in locs:
-                if loc not in LOCATION_CORPUS:
-                    if loc in new_locations:
-                        new_locations[loc].append(post_id)
-                    else:
-                        new_locations[loc] = [post_id]
-
-    print(new_locations)
-
-    with open(NEW_LOCATION_CORPUS_FILENAME, "w") as fp:
-        csvwriter = csv.writer(fp)
-        sort_locs = list(new_locations.keys())
-        sort_locs.sort()
-        csvwriter.writerow(LOCATION_COLUMNS)
-        for loc in sort_locs:
-            csvwriter.writerow([loc, "", "", "$$".join(new_locations[loc])])
-
-    return sort_locs, new_locations
-
-
-def extract_locations(locations):
-    locs = locations.split("$$")
-    locs = [loc.lower() for loc in locs]
-    locs = [re.sub(r"[^a-z\s]", "", loc) for loc in locs]
-    return locs
-
-
-def get_all_locations():
-    all_locations = data_util.get_csv_data_from_filename(
-        data_util.ALL_POSTS_LOCATIONS_FILENAME)
-    return all_locations
-
-
-def add_coordinates(row):
-    if pd.notnull(row["locations"]):
-        locs = extract_locations(row["locations"])
-        coords = []
-
-        for loc in locs:
-            if loc in LOCATION_CORPUS:
-                lat = str(LOCATION_CORPUS[loc]["lat"])
-                long = str(LOCATION_CORPUS[loc]["long"])
-                coords.append(",".join([lat, long]))
-
-        coords = "$$".join(coords)
-        row["coords"] = coords
-    else:
-        row["coords"] = ""
-    return row
-
-
-def extract_coordinates(row):
-    if pd.notnull(row["locations"]):
-        locs = extract_locations(row["locations"])
-        coords = []
-
-        for loc in locs:
-            if loc in LOCATION_CORPUS:
-                lat = str(LOCATION_CORPUS[loc]["lat"])
-                long = str(LOCATION_CORPUS[loc]["long"])
-                coords.append(",".join([lat, long]))
-
-        coords = "$$".join(coords)
-        row["coords"] = coords
-    else:
-        row["coords"] = ""
-    return row
-
-
-def add_locations_to_posts():
-    page_ids = data_util.get_page_ids()
-
-    for page_id in page_ids:
-        data = data_util.get_csv_data_by_pageid(page_id)
-        data_locations = data_util.get_csv_data_from_filename(
-            page_id + "_locations")
-        data_locations = data_locations.apply(add_coordinates, axis=1)
-        filtered_loc = data_locations[["id", "locations", "coords"]]
-        combined = pd.merge(data, filtered_loc, on="id")
-
-        data_util.write_df_to_csv(combined, combined.columns,
-                                  data_util.get_page_csv_filename(page_id))
+                              ALL_LOCATION_CORPUS_FILENAME)
 
 
 def add_locations_to_all_posts():
+    """2. Add coordinates to all posts"""
     page_ids = data_util.get_page_ids()
     print("Adding locations to all page ids...")
     for page_id in page_ids:
@@ -204,10 +171,10 @@ def add_locations_to_all_posts():
 
 def add_locations_to_pageid(page_id):
     print("Adding locations to page:{}...".format(page_id))
+    data = data_util.get_csv_data_by_pageid(page_id)
     location_data = data_util.get_csv_data_from_filename(
         data_util.PAGE_LOCATION_FILENAME.format(page_id))
     location_data = location_data.apply(extract_coordinates, axis=1)
-    data = data_util.get_csv_data_by_pageid(page_id)
 
     if "locations" in data:
         data.drop("locations", axis=1, inplace=True)
@@ -217,13 +184,35 @@ def add_locations_to_pageid(page_id):
     filtered_loc = location_data[["id", "locations", "coords"]]
     combined = pd.merge(data, filtered_loc, on="id")
     data_util.write_df_to_csv(combined, combined.columns,
-                              data_util.get_csv_data_by_pageid(page_id))
+                              data_util.get_page_csv_filename(page_id))
     print("Locations added to page:{}...".format(page_id))
 
 
-def run():
-    add_locations_to_posts()
+def extract_coordinates(row):
+    """2.a. Extract coordinates from location corpus"""
+    if pd.notnull(row["locations"]):
+        locs = extract_locations(row["locations"])
+        coords = []
 
+        for loc in locs:
+            if loc in LOCATION_CORPUS:
+                lat = str(LOCATION_CORPUS[loc]["lat"])
+                long = str(LOCATION_CORPUS[loc]["long"])
+                coords.append(",".join([lat, long]))
+
+        coords = "$$".join(coords)
+        row["coords"] = coords
+    else:
+        row["coords"] = ""
+    return row
+
+
+def run():
+    add_locations_to_all_posts()
+
+
+def run_pageid(page_id):
+    add_locations_to_pageid(page_id)
 
 
 if __name__ == "__main__":
@@ -242,5 +231,6 @@ if __name__ == "__main__":
     # add_locations_to_pageid("Tripviss")
     # pprint(LOCATION_CORPUS)
     # update_location_corpus()
-    run()
+    pass
 
+    # run()
