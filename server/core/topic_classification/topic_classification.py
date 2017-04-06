@@ -28,6 +28,7 @@ class LemmaTokenizer(object):
 # nltk.data.path.append('D:/nltk_data/')
 
 def add_topic(page_id):
+    global shape
     """TESTING"""
     print("Recognising topics for page:{}...".format(page_id))
     start_time = time.time()
@@ -70,7 +71,8 @@ def add_topic(page_id):
     id_result = np.column_stack((test_id, test_result))
     end_time = time.time()
     elapsed_time = end_time - start_time
-    speed = test_tf.shape[0]/elapsed_time
+    shape = test_tf.shape[0]
+    speed = shape/elapsed_time
 
     log = "Finish recognising locations for page:{}! Elapsed Time: {}".format(
         page_id, elapsed_time)
@@ -88,7 +90,6 @@ def add_topic(page_id):
     #du.write_df_to_csv(predicted, predicted.columns, filename)
     print("predicted class saved to " + filename)
 
-    return test_tf.shape[0]
     #1. Food
     #2. Event
     #3. Nature
@@ -104,7 +105,8 @@ def add_topic_to_all_pages():
     start_time = time.time()
     length = 0
     for page_id in page_ids:
-        length += add_topic(page_id)
+        add_topic(page_id)
+        length += shape
     end_time = time.time()
     elapsed_time = end_time - start_time
     ov_speed = length/elapsed_time
