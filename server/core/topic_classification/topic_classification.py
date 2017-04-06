@@ -2,13 +2,12 @@ from nltk import word_tokenize
 from nltk.stem import WordNetLemmatizer, PorterStemmer
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB, GaussianNB
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.neighbors import NearestCentroid
-from sklearn.neural_network import MLPClassifier 
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score, classification_report, precision_score
 from sklearn.externals import joblib
 from server.core.topic_classification import classification_preprocessing as cp
 from server.utils import data_util as du
+from server import config
 import pandas as pd
 import numpy as np
 import nltk
@@ -50,32 +49,41 @@ def add_topic(page_id):
 	vectorizer = CountVectorizer(min_df=1, vocabulary=vocab, tokenizer=LemmaTokenizer())
 	test_count = vectorizer.fit_transform(test_post)
 
-	test_transformer = TfidfTransformer(use_idf=False).fit(test_count)
+	test_transformer = TfidfTransformer(use_idf=True).fit(test_count)
 	test_tf = test_transformer.transform(test_count)
+
 
 	test_result = clf.predict(test_tf)
 
 	test_result = list(map(float, test_result))
 	test_result = list(map(int, test_result))
 
+	print(test_post[0])
+	print(test_result[0])
+
 	id_result = np.column_stack((test_id, test_result))
 
 	result_df = pd.DataFrame(id_result, columns=["id", "predicted_class"])
 
-	if "predicted_class" in test:
+	"""
+	if "predicted_class" in test.columns:
 		test.drop("predicted_class", axis=1, inplace=True)
-
-	predicted = pd.merge(test, result_df, on=["id"])
-	print(predicted)
+	"""
+	predicted = test.merge(result_df, on=["id"])
+	#print(predicted)
 
 	filename = page_id + "_facebook"
-	du.write_df_to_csv(predicted, predicted.columns, filename)
+	filepath = config.get_data_path(filename)
+	predicted.to_csv(filepath, encoding='utf-8')
+	#du.write_df_to_csv(predicted, predicted.columns, filename)
 	print("predicted class saved to " + filename)
 	#1. Food
 	#2. Event
 	#3. Nature
 	#4. Accommodation
 	#5. Attraction
+
+	#TODO: classification time, samples per second
 
 def add_topic_to_all_pages():
     page_ids = du.get_page_ids()
