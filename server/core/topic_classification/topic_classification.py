@@ -32,7 +32,7 @@ def add_topic(page_id):
     """TESTING"""
     print("Recognising topics for page:{}...".format(page_id))
     start_time = time.time()
-    vocab = joblib.load('vocab.pkl')
+    vocab = joblib.load(du.get_filepath(du.VOCAB_PICKLE_FILENAME))
     model = VClassifier()
 
     #clf = joblib.load('rf_tfidf.pkl')

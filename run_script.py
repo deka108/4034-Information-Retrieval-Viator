@@ -34,7 +34,6 @@ def run():
 
 
     # GEOLOCATION: performing Location NER + extract geocoding
-
     # Performing Location NER
     # Location NER: requires STANFORD API
     # location_ner_stanford.run()

@@ -24,6 +24,7 @@ SPLITTED_DATA_FILENAME = "splitted_data_{}"
 NEW_LOCATION_CORPUS_FILENAME = "new_location_corpus"
 NEW_LOCATION_CORPUS_ALL_FILENAME = "new_location_corpus_all"
 SPLIT_LOCATION_CORPUS_FILENAME = "new_location_corpus_{}"
+VOCAB_PICKLE_FILENAME = 'vocab.pkl'
 
 TESTING = "testing"
 
@@ -57,6 +58,10 @@ def get_json_filepath(file_name):
 
 def get_csv_filepath(file_name):
     return config.get_data_path(get_csv_filename(file_name))
+
+
+def get_filepath(file_name):
+    return config.get_data_path(file_name)
 
 
 def get_splitted_csv_filepath(id):

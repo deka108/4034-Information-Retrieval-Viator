@@ -7,7 +7,7 @@ from flask import make_response
 from server.utils import data_util
 from server.core.data_preprocessing import preprocessing
 from server.core.nlp import sentiment, extract_geocoding, location_ner_stanford
-from server.core.topic_classification import topic_classification
+from server.core.topic_classification import topic_classification, generate_model
 from server.core.crawler import crawler
 # access_token = 'EAACEdEose0cBAP9s5lDmTubZAGr2KBKnAaQulX54mUvVV0mniQrhvbRDG3xcvzmsaMfMQFbkF2UFpluEX18kP7w5dgFjNjORmy7xJenpP8j4AbXZBD2DNfh4VsGTEgP0S5I5tChl7mY4UmtRt9pzvWBAyMEsz3LR63aTmscU0uVURQQUxIsO7a8lg77o5ZBHH5oyzif7wZDZD'
 
@@ -30,6 +30,7 @@ def crawl():
                 crawler.crawl_all(access_token)
                 preprocessing.preprocess_all_pages()
                 sentiment.get_sentiment_all_pages()
+                generate_model.run()
                 topic_classification.add_topic_to_all_pages()
 
                 print("Success Crawling all pages!")
@@ -38,6 +39,7 @@ def crawl():
                 crawler.crawl_page(page_id, access_token)
                 preprocessing.preprocess_page_json(page_id)
                 sentiment.get_sentiment(page_id)
+                generate_model.run()
                 topic_classification.add_topic(page_id)
 
                 print("Success crawling {}".format(page_id))

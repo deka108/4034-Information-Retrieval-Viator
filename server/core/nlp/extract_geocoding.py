@@ -40,10 +40,10 @@ def update_location_corpus():
             get_lat_long(i)
 
         # Compile splitted new coordinates
-        compile_new_lat_long(n_split)
+        new_locations = compile_new_lat_long(n_split)
 
-    # Update the existing corpus with new coordinates
-    compile_all_corpus()
+        # Update the existing corpus with new coordinates
+        compile_all_corpus(new_locations)
 
 
 def get_new_locations(all_locations):
