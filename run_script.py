@@ -10,11 +10,10 @@ import nltk
 
 # nltk.data.path.append('D:/nltk_data/')
 
+
 def run():
     # COMMENT / UNCOMMENT AS NECESSARY, all pages vs specific page
-
-
-    #preprocessing.preprocess_all_pages()
+    preprocessing.preprocess_all_pages()
 
 
     # Example of getting json based on page_id

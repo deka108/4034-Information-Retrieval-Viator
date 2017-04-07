@@ -10,9 +10,6 @@ NB_CLASSIFIER = "NB"
 NN_CLASSIFIER = "NN"
 DOCUMENT_MAX_NUM_WORDS = 100
 NUM_FEATURES = 300  # Word vector dimensionality
-
-
-NUM_FEATURES = 300  # Word vector dimensionality
 MIN_WORD_COUNT = 40  # Minimum word count
 NUM_WORKERS = 4  # Number of threads to run in parallel
 CONTEXT = 10  # Context window size
@@ -21,21 +18,8 @@ DOWNSAMPLING = 1e-3  # Downsample setting for frequent words
 
 def get_all_data_with_name():
     """Compile all data, return X (raw features) and y (class label)"""
-    df0 = pd.read_csv(data_util.get_labelled_csv_filepath(0))
-    df1 = pd.read_csv(data_util.get_labelled_csv_filepath(1))
-    df2 = pd.read_csv(data_util.get_labelled_csv_filepath(2))
-    df3 = pd.read_csv(data_util.get_labelled_csv_filepath(3))
-    df4 = pd.read_csv(data_util.get_labelled_csv_filepath(4))
+    df_all = get_compiled_data()
 
-    frames = [df0,df1, df2, df3, df4]
-    df_all = pd.concat(frames)
-    df_all = df_all[pd.notnull(df_all["class_label"])]
-    df_all = df_all.loc[df_all["class_label"] != ' ']
-    df_all.reset_index(drop=True,inplace=True)
-    # print(df_all)
-    data_util.write_df_to_csv(df_all,df_all.columns,"all_labelled_data")
-
-    X = df_all["message+desc"]
     X_post = df_all["message+desc"]
     X_post = list(X_post.values.flatten())
     X_name = df_all["name"]
@@ -45,29 +29,34 @@ def get_all_data_with_name():
         temp = str(X_post[i]) + str(X_name[i])
         X.append(temp)
 
-
     y = df_all["class_label"]
     return X,y
 
+
 def get_all_data():
     """Compile all data, return X (raw features) and y (class label)"""
+    df_all = get_compiled_data()
+
+    X = df_all["message+desc"]
+    y = df_all["class_label"]
+    return X,y
+
+
+def get_compiled_data():
     df0 = pd.read_csv(data_util.get_labelled_csv_filepath(0))
     df1 = pd.read_csv(data_util.get_labelled_csv_filepath(1))
     df2 = pd.read_csv(data_util.get_labelled_csv_filepath(2))
     df3 = pd.read_csv(data_util.get_labelled_csv_filepath(3))
     df4 = pd.read_csv(data_util.get_labelled_csv_filepath(4))
-
-    frames = [df0,df1, df2, df3, df4]
+    frames = [df0, df1, df2, df3, df4]
     df_all = pd.concat(frames)
     df_all = df_all[pd.notnull(df_all["class_label"])]
     df_all = df_all.loc[df_all["class_label"] != ' ']
-    df_all.reset_index(drop=True,inplace=True)
+    df_all.reset_index(drop=True, inplace=True)
     # print(df_all)
-    data_util.write_df_to_csv(df_all,df_all.columns,"all_labelled_data")
+    data_util.write_df_to_csv(df_all, df_all.columns, "all_labelled_data")
+    return df_all
 
-    X = df_all["message+desc"]
-    y = df_all["class_label"]
-    return X,y
 
 def split_train_test(X, y):
     """Split X and y into X_train, X_test, y_train, y_test"""
@@ -76,8 +65,9 @@ def split_train_test(X, y):
 
 def run():
     X,y = get_all_data_with_name()
-    X_train, X_test, y_train, y_test = split_train_test(X[:, None],y)
-    return X_train,X_test,y_train,y_test
+    X_train, X_test, y_train, y_test = split_train_test(X[:, None], y)
+    return X_train, X_test, y_train, y_test
+
 
 def preprocess(X):
     """Accept X, preprocess X data return cleaned text"""
@@ -85,20 +75,21 @@ def preprocess(X):
     message_list = X.tolist()
     for message in message_list:
         sentence = sent_tokenize(message)
-        clean_sentence = [text_util.preprocess_text(x,lemmatize=True) for x in sentence]
+        clean_sentence = [text_util.preprocess_text(token, lemmatize=True)
+                          for token in sentence]
         # print(clean_sentence)
         clean_sentence_list += clean_sentence
     return clean_sentence_list
 
+
 def preprocess_docs(X):
-    """Accept X, preprocess X data return cleaned text"""
+    """Accept X, preprocess X data return cleaned docs"""
     all_docs = []
     PostDocument = namedtuple("PostDocument", "words tags")
     message_list = X.tolist()
     for i, message in enumerate(message_list):
         words = text_util.preprocess_text(message, lemmatize=True)
         tags = [i]
-        # print(clean_sentence)
         all_docs.append(PostDocument(words, tags))
     return all_docs
 

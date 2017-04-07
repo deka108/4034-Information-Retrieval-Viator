@@ -141,14 +141,15 @@ def extract_lat_long_row(row):
 def compile_new_lat_long(n):
     """1.d. Compile the splitted new coordinates"""
     all_df = []
-    for i in range(n):
-        file_name = SPLIT_LOCATION_CORPUS_FILENAME.format(i)
-        df = data_util.get_csv_data_from_filename(file_name)
-        all_df.append(df)
-    all_df = pd.concat(all_df)
-    data_util.write_df_to_csv(all_df, LOCATION_COLUMNS,
-                              NEW_LOCATION_CORPUS_FILENAME)
-    return all_df
+    if n > 0:
+        for i in range(n):
+            file_name = SPLIT_LOCATION_CORPUS_FILENAME.format(i)
+            df = data_util.get_csv_data_from_filename(file_name)
+            all_df.append(df)
+        all_df = pd.concat(all_df)
+        data_util.write_df_to_csv(all_df, LOCATION_COLUMNS,
+                                  NEW_LOCATION_CORPUS_FILENAME)
+        return all_df
 
 
 def compile_all_corpus(new_locations):

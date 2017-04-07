@@ -1,3 +1,4 @@
+from server.utils import data_util
 from server.core.topic_classification.classification_preprocessing import DOCUMENT_MAX_NUM_WORDS, \
     NUM_FEATURES
 from keras.layers import LSTM, Dropout, Dense, Activation
@@ -20,7 +21,7 @@ class BaseClassifier(metaclass=abc.ABCMeta):
     def __init__(self):
         self.name = None
         self.check_point = "{}_model.pkl"
-        self.score_result = "{}_score.json"
+        self.score_result = "{}_score"
         self.model = None
         self.labels = [1, 2, 3, 4, 5]
         self.X_train = None
@@ -49,7 +50,7 @@ class BaseClassifier(metaclass=abc.ABCMeta):
         return result
 
     def compute_score(self, true_y, pred_y):
-        print("====={} results=====".format(self.name))
+        log = "====={} results=====\n".format(self.name)
         target = ["Food", "Events", "Nature", "Accommodation", "Attraction"]
         scores = {
             "accuracy": accuracy_score(true_y, pred_y),
@@ -58,11 +59,10 @@ class BaseClassifier(metaclass=abc.ABCMeta):
         }
 
         for score in scores:
-            print("{}: {}".format(score, scores[score]))
+            log += "{}:\n {}\n".format(score, scores[score])
 
-        scores["confusion_matrix"] = scores.get("confusion_matrix").tolist()
-        with open(self.score_result, "w") as fh:
-            json.dump(scores, fh)
+        print(log)
+        data_util.write_text_to_txt(log, self.score_result)
 
     def run(self, X_train, y_train, X_test, y_test):
         self.create_model()
@@ -85,6 +85,7 @@ class RFClassifier(BaseClassifier):
     def create_model(self):
         self.model = RandomForestClassifier(n_estimators=110, random_state=1)
         return self.model
+
 
 class VClassifier(BaseClassifier):
     def __init__(self):
@@ -148,7 +149,11 @@ class NNClassifier(BaseClassifier):
                        validation_data=(X_test, y_test))
         return self.model
 
-    def predict(self, X_test, y_test):
+    def predict(self, X_test):
+        y_pred = self.model.predict(X_test, batch_size=128)
+        return y_pred
+
+    def evaluate(self, X_test, y_test):
 
         # Evaluate model
         score, acc = self.model.evaluate(X_test, y_test, batch_size=128)
@@ -156,5 +161,3 @@ class NNClassifier(BaseClassifier):
         print('Score: %1.4f' % score)
         print('Accuracy: %1.4f' % acc)
 
-        y_pred = self.model.predict(X_test, batch_size=128)
-        return y_pred
