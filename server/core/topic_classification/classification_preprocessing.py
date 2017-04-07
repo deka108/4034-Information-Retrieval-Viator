@@ -1,5 +1,6 @@
 from sklearn.model_selection import train_test_split
 import pandas as pd
+import numpy as np
 from server.utils import data_util, text_util
 from nltk.tokenize import sent_tokenize
 from collections import namedtuple
@@ -39,6 +40,7 @@ def get_all_data():
 
     X = df_all["message+desc"]
     y = df_all["class_label"]
+    y = y.astype(np.float32)
     return X,y
 
 
@@ -63,8 +65,11 @@ def split_train_test(X, y):
     return train_test_split(X, y, test_size=0.2, random_state=SEED)
 
 
-def run():
-    X,y = get_all_data_with_name()
+def run(with_name=True):
+    if with_name:
+        X, y = get_all_data_with_name()
+    else:
+        X, y = get_all_data()
     X_train, X_test, y_train, y_test = split_train_test(X[:, None], y)
     return X_train, X_test, y_train, y_test
 
@@ -82,6 +87,19 @@ def preprocess(X):
     return clean_sentence_list
 
 
+def preprocess_posts(X):
+    """Accept X, preprocess X data return cleaned text"""
+    clean_posts_list = []
+    message_list = X.tolist()
+    for message in message_list:
+        words = []
+        for sentence in sent_tokenize(message):
+            words += text_util.preprocess_text(sentence, lemmatize=True)
+        # print(clean_sentence)
+        clean_posts_list.append(words)
+    return clean_posts_list
+
+
 def preprocess_docs(X):
     """Accept X, preprocess X data return cleaned docs"""
     all_docs = []
@@ -92,6 +110,7 @@ def preprocess_docs(X):
         tags = [i]
         all_docs.append(PostDocument(words, tags))
     return all_docs
+
 
 if __name__ == "__main__":
     run()

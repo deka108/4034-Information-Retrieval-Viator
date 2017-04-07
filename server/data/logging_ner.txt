@@ -1,0 +1,6 @@
+Finished recognising locations for all pages! Elapsed time: 14.588524103164673
+
+Finished recognising locations for all pages! Elapsed time: 15.832413911819458
+
+Finished recognising locations for all pages! Elapsed time: 3.0994415283203125e-05
+
