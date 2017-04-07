@@ -71,8 +71,8 @@ function DbDataService($http, $rootScope, URL, EVENTS) {
         )
     }
 
-    this.retrievePostIds = function() {
-        return $http.get(URL.DB_READ_POSTS).then(
+    this.retrievePostIds = function(num) {
+        return $http.get(URL.DB_READ_POSTS + '?p=' + num ).then(
             function success(response) {
                 _update_post_ids(response.data);
                 _on_post_id_received();

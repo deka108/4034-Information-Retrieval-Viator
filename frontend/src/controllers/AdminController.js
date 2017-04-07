@@ -4,12 +4,24 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
     $scope.minDuration = 0;
     $scope.message = 'Loading...';
     $scope.backdrop = true;
-    $scope.pageIdsProgress = 0;
-    $scope.pageIndexesProgress = 0;
-    let i = 0; // for progress animation
-    let j = 10; // for progress animation
-    let k = 0; // for progress animation
-    let l = 10; // for progress animation
+
+    $scope.query = {
+        order: 'name',
+        limit: 10,
+        page: 1
+    };
+
+    $scope.dataQuery = {
+        order: 'name',
+        limit: 10,
+        page: 1
+    };
+
+    $scope.postQuery = {
+        order: 'name',
+        limit: 10,
+        page: 1
+    };
 
     $scope.setPromise = function(promise) {
         $scope.loadingPromise = promise;
@@ -32,8 +44,13 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
     });
 
     $scope.$on(EVENTS.POST_ID_RECEIVED, function() {
+        let total = 0;
+        for( let value in $scope.pageIds){
+            total += $scope.pageIds[value].count;
+        }
+        // console.log(total);
         $scope.postIds = DbDataService.getPostIds();
-        $scope.postIdsCount = _.size($scope.postIds);
+        $scope.postIdsCount = total;
     });
 
     $scope.$on(EVENTS.PAGE_INDEX_RECEIVED, function() {
@@ -76,6 +93,7 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
 
     $scope.$on(EVENTS.PAGE_MODIFIED, function() {
         $scope.dbPromise = DbDataService.retrievePageIds();
+        $scope.dbPromise = DbDataService.retrievePostIds($scope.postQuery.page - 1);
     });
 
     // $scope.solrPromise = SolrDataService.retrievePageIndexes();
@@ -98,6 +116,10 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
         // $scope.loadingMessageTopPos = {
         //     top: Math.round(h * loadingMessageTop / 100.0) + 'px'
         // };
+    }
+
+    $scope.displayPostIds = function() {
+        DbDataService.retrievePostIds($scope.postQuery.page);
     }
 
     $scope.showGetTokenDialog = function(ev, pageId) {
@@ -144,24 +166,6 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
     };
 
     $scope.selected = [];
-
-    $scope.query = {
-        order: 'name',
-        limit: 10,
-        page: 1
-    };
-
-    $scope.dataQuery = {
-        order: 'name',
-        limit: 10,
-        page: 1
-    };
-
-    $scope.postQuery = {
-        order: 'name',
-        limit: 10,
-        page: 1
-    };
 
     function DialogController($scope, $mdDialog, $window, DbDataService) {
         $scope.hide = function() {

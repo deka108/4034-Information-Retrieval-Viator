@@ -136,9 +136,12 @@
                     <md-card ng-repeat="(key, value) in searchResult.docs" class="results-card">
                         <md-card-title>
                             <md-card-title-text class="results-text">
-                                <a ng-if="value.desc" class="md-headline" ng-href="{{value.link}}" ng-bind-html="value.desc[0]"></a>
-                                <a ng-if="!value.desc" class="md-headline" ng-href="{{value.link}}" ng-bind-html="value.name[0]"></a>
-                                <p class="material-icons md-36">{{sentimentIcon[value.sentiment]}}</p>
+                                <div ng-if="value.name">
+                                    <a class="md-headline" ng-href="{{value.link}}" ng-bind-html="value.name[0]"></a>
+                                    <h3 ng-bind-html="value.message[0]"></h3>
+                                </div>
+                                <a ng-if="!value.name" class="md-headline" ng-href="{{value.link}}" ng-bind-html="value.message[0]"></a>
+                                <p class="material-icons md-36 remove-margin">{{sentimentIcon[value.sentiment]}}</p>
                             </md-card-title-text>
                             <md-card-title-media>
                                 <div class="md-media-lg card-media" >
@@ -147,10 +150,10 @@
                             </md-card-title-media>
                         </md-card-title>
                         <md-card-content layout="column">
-                            <h3>Topic: {{value.topic}}</h3>
+                            <h3 class="topic">Topic: {{value.topic}}</h3>
                             <md-datepicker ng-model="value.date" disabled></md-datepicker>
                             <span class="md-subhead results-link">Source: <span ng-bind-html="value.link"></span></span>
-                            <p class="md-subhead" ng-bind-html="value.message[0]"></p>
+                            <p class="md-subhead" ng-bind-html="value.desc[0]"></p>
                             <md-button ng-click="getMoreLikeThis(key, value.id)">More like this</md-button>
                             <div ng-if="value.moreLikeThis">
                                 <md-grid-list
