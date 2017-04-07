@@ -104,9 +104,12 @@ def read_data(page_id):
             return jsonify(data)
     else:
         # not recommended, data is too big
+        page = int(request.args.get('p'))
         data = data_util.get_preprocessed_json_data_all()
+        from_index = page*10
+        to_index = from_index+10
         if data:
-            return jsonify(data)
+            return jsonify(data[from_index:to_index])
     return make_response("Unable to retrieve data", 404)
 
 
