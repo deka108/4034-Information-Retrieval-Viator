@@ -37,8 +37,8 @@ def run():
 
     # Performing Location NER
     # Location NER: requires STANFORD API
-    # location_ner_stanford.get_all_locations()
-    # location_ner_stanford.get_location_pageid(page_id)
+    # location_ner_stanford.run()
+    # location_ner_stanford.run_pageid(page_id)
 
     # Add Geocoding (coordinates to posts)
     # extract_geocoding.run()
