@@ -113,14 +113,14 @@ def read_data(page_id):
     return make_response("Unable to retrieve data", 404)
 
 
-@db_manager.route('/delete/', methods=['DELETE'])
+@db_manager.route('/delete/', methods=['GET'])
 def delete_all_data():
     if data_util.delete_db_records():
         return make_response("All data is deleted successfully", 200)
     return make_response("Fail to delete all pages", 404)
 
 
-@db_manager.route('/delete/<page_id>', methods=['DELETE'])
+@db_manager.route('/delete/<page_id>', methods=['GET'])
 def delete_data(page_id):
     if data_util.delete_db_record(page_id):
         return make_response("{} is deleted successfully".format(page_id), 200)

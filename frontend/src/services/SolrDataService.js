@@ -60,10 +60,8 @@ function SolrDataService($http, $rootScope, URL, EVENTS) {
             'fq': filter_query,
             'gl': geoLocation,
         }
-        console.log(data);
         return $http.post(URL.SEARCH_URL, data).then(
             function success(response) {
-                // console.log(response.data);
                 _update_search_results(response.data);
                 _on_search_result_received();
             },
@@ -76,7 +74,6 @@ function SolrDataService($http, $rootScope, URL, EVENTS) {
     this.retrieveMoreLikeThis = function(key, postId) {
         return $http.post(URL.SEARCH_MORE_URL, { p: postId }).then(
             function success(response){
-                // console.log(response.data);
                 _update_more_like_this(response.data, key);
                 _on_more_like_this_received();
             },

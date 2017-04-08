@@ -103,7 +103,6 @@ function DbDataService($http, $rootScope, URL, EVENTS) {
 
         return $http.post(URL.CRAWL, data).then(
             function success(response) {
-                console.log(response.data);
                 _on_page_modified();
             },
             function error(response) {
@@ -120,7 +119,6 @@ function DbDataService($http, $rootScope, URL, EVENTS) {
 
         return $http.post(URL.CRAWL, data).then(
             function success(response) {
-                console.log(response.data);
                 _on_page_modified();
             },
             function error(response) {
@@ -139,7 +137,7 @@ function DbDataService($http, $rootScope, URL, EVENTS) {
     };
 
     this.deleteFacebookPageData = function(page_id) {
-        return $http.get(URL.DB_DELETE).then(
+        return $http.get(URL.DB_DELETE + page_id).then(
             function success(response) {
                 _on_page_modified();
             },
