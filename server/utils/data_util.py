@@ -25,6 +25,7 @@ NEW_LOCATION_CORPUS_FILENAME = "new_location_corpus"
 NEW_LOCATION_CORPUS_ALL_FILENAME = "new_location_corpus_all"
 SPLIT_LOCATION_CORPUS_FILENAME = "new_location_corpus_{}"
 VOCAB_PICKLE_FILENAME = 'vocab.pkl'
+TENSORBOARD_LOG_PATH = '/logs/'
 
 TESTING = "testing"
 

@@ -1,4 +1,5 @@
 import abc
+import seaborn as sns
 
 from sklearn.ensemble import RandomForestClassifier, VotingClassifier
 from sklearn.externals import joblib
@@ -21,10 +22,6 @@ class BaseClassifier(metaclass=abc.ABCMeta):
         self.model = None
         self.labels = [1, 2, 3, 4, 5]
         self.num_of_categories = len(self.labels)
-        self.X_train = None
-        self.y_train = None
-        self.X_test = None
-        self.y_test = None
 
     def __repr__(self):
         return self.name
@@ -67,16 +64,43 @@ class BaseClassifier(metaclass=abc.ABCMeta):
         print(log)
         data_util.write_text_to_txt(log, self.score_result)
 
-    def run(self, X_train, y_train, X_test, y_test):
+    def run(self, X_train, X_test, y_train, y_test):
         self.create_model()
         self.train_model(X_train, y_train)
         pred_y = self.predict(X_test)
         self.compute_score(y_test, pred_y)
+        self.plot_confusion_matrix(y_test, pred_y)
 
     def print_all(self):
         print(self.name)
         print(self.check_point)
         print(self.score_result)
+
+    def plot_confusion_matrix(self, Y_test, Y_pred):
+        sns.set()
+        cmatrix = confusion_matrix(y_true=Y_test, y_pred=Y_pred)
+        ax = sns.heatmap(cmatrix, xticklabels=["Food", "Events", "Nature",
+                                               "Accommodation", "Attraction"],
+                         yticklabels=["Food", "Events", "Nature",
+                                      "Accommodation",
+                                      "Attraction"], annot=True,
+                         square=True, cbar=False)
+        sns.plt.yticks(rotation=0)
+        sns.plt.show()
+        # cm_fig, cm_ax = subplots(figsize=(8.0, 8.0))
+        # cm_ax.matshow(cmatrix, cmap=cm.GnBu)
+        #
+        # cm_ax.set_xticklabels(list(CATEGORIES.keys()))
+        # cm_ax.set_yticklabels(list(CATEGORIES.keys()))
+        #
+        # for i in range(len(CATEGORIES.keys())):
+        #     for j in range(len(CATEGORIES.keys())):
+        #         cm_ax.text(x=j, y=i, s=cmatrix[i, j], va='center', ha='center')
+        #
+        # title('Confusion matrix')
+        # xlabel('Predicted categories')
+        # ylabel('Actual categories')
+        # plt.matshow()
 
 
 class RFClassifier(BaseClassifier):

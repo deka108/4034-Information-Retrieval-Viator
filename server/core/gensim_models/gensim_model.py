@@ -6,13 +6,14 @@ from gensim import corpora, models
 
 from server.core.nlp import postags_nltk
 from server.core.topic_classification import classification_preprocessing as cp
-from server.utils import text_util as tu
+
 from server.utils import data_util as du
+from server.utils import text_util as tu
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
                     level=logging.INFO)
 
-USE_LABEL_DATA = True
+USE_LABEL_DATA = False
 SUFFIX = ""
 
 if USE_LABEL_DATA:
@@ -117,9 +118,10 @@ def generate_topic_lda():
 
 def gensim_pipeline(texts):
     dictionary = corpora.Dictionary(texts)
-    dictionary.save(du.get_filepath(du.DICT_PATH))
+    dictionary.save(du.get_gensim_dict_path(SUFFIX))
     corpus = [dictionary.doc2bow(text) for text in texts]
-    corpora.MmCorpus.serialize(du.get_filepath(du.CORPUS_PATH), corpus)
+    corpora.MmCorpus.serialize(du.get_filepath(du.get_gensim_corpus_path(
+        SUFFIX)), corpus)
 
 
 def generate_w2v_features(docs, labels=None, num_of_categories=5):
@@ -132,16 +134,33 @@ def generate_w2v_features(docs, labels=None, num_of_categories=5):
                         num_of_categories)).astype(np.float32)
     empty_word = np.zeros(NUM_FEATURES).astype(np.float32)
 
+    DOC_MIN_WORDS = 1000000
+    DOC_MAX_WORDS = 0
+
     for idx, document in enumerate(docs):
-        for jdx, word in enumerate(document):
-            if jdx == DOCUMENT_MAX_NUM_WORDS:
-                break
-            else:
+        # for jdx, word in enumerate(document):
+        #     if jdx == DOCUMENT_MAX_NUM_WORDS:
+        #         break
+        #     else:
+        #         if word in w2v_model:
+        #             X[idx, jdx, :] = w2v_model[word]
+        #         else:
+        #             X[idx, jdx, :] = empty_word
+        jdx = 0
+        for word in document:
+            if jdx < DOCUMENT_MAX_NUM_WORDS:
                 if word in w2v_model:
                     X[idx, jdx, :] = w2v_model[word]
-                else:
-                    X[idx, jdx, :] = empty_word
+                    jdx += 1
 
+        DOC_MIN_WORDS = min(jdx, DOC_MIN_WORDS)
+        DOC_MAX_WORDS = max(jdx, DOC_MAX_WORDS)
+        # jdx = 0
+        # for word in document:
+        #     if word in w2v_model:
+        #        jdx += 1
+    print("Max words: {}".format(DOC_MAX_WORDS))
+    print("Min words: {}".format(DOC_MIN_WORDS))
     if not labels.empty:
         Y = pd.get_dummies(labels).as_matrix()
 
@@ -157,7 +176,7 @@ def generate_d2v_features(docs, labels=None, num_of_categories=5):
     Y = np.zeros(shape=(num_of_docs,
                         num_of_categories)).astype(np.float32)
     empty_word = np.zeros(NUM_FEATURES).astype(np.float32)
-    print(docs[0][0])
+    print()
     print(d2v_model[docs[0][0]])
     # for idx, document in enumerate(docs):
     #     for jdx, word in enumerate(document):
@@ -175,27 +194,12 @@ def generate_d2v_features(docs, labels=None, num_of_categories=5):
     return X, Y
 
 
-
 def get_noun_verbs(page_id=None):
     if page_id:
         noun_verbs = postags_nltk.extract_nouns_verbs_by_pageid(page_id)
     else:
         noun_verbs = postags_nltk.extract_nouns_verbs_from_posts()
     return noun_verbs
-
-
-def get_posts():
-    X = get_data()
-    sentences = cp.preprocess_posts(X)
-    # for sentence in sentences:
-    #     for token in sentence:
-    #         if token in freq:
-    #             freq[token] += 1
-    #         else:
-    #             freq[token] = 1
-    # sentences = [[token for token in sentence if freq[token] > 1] for
-    #              sentence in sentences]
-    return sentences
 
 
 def get_data():
@@ -207,33 +211,28 @@ def get_data():
     return X
 
 
-def get_docs():
-    X = get_data()
-    return cp.preprocess_docs(X)
-
-
-def get_labels():
-    return cp.get_all_data()[1]
-
-
 def generate_features(opt=None):
-    texts = get_posts()
-    labels = get_labels()
+    global USE_LABEL_DATA
+    USE_LABEL_DATA = True
+
+    texts = cp.get_posts()
+    labels = cp.get_labels()
     if not opt or opt == "w2v":
         return generate_w2v_features(texts, labels)
 
 
 if __name__ == "__main__":
-    pass
-    # texts = get_posts()
-    # labels = get_labels()
-    # generate_w2v_features(texts, labels)
+    # pass
+    texts = cp.get_posts()
+    labels = cp.get_labels()
 
-    # gensim_pipeline(texts)
-    # generate_tfidf_model()
-    # generate_topic_lsi()
-    # generate_topic_lda()
-    #
-    # generate_word2vec_model(texts)
-    # docs = get_docs()
-    # generate_doc2vec_model(docs)
+    gensim_pipeline(texts)
+    generate_tfidf_model()
+    generate_topic_lsi()
+    generate_topic_lda()
+
+    generate_word2vec_model(texts)
+    docs = cp.get_cleaned_docs()
+    generate_doc2vec_model(docs)
+
+    # generate_w2v_features(texts, labels)
