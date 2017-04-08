@@ -30,7 +30,7 @@ def crawl():
                 crawler.crawl_all(access_token)
                 preprocessing.preprocess_all_pages()
                 sentiment.get_sentiment_all_pages()
-                generate_model.run()
+                # generate_model.run()
                 topic_classification.add_topic_to_all_pages()
 
                 print("Success Crawling all pages!")
@@ -39,7 +39,7 @@ def crawl():
                 crawler.crawl_page(page_id, access_token)
                 preprocessing.preprocess_page_json(page_id)
                 sentiment.get_sentiment(page_id)
-                generate_model.run()
+                # generate_model.run()
                 topic_classification.add_topic(page_id)
 
                 print("Success crawling {}".format(page_id))

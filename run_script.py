@@ -13,7 +13,7 @@ import nltk
 
 def run():
     # COMMENT / UNCOMMENT AS NECESSARY, all pages vs specific page
-    preprocessing.preprocess_all_pages()
+    # preprocessing.preprocess_all_pages()
 
 
     # Example of getting json based on page_id
@@ -29,8 +29,8 @@ def run():
     # sentiment.get_sentiment(page_id)
 
     # Topic classification
-    gm.run()
-    tc.add_topic_to_all_pages()
+    # gm.run()
+    # tc.add_topic_to_all_pages()
 
 
     # GEOLOCATION: performing Location NER + extract geocoding
@@ -40,10 +40,8 @@ def run():
     # location_ner_stanford.run_pageid(page_id)
 
     # Add Geocoding (coordinates to posts)
-    # extract_geocoding.run()
+    extract_geocoding.run()
     # extract_geocoding.run_pageid(page_id)
-
-
 
 
 if __name__ == "__main__":

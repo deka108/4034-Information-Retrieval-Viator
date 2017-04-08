@@ -94,7 +94,7 @@ def create_model():
     train_label = list(map(float, train_label))
     train_label = list(map(int, train_label))
 
-    model = clf.train_model(train_tf[:, :], train_label[:], val_tf, valRes)
+    model = clf.train_model(train_tf[:, :], train_label[:])
     # model = clf1.train_model(train_tf[:,:], train_label[:], val_tf, valRes)
 
     result = model.predict(val_tf[:, :])

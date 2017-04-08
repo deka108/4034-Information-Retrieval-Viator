@@ -86,8 +86,6 @@ def add_topic(page_id):
     result_df = pd.DataFrame(id_result, columns = ["id", "predicted_class"])
 
 
-
-
     predicted = test.merge(result_df, on=["id"])
     #print(predicted)
 
