@@ -44,7 +44,7 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
 
     $scope.$on(EVENTS.POST_ID_RECEIVED, function() {
         let total = 0;
-        for( let value in $scope.pageIds){
+        for (let value in $scope.pageIds) {
             total += $scope.pageIds[value].count;
         }
         $scope.postIds = DbDataService.getPostIds();

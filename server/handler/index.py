@@ -7,3 +7,6 @@ def index():
     return index_page.send_static_file('index.html')
 
 
+@index_page.route('/<filename>')
+def get_resource(filename):
+    return index_page.send_static_file(filename)

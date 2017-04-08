@@ -1,8 +1,7 @@
 import json
 import os
 
-from flask import Blueprint, abort, jsonify, request
-from flask import make_response
+from flask import Blueprint, abort, jsonify, request, make_response
 
 from server.utils import data_util
 from server.core.data_preprocessing import preprocessing
