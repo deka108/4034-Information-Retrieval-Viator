@@ -9,7 +9,7 @@ search_page = Blueprint('search', __name__)
 @search_page.route('/', methods=['POST'])
 def search_query():
     try:
-        request_data = json.loads(request.get_data())
+        request_data = json.loads(request.get_data().decode())
         if request_data:
             query_params = request_data.get('q')
             page_params = request_data.get('p')
