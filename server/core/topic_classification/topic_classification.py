@@ -17,6 +17,12 @@ import pickle
 from server.utils.data_util import LOGGING_TOPIC_FILENAME
 
 
+#1. Food
+#2. Event
+#3. Nature
+#4. Accommodation
+#5. Attraction
+
 class LemmaTokenizer(object):
     def __init__(self):
         self.wnl = WordNetLemmatizer()
@@ -25,8 +31,6 @@ class LemmaTokenizer(object):
         return [self.wnl.lemmatize(t) for t in word_tokenize(doc)]
 
 
-# nltk.data.path.append('D:/nltk_data/')
-
 def add_topic(page_id):
     global shape
     """TESTING"""
@@ -34,8 +38,6 @@ def add_topic(page_id):
     start_time = time.time()
     vocab = joblib.load(du.get_filepath(du.VOCAB_PICKLE_FILENAME))
     model = VClassifier()
-
-    #clf = joblib.load('rf_tfidf.pkl')
 
     test_df = du.get_csv_data_by_pageid(page_id)
 
@@ -52,7 +54,6 @@ def add_topic(page_id):
     test_desc = test_data.loc[:, ["description"]]
     test_desc = test_desc.replace(np.nan, '', regex=True)
     test_desc = list(test_desc.values.flatten())
-    test_pg = test_data.loc[:, ["page_id"]]
 
     test_post = list()
 
@@ -78,31 +79,22 @@ def add_topic(page_id):
     shape = test_tf.shape[0]
     speed = shape/elapsed_time
 
-    log = "Finish recognising locations for page:{}! Elapsed Time: {}".format(
+    log = "Finish recognising topics for page:{}! Elapsed Time: {}\n".format(
         page_id, elapsed_time)
+    log += "Classification speed, samples per second = " + str(speed)
     print(log)
-    print("samples per second = " + str(speed))
 
     result_df = pd.DataFrame(id_result, columns = ["id", "predicted_class"])
 
 
     predicted = test.merge(result_df, on=["id"])
-    #print(predicted)
 
     filename = page_id + "_facebook.csv"
     filepath = config.get_data_path(filename)
     predicted.to_csv(filepath, encoding='utf-8')
-    #du.write_df_to_csv(predicted, predicted.columns, filename)
-    print("predicted class saved to " + filename)
+    du.write_text_to_txt(log, LOGGING_TOPIC_FILENAME)
+    print("Predicted class saved to " + filename)
 
-    #1. Food
-    #2. Event
-    #3. Nature
-    #4. Accommodation
-    #5. Attraction
-
-
-    #TODO: classification time, samples per second
 
 def add_topic_to_all_pages():
     page_ids = du.get_page_ids()
@@ -110,15 +102,18 @@ def add_topic_to_all_pages():
     start_time = time.time()
     length = 0
     for page_id in page_ids:
+        if page_id == "TheSmartLocal":
+            continue
+        print(page_id)
         add_topic(page_id)
         length += shape
     end_time = time.time()
     elapsed_time = end_time - start_time
     ov_speed = length/elapsed_time
-    log = "Finished recognising topics for all pages! Elapsed time: {}"\
+    log = "Finished recognising topics for all pages! Elapsed time: {}\n"\
         .format(elapsed_time)
+    log += "Overall samples per second = " + str(ov_speed)
     print(log)
-    print("Overall samples per second = " + str(ov_speed))
     du.write_text_to_txt(log, LOGGING_TOPIC_FILENAME)
 
 

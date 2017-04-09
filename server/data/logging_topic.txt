@@ -20,3 +20,38 @@ Finished recognising topics for all pages! Elapsed time: 32.73983454704285
 
 Finished recognising topics for all pages! Elapsed time: 34.12003707885742
 
+Finished recognising topics for all pages! Elapsed time: 19.22516393661499
+
+Finish recognising topics for page:Tripviss! Elapsed Time: 2.1060891151428223
+Classification speed, samples per second = 44.63248934916293
+
+Finish recognising topics for page:goturkeytourism! Elapsed Time: 0.0862116813659668
+Classification speed, samples per second = 208.78841144032876
+
+Finish recognising topics for page:incredibleindia! Elapsed Time: 0.43624091148376465
+Classification speed, samples per second = 742.708882800549
+
+Finish recognising topics for page:indonesia.travel! Elapsed Time: 1.6372220516204834
+Classification speed, samples per second = 2281.914048434784
+
+Finish recognising topics for page:itsmorefuninthePhilippines! Elapsed Time: 5.978596925735474
+Classification speed, samples per second = 799.5186929936701
+
+Finish recognising topics for page:koreatourism! Elapsed Time: 3.0401599407196045
+Classification speed, samples per second = 1149.6105692297015
+
+Finish recognising topics for page:malaysia.travel.sg! Elapsed Time: 0.4303121566772461
+Classification speed, samples per second = 683.2249459791896
+
+Finish recognising topics for page:visitchinanow! Elapsed Time: 0.23000621795654297
+Classification speed, samples per second = 895.6279609750434
+
+Finish recognising topics for page:visitjapaninternational! Elapsed Time: 1.6130506992340088
+Classification speed, samples per second = 773.0693155473441
+
+Finish recognising topics for page:wonderfulplacesindo! Elapsed Time: 0.10125923156738281
+Classification speed, samples per second = 622.1654956770706
+
+Finished recognising topics for all pages! Elapsed time: 245.76864314079285
+Overall samples per second = 58.00984136057027
+

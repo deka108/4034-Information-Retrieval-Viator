@@ -15,32 +15,26 @@ def run():
     # COMMENT / UNCOMMENT AS NECESSARY, all pages vs specific page
     # preprocessing.preprocess_all_pages()
 
-
-    # Example of getting json based on page_id
-    # page_id = "koreatourism"
-    # korea = data_util.get_preprocessed_json_data_by_page_id(page_id)
-
-
     # Computing statistics
-    #statistic.compute_words(du.ALL_POSTS_FILENAME)
+    # statistic.compute_words(du.ALL_POSTS_FILENAME)
 
     # Adding sentiment
     # sentiment.get_sentiment_all_pages()
     # sentiment.get_sentiment(page_id)
 
     # Topic classification
-    # gm.run()
-    # tc.add_topic_to_all_pages()
+    gm.run()
+    tc.add_topic_to_all_pages()
 
 
     # GEOLOCATION: performing Location NER + extract geocoding
     # Performing Location NER
-    # Location NER: requires STANFORD API
+    # Location NER: requires STANFORD serv
     # location_ner_stanford.run()
     # location_ner_stanford.run_pageid(page_id)
 
     # Add Geocoding (coordinates to posts)
-    extract_geocoding.run()
+    # extract_geocoding.run()
     # extract_geocoding.run_pageid(page_id)
 
 

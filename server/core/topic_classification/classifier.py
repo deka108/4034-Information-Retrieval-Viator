@@ -76,7 +76,7 @@ class BaseClassifier(metaclass=abc.ABCMeta):
 
         print(log)
         data_util.write_text_to_txt(log, self.score_result)
-        plot_confusion_matrix(true_y, pred_y)
+        # plot_confusion_matrix(true_y, pred_y)
 
     def run(self, X_train, X_test, y_train, y_test):
         self.train_model(X_train, y_train)
@@ -89,7 +89,19 @@ class BaseClassifier(metaclass=abc.ABCMeta):
         print(self.score_result)
 
 
+class NBClassifier(BaseClassifier):
+    """Multinomial Naive Bayes Classifier"""
+    def __init__(self):
+        BaseClassifier.__init__(self)
+        self.init_params("naive_bayes")
+        self.create_model()
+
+    def create_model(self):
+        self.model = MultinomialNB()
+
+
 class RFClassifier(BaseClassifier):
+    """Random Forest Classifier"""
     def __init__(self):
         BaseClassifier.__init__(self)
         self.init_params("rf")
@@ -100,7 +112,20 @@ class RFClassifier(BaseClassifier):
         return self.model
 
 
+class LRClassifier(BaseClassifier):
+    """Logistic Regression Classifier"""
+    def __init__(self):
+        BaseClassifier.__init__(self)
+        self.init_params("lr")
+        self.create_model()
+
+    def create_model(self):
+        self.model = LogisticRegression(random_state=1)
+        return self.model
+
+
 class VClassifier(BaseClassifier):
+    """Ensemble Voting Classifier"""
     def __init__(self, *args):
         BaseClassifier.__init__(self)
         self.init_params("vc")
@@ -115,26 +140,3 @@ class VClassifier(BaseClassifier):
         self.model=VotingClassifier(estimators=arg, voting='hard')
 
         return self.model
-
-
-class LRClassifier(BaseClassifier):
-    def __init__(self):
-        BaseClassifier.__init__(self)
-        self.init_params("lr")
-        self.create_model()
-
-    def create_model(self):
-        self.model = LogisticRegression(random_state=1)
-        return self.model
-
-
-class NBClassifier(BaseClassifier):
-    def __init__(self):
-        BaseClassifier.__init__(self)
-        self.init_params("naive_bayes")
-        self.create_model()
-
-    def create_model(self):
-        self.model = MultinomialNB()
-
-

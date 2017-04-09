@@ -83,23 +83,37 @@ def create_features():
 
 
 def create_model():
-    train_tf, val_tf, train_label, valRes = create_features()
-
+    # Random Forest Classifier
     clf1 = RFClassifier()
+
+    # Multinomial Naive Bayes Classifier
     clf2 = NBClassifier()
+
+    # Logistic Regression Classifier
     clf3 = LRClassifier()
 
+    # Ensemble: Voting Classifier
     clf = VClassifier(clf1, clf2, clf3)
+    return clf
+
+
+def run_classifier():
+    # Generate Features
+    train_tf, val_tf, train_label, valRes = create_features()
     train_label = list(map(float, train_label))
     train_label = list(map(int, train_label))
     valRes = list(map(float, valRes))
 
-    clf.run(train_tf[:,:], val_tf[:,:], train_label[:], valRes[:])
+    # Create a Voting Classifier
+    clf = create_model()
+
+    # Train and test classifier
+    clf.run(train_tf[:, :], val_tf[:, :], train_label[:], valRes[:])
 
 
 def run():
     create_vocab()
-    create_model()
+    run_classifier()
 
 
 if __name__ == "__main__":

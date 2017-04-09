@@ -66,7 +66,10 @@ def preprocess_text(text, stem=False, lemmatize=False, rebuild_text=False):
 
 
 def clean_text(text):
+    # Remove hyperlinks and symbols
     text = remove_http_symbols(text)
+
+    # Case folding
     text = text.lower()
 
     # removes extra space
