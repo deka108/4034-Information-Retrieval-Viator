@@ -1,4 +1,5 @@
-# cz4034-information-retrieval
+# Viator
+
 ## Notes:
 * Use pycharm and python 3.6
     * With pycharm, you can run from anywhere without having to cd or type `python some_script.py`. It is not compulsory, but sometimes there might be errors with the system path if you aren't using pycharm.
