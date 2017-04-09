@@ -27,7 +27,7 @@ def search_query():
 @search_page.route('/more/', methods=['POST'])
 def search_query_more():
     try:
-        request_data = json.loads(request.get_data())
+        request_data = json.loads(request.get_data().decode())
         if request_data:
             post_id = request_data.get('p')
 
