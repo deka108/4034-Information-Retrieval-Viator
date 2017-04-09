@@ -82,7 +82,7 @@ def add_topic(page_id):
     print(log)
 
     result_df = pd.DataFrame(id_result, columns = ["id", "predicted_class"])
-<<<<<<< HEAD
+
 
     predicted = test.merge(result_df, on=["id"], copy=False)
     predicted = predicted.drop_duplicates()
@@ -97,16 +97,7 @@ def add_topic(page_id):
     #3. Nature
     #4. Accommodation
     #5. Attraction
-=======
-    predicted = test.merge(result_df, on=["id"])
 
-    filename = page_id + "_facebook.csv"
-    filepath = config.get_data_path(filename)
-    predicted.to_csv(filepath, encoding='utf-8')
-    du.write_text_to_txt(log, LOGGING_TOPIC_FILENAME)
-    print("Predicted class saved to " + filename)
-
->>>>>>> ab989a185e42cd101c2ee7e513eacdb014dcda79
 
 def add_topic_to_all_pages():
     page_ids = du.get_page_ids()
