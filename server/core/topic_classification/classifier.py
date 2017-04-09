@@ -72,11 +72,8 @@ class BaseClassifier(metaclass=abc.ABCMeta):
         }
 
         for score in scores:
-<<<<<<< HEAD
-            print("{}: \n {}".format(score, scores[score]))
-=======
             log += "{}:\n {}\n".format(score, scores[score])
->>>>>>> ab989a185e42cd101c2ee7e513eacdb014dcda79
+
 
         print(log)
         data_util.write_text_to_txt(log, self.score_result)
