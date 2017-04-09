@@ -4,12 +4,24 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
     $scope.minDuration = 0;
     $scope.message = 'Loading...';
     $scope.backdrop = true;
-    $scope.pageIdsProgress = 0;
-    $scope.pageIndexesProgress = 0;
-    let i = 0; // for progress animation
-    let j = 10; // for progress animation
-    let k = 0; // for progress animation
-    let l = 10; // for progress animation
+
+    $scope.query = {
+        order: 'name',
+        limit: 10,
+        page: 1
+    };
+
+    $scope.dataQuery = {
+        order: 'name',
+        limit: 10,
+        page: 1
+    };
+
+    $scope.postQuery = {
+        order: 'name',
+        limit: 10,
+        page: 1
+    };
 
     $scope.setPromise = function(promise) {
         $scope.loadingPromise = promise;
@@ -20,7 +32,6 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
         $scope.postIds = DbDataService.getPostIds();
         $scope.pageIds = DbDataService.getPageIds();
         $scope.updatePageIndexes(SolrDataService.getPageIndexes());
-        // $scope.displayPageIndexes();
         console.log($scope.postIds);
         console.log($scope.pageIds);
         console.log($scope.pageIndexes);
@@ -32,8 +43,12 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
     });
 
     $scope.$on(EVENTS.POST_ID_RECEIVED, function() {
+        let total = 0;
+        for (let value in $scope.pageIds) {
+            total += $scope.pageIds[value].count;
+        }
         $scope.postIds = DbDataService.getPostIds();
-        $scope.postIdsCount = _.size($scope.postIds);
+        $scope.postIdsCount = total;
     });
 
     $scope.$on(EVENTS.PAGE_INDEX_RECEIVED, function() {
@@ -43,42 +58,12 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
     $scope.updatePageIndexes = function(response) {
         console.log(response);
         $scope.pageIndexes = response;
-        // $scope.tmpPageIndexes = response.facet_counts.facet_fields.page_id;
-        // $scope.pageIndexCounts = $scope.tmpPageIndexes.length/2;
-        
-        // $scope.displayPageIndexes();
-
-        // for (let i = 0; i < tmpPageIndexes.length; i++) {
-        //     if (i % 2 == 0) {
-        //         prev = tmpPageIndexes[i];
-        //         // console.log(prev);
-        //     } else {
-        //         $scope.pageIndexes[prev] = tmpPageIndexes[i];
-        //     }
-        // }
-
-        // $scope.pageIndexCounts = _.size($scope.pageIndexes);
     }
-
-    // $scope.displayPageIndexes = function(){
-    //     $scope.pageIndexes = {};
-    //     let prev = "";
-
-    //     for (let i = ($scope.query.page-1)*$scope.query.limit*2; i < ($scope.query.page * $scope.query.limit)*2 && i < $scope.tmpPageIndexes.length; i++) {
-    //         if (i % 2 == 0) {
-    //             prev = $scope.tmpPageIndexes[i];
-    //             // console.log(prev);
-    //         } else {
-    //             $scope.pageIndexes[prev] = $scope.tmpPageIndexes[i];
-    //         }
-    //     }
-    // }
 
     $scope.$on(EVENTS.PAGE_MODIFIED, function() {
         $scope.dbPromise = DbDataService.retrievePageIds();
+        $scope.dbPromise = DbDataService.retrievePostIds($scope.postQuery.page - 1);
     });
-
-    // $scope.solrPromise = SolrDataService.retrievePageIndexes();
 
     $scope.$on(EVENTS.PAGE_INDEX_MODIFIED, function() {
         $scope.solrPromise = SolrDataService.retrievePageIndexes();
@@ -87,17 +72,10 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
     // initialization
     if ($scope.isInitial) {
         $scope.loadingPromise = InitializationService.initialize();
-        // let circularProgressTop = 35;
-        // let loadingMessageTop = 50;
-        // let h = $window.innerHeight;
+    }
 
-        // $scope.circularTopPos = {
-        //     top: Math.round(h * circularProgressTop / 100.0) + 'px'
-        // };
-
-        // $scope.loadingMessageTopPos = {
-        //     top: Math.round(h * loadingMessageTop / 100.0) + 'px'
-        // };
+    $scope.displayPostIds = function() {
+        DbDataService.retrievePostIds($scope.postQuery.page);
     }
 
     $scope.showGetTokenDialog = function(ev, pageId) {
@@ -145,24 +123,6 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
 
     $scope.selected = [];
 
-    $scope.query = {
-        order: 'name',
-        limit: 10,
-        page: 1
-    };
-
-    $scope.dataQuery = {
-        order: 'name',
-        limit: 10,
-        page: 1
-    };
-
-    $scope.postQuery = {
-        order: 'name',
-        limit: 10,
-        page: 1
-    };
-
     function DialogController($scope, $mdDialog, $window, DbDataService) {
         $scope.hide = function() {
             $mdDialog.hide();
@@ -173,7 +133,6 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
         };
 
         $scope.getTokenFromFacebook = function() {
-            // $window.open('https://facebook.com', '_blank');
             // change to facebook  page for generating token
             $window.open('https://developers.facebook.com/tools/explorer/', '_blank');
         }
@@ -182,39 +141,6 @@ function AdminController($scope, $q, $window, $mdDialog, $interval, DbDataServic
             $mdDialog.hide(token);
         };
     }
-
-    // $interval(function() {
-    //     if($scope.pageIdsProgress < 70){
-    //         $scope.pageIdsProgress += i;
-    //         i+=0.2;
-    //     }
-    //     else {
-    //         if($scope.pageIds != false){
-    //             if($scope.pageIdsProgress <= 100){
-    //                 $scope.pageIdsProgress += i;
-    //             }
-    //         }
-    //         else {
-    //             $scope.pageIdsProgress += j;
-    //             j /= 2;
-    //         }
-    //     }
-    //     if($scope.pageIndexesProgress < 70){
-    //         $scope.pageIndexesProgress += k;
-    //         k+=0.2;
-    //     }
-    //     else {
-    //         if($scope.pageIndexes != false){
-    //             if($scope.pageIndexesProgress <= 100){
-    //                 $scope.pageIndexesProgress += i;
-    //             }
-    //         }
-    //         else {
-    //             $scope.pageIdsProgress += l;
-    //             l /= 2;
-    //         }
-    //     }
-    // }, 200, 0, true)
 
 }
 

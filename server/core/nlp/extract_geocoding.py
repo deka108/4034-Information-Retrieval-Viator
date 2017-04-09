@@ -34,15 +34,16 @@ def update_location_corpus():
 
     # Split new locations to 1000 due to the rate limit of the geocoding API
     n_split = split_locations(ordered_loc, new_location_data)
-    for i in range(n_split):
-        # Extract coordinates
-        get_lat_long(i)
+    if n_split > 0:
+        for i in range(n_split):
+            # Extract coordinates
+            get_lat_long(i)
 
-    # Compile splitted new coordinates
-    compile_new_lat_long(n_split)
+        # Compile splitted new coordinates
+        new_locations = compile_new_lat_long(n_split)
 
-    # Update the existing corpus with new coordinates
-    compile_all_corpus()
+        # Update the existing corpus with new coordinates
+        compile_all_corpus(new_locations)
 
 
 def get_new_locations(all_locations):

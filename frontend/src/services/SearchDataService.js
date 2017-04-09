@@ -47,7 +47,6 @@ function SearchDataService($http, $rootScope, URL, EVENTS) {
         return $http.post(URL.SEARCH_URL, { query: query }).then(
             function success(response) {
                 _update_search_data(response.data);
-                console.log(response.data);
                 _on_receive_search_result();
             },
             function error(response) {

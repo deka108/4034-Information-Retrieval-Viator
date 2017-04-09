@@ -122,7 +122,7 @@ def delete_all_index():
 
 
 def delete_index_by_page(page_id):
-    r = s.get("{url}/update?stream.body=<delete><query>page_idss:{page_id}</query></delete>&commit=true".format(url=config.SOLR_BASE_URL, page_id=page_id))
+    r = s.get("{url}/update?stream.body=<delete><query>page_id:{page_id}</query></delete>&commit=true".format(url=config.SOLR_BASE_URL, page_id=page_id))
     data_util.delete_solr_record(page_id)
     return r.status_code
 
@@ -139,7 +139,7 @@ def get_schema():
 
 def index_specific(page_id):
     print("Indexing page:{}...".format(page_id))
-    start_time = datetime.time.time()
+    start_time = datetime.datetime.now()
     try:
         temp_json = data_util.get_preprocessed_json_data_by_page_id(page_id)
         solr_records = data_util.get_solr_records()
@@ -156,7 +156,7 @@ def index_specific(page_id):
                 send_to_solr(payload)
             print("Successfully indexed {}".format(page_id))
 
-        end_time = datetime.time.time()
+        end_time = datetime.datetime.now()
         elapsed_time = end_time - start_time
         solr_records[page_id] = {
             "count": len(temp_json),
@@ -176,12 +176,12 @@ def index_specific(page_id):
 def index_all():
     print("Indexing all facebook pages...")
     try:
-        start_time = datetime.time.time()
+        start_time = datetime.datetime.now()
         delete_all_index()
         page_ids = data_util.get_page_ids()
         for page_id in page_ids:
             index_specific(page_id)
-        end_time = datetime.time.time()
+        end_time = datetime.datetime.now()
         elapsed_time = end_time - start_time
         log = "Finished indexing all pages! Elapsed time: {}".format(elapsed_time)
         print(log)

@@ -1,132 +1,21 @@
-# cz4034-information-retrieval
-## Notes:
-* Use pycharm and python 3.6
-    * With pycharm, you can run from anywhere without having to cd or type `python some_script.py`. It is not compulsory, but sometimes there might be errors with the system path if you aren't using pycharm.
-* **Generate preprocessed data** first before anything!!
-    * Preprocessed data won't and shouldn't be included in github, so you'll have to run the preprocessing script first
+# Viator Application
 
-## Generate Preprocessed Files
-* Run run_script.py from the top module: `python run_script.py` 
-   * alternative: run it from preprocessing.py (server/core/data_preprocessing/preprocessing.py)
+Dependencies:
+1. Please use Python 3.6 or PyCharm.
+2. Install the required python package dependencies in requirements.txt:
+`pip install -r requirements.txt`
+3. Download and install solr. 
+4. Please run solr at port 8983 (follow instruction at solr_instruction.txt) 
+5. [Optional] Please run StanfordCoreNLP server at port 9000 in order to perform. This server can be downloaded
+from https://stanfordnlp.github.io/CoreNLP/download.html. Run the server 
+by using java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer -port 9000 -timeout 15000
 
-## Reading or writing data
-* Use **data_util** module under server.utils
-    * Read the method names from the module to know what they're doing and the required parameters
-    * Example of usage
-```python
-from server.utils import data_util
-# get all page_ids
-data_util.get_page_ids()
+How to run:
+1. Run the solr server folllowing the instruction in solr directory.
+2. Edit the `run_script.py` as necessary. Note that the location NER for geolocation can only be performed 
+if the StanfordCoreNLP server is running, therefore it is commented by default.
+3. Run `python run_script.py` to pre-processed files necessary for indexing.
+4. Run `python run.py` to start the server at localhost:8888
+5. Open browser and http://localhost:8888 to see our Viator engine :D
 
-# read preprocessed data by page id
-page_id = "Tripviss"
-data = data_util.get_preprocessed_json_data_by_page_id(page_id)
-
-# writing data to json
-file_name = "beautiful_data"
-# code below will save data as beautiful_data.json into server/data directory
-data_util.write_data_to_json(data, file_name) 
-
-# combine all preprocessed data and read them as 1 json file
-all_page = data_util.get_all_preprocessed_page()
-```
-
-## Running any program or server
-* Run any program/module: Just run from pycharm (pycharm can run run.py and run_script.py also)
-* Running server: `python run.py` from top level directory
-* Running modules: `python run_script.py` from top level directory
-    * Use run_script.py for testing, you can import whatever module that you want to test here
-    
-## Running Front-end
-* Dependencies:
-    * Install node.js
-    * Install npm
-    * Install jspm globally through npm
-    * Install live-server globally through npm
-    * Change directory to frontend
-        * Run `jspm install` from command line
-* Run `live-server .` from command line
-* Develop (or testing)!
-
-## Project Structure Directory
-* requirements.txt: package dependencies
-    * runs pipreqs everytime new package is installed
-* run.py: runs server
-* run_script.py: runs scripts from top module
-* server
-    * config.py
-    * core
-        * classifier
-        * crawler
-            * crawler.py
-        * data_preprocessing
-            * preprocessing.py: run this to generate preprocessed csv
-        * nlp
-        * solr
-            * solr_interface.py: interface to the solr api
-      * data: stores all the data including raw json and preprocessed csv
-        * initial_records.json: updated records
-        * records.json: current records
-      * handler
-        * db_manager.py: http handler for reading, crawling & writing data 
-        related to the data directory
-        * index.py
-        * search.py: http handler related to searching with solr
-        * solr_manager.py: http handler related to the solr database
-      * server_app.py: flask app
-      * utils : utilities, methods that get repeatedly used from everywhere
-        * data_util.py: reading and writing data from json and csv. The 
-        method names are clear enough but for the lazy:
-            * `get_page_ids()`: get all the page ids
-            * `get_preprocessed_json_data_by_page_id(page_id)`: get preprocessed data in dictionary format (array of posts)
-            * `get_raw_json_data_by_page(page_id)`: get raw data in dictionary format
-            * `get_csv_data_by_page_id(page_id)`: returns dataframe of the preprocesed page_id post csv
-            * `get_preprocessed_csv_page_all()`: combines all the preprocessed page_id posts, and returns it as single dataframe
-            * `get_preprocessed_json_data_all()`: combines all the preprocessed pages and returns it as an array of all the available posts
-        * text_util.py: processing text, text cleaning utilities, extracting
-         info from text (like date)
-* frontend
-    * package.json
-        * src
-            * constants: events and urls
-            * controllers
-            * services: all the http requests
-
-## Number of records in each crawled data:
-- Tripviss:176
-- visitjapaninternational: 1445
-- koreatourism: 4093
-- TheSmartLocal: 2856
-- indonesia.travel: 3604
-- malaysia.travel.sg: 1385
-- itsmorefuninthePhilippines: 2657
-- incredibleindia: 1090
-- visitchinanow: 985
-- DiscoverHongKong: 2163
-- wonderfulplacesindo: 989
-- goturkeytourism: 794
-
-## Solr Search
-- query: [example](https://gist.github.com/felixputera/1d90ea9e3f929ec300511bbd8db605bf)
-- result: [result](https://gist.github.com/felixputera/e9870a3335396cbdeb4b5b804bdcdc0f)
-
-# TRAIN DATA LABELLING
-
-* Empty out all the '0' in 'class_label' first
-* Label 6x70 samples (70 samples for each class) according to its topic
-* Please read the message+desc (and comments if needed) instead of just reading the 'count_' columns
-* If the samples labelled for any class didn't reach 70, just add the deficit to the other classes
-        1. Food
-        2. Events
-        3. Nature
-        4. Accommodation
-        5. Attraction
-        6. Others (later maybe)
-* 0-> dita
-* 1-> deka
-* 2-> grace
-* 3-> luci
-* 4-> felix
-
-
-=======
+File structure:

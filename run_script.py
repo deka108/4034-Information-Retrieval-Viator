@@ -10,42 +10,33 @@ import nltk
 
 # nltk.data.path.append('D:/nltk_data/')
 
+
 def run():
     # COMMENT / UNCOMMENT AS NECESSARY, all pages vs specific page
-
-
-    #preprocessing.preprocess_all_pages()
-
-
-    # Example of getting json based on page_id
-    # page_id = "koreatourism"
-    # korea = data_util.get_preprocessed_json_data_by_page_id(page_id)
-
+    # preprocessing.preprocess_all_pages()
 
     # Computing statistics
-    #statistic.compute_words(du.ALL_POSTS_FILENAME)
+    # statistic.compute_words(du.ALL_POSTS_FILENAME)
 
     # Adding sentiment
     # sentiment.get_sentiment_all_pages()
     # sentiment.get_sentiment(page_id)
 
     # Topic classification
+
     #gm.run()          #train and generate models
     tc.add_topic_to_all_pages()    #classify once the pickle files are available
 
 
     # GEOLOCATION: performing Location NER + extract geocoding
-
     # Performing Location NER
-    # Location NER: requires STANFORD API
-    # location_ner_stanford.get_all_locations()
-    # location_ner_stanford.get_location_pageid(page_id)
+    # Location NER: requires STANFORD serv
+    location_ner_stanford.update_all_locations()
+    # location_ner_stanford.run_pageid(page_id)
 
     # Add Geocoding (coordinates to posts)
-    # extract_geocoding.run()
+    extract_geocoding.run()
     # extract_geocoding.run_pageid(page_id)
-
-
 
 
 if __name__ == "__main__":

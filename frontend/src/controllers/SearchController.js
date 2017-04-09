@@ -19,16 +19,18 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-            (position) => {$scope.curGeolocation = position.coords.latitude + ',' + position.coords.longitude;
-            console.log("success get geolocation");
-            console.log($scope.curGeolocation);
+            (position) => {
+                $scope.curGeolocation = position.coords.latitude + ',' + position.coords.longitude;
+                console.log("success get geolocation");
+                console.log($scope.curGeolocation);
             },
-            (position) => {$scope.curGeolocation = '0,0';
-            console.log('failed to get geolocation');
+            (position) => {
+                $scope.curGeolocation = '0,0';
+                console.log('failed to get geolocation');
             }
         );
     } else {
-        console.log('does not support geolocation');
+        console.error('does not support geolocation');
         $scope.curGeolocation = '0,0';
     }
 
@@ -41,15 +43,8 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
 
     $scope.orderOptions = ['Ascending', 'Descending'];
 
-    // $scope.refreshSortState = function() {
-    //     $scope.boolSort = {
-    //         'Time': $scope.curSort == 'Time',
-    //         'Reactions': $scope.curSort == 'Reactions',
-    //         'Shares': $scope.curSort == 'Shares',
-    //     }
-    // }
 
-    $scope.refreshOrder = function(order){
+    $scope.refreshOrder = function(order) {
         $scope.order = order;
     }
 
@@ -84,10 +79,10 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
         $scope.curPage = 0;
         let filter = $scope.curFilter;
         let filter_query = $scope.filter[filter];
-        if(filter == 'Topic' || filter == 'Sentiment' || filter == 'Popularity'){
+        if (filter == 'Topic' || filter == 'Sentiment' || filter == 'Popularity') {
             filter_query = filter_query.toLowerCase();
         }
-        if(filter == 'None'){
+        if (filter == 'None') {
             filter = null;
         }
         console.log(filter_query);
@@ -95,19 +90,19 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
     }
 
     $scope.searchQueryNextPage = function() {
-        if($scope.existNextPage) {
+        if ($scope.existNextPage) {
             $scope.curPage++;
             SolrDataService.retrieveQueryResult($scope.searchData.textQuery, $scope.curPage, $scope.curSort, $scope.order);
         }
     }
     $scope.searchQueryPrevPage = function() {
-        if($scope.curPage > 0) {
+        if ($scope.curPage > 0) {
             $scope.curPage--;
             SolrDataService.retrieveQueryResult($scope.searchData.textQuery, $scope.curPage, $scope.curSort, $scope.order);
         }
     }
 
-    $scope.getMoreLikeThis = function(key, pageId){
+    $scope.getMoreLikeThis = function(key, pageId) {
         SolrDataService.retrieveMoreLikeThis(key, pageId);
     }
 
@@ -128,7 +123,7 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
                 value.date = new Date(value.time);
             });
             updateHighlight($scope.searchResult.docs, searchResultTemp.highlighting);
-            if($scope.searchResult.suggestions != false){
+            if ($scope.searchResult.suggestions != false) {
                 $scope.suggestions = reparse($scope.searchResult.suggestions);
             } else $scope.suggestions = false;
 
@@ -138,13 +133,13 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
 
     });
 
-    $scope.$on(EVENTS.MORE_LIKE_THIS_RECEIVED, function(){
+    $scope.$on(EVENTS.MORE_LIKE_THIS_RECEIVED, function() {
         let tempMoreLikeThis = SolrDataService.getMoreLikeThisData();
         let postId = $scope.searchResult.docs[tempMoreLikeThis.key].id;
         let moreLikeThisResults = tempMoreLikeThis.data.moreLikeThis[postId].docs;
         moreLikeThisResults.forEach(function(value, index) {
-            value.span  = { row : 1, col : 1 };
-            switch(index+1) {
+            value.span = { row: 1, col: 1 };
+            switch (index + 1) {
                 case 1:
                     value.span.row = value.span.col = 2;
                     break;
@@ -155,7 +150,7 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
                     value.span.col = 2;
                     break;
             }
-            value.fontSize = { 'font-size': (value.span.col*4+8) + 'px' };
+            value.fontSize = { 'font-size': (value.span.col * 4 + 8) + 'px' };
         })
         console.log(moreLikeThisResults);
         $scope.searchResult.docs[tempMoreLikeThis.key].moreLikeThis = moreLikeThisResults;
@@ -163,14 +158,15 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
 
     })
 
-    function reparse(suggestions){
-        let result=[];
-        suggestions.forEach(function(val, i){
-            if(i%2 == 0){
-                let value = {'mispelled': suggestions[i],
-                'replacements': suggestions[i+1].suggestion,
-                'startOffset': suggestions[i+1].startOffset,
-                'endOffset': suggestions[i+1].endOffset
+    function reparse(suggestions) {
+        let result = [];
+        suggestions.forEach(function(val, i) {
+            if (i % 2 == 0) {
+                let value = {
+                    'mispelled': suggestions[i],
+                    'replacements': suggestions[i + 1].suggestion,
+                    'startOffset': suggestions[i + 1].startOffset,
+                    'endOffset': suggestions[i + 1].endOffset
                 };
                 result.push(value);
             }
@@ -178,33 +174,7 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
         return result;
     }
 
-    // function combinations(suggestions) {
-    //     let sgList = [];
-    //     let suggested = $scope.searchData.textQuery;
-    //     suggestions.forEach(function (val, i){
-    //         if(i%2 == 0){
-    //             suggestions[i+1].suggestion.forEach(function (subst){
-    //                 sgList.unshift(replaceRange(suggested, suggestions[i+1].startOffset, suggestions[i+1].endOffset, subst));
-    //             })
-    //         }
-    //     })
-    //     for(let j=0; j<suggestions.length/2; j++){
-    //         sgList.forEach(function (text, i){
-    //             suggestions.forEach(function (val, i){
-    //                 if(i%2 == 0){
-    //                     suggestions[i+1].suggestion.forEach(function (subst){
-    //                         sgList.unshift(replaceRange(text, suggestions[i+1].startOffset, suggestions[i+1].endOffset, subst));
-    //                     })
-    //                 }
-    //             })
-    //         })
-    //     }
-    //     return sgList.filter( function( item, index, inputArray ) {
-    //        return inputArray.indexOf(item) == index;
-    //     }).slice(0,2);
-    // }
-
-    $scope.replaceQuery = function(start, end, substitute){
+    $scope.replaceQuery = function(start, end, substitute) {
         $scope.searchData.textQuery = replaceRange($scope.searchData.textQuery, start, end, substitute);
         console.log($scope.searchData.textQuery);
         $scope.searchQuery();
@@ -215,16 +185,16 @@ function SearchController($scope, SolrDataService, EVENTS, _) {
     }
 
     function updateHighlight(docs, highlighting) {
-        docs.forEach(function (i) {
+        docs.forEach(function(i) {
 
-            if(highlighting[i.id]){
-                if(highlighting[i.id].message){
+            if (highlighting[i.id]) {
+                if (highlighting[i.id].message) {
                     i.message = highlighting[i.id].message;
                 }
-                if(highlighting[i.id].name){
+                if (highlighting[i.id].name) {
                     i.name = highlighting[i.id].name;
                 }
-                if(highlighting[i.id].desc){
+                if (highlighting[i.id].desc) {
                     i.desc = highlighting[i.id].desc;
                 }
             }

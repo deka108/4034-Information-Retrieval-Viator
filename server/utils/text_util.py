@@ -43,8 +43,12 @@ def get_text(row):
     return row
 
 
-def preprocess_text(text, stem=False, lemmatize=False):
+def preprocess_text(text, stem=False, lemmatize=False, rebuild_text=False):
+    # Cleaning: remove hyperlinks and symbols
     text = clean_text(text)
+
+    # Normalization: either lemmatize using wordnet lemmatizer or stemming
+    # using snowballstemmer
     if lemmatize:
         return [lemmatizer.lemmatize(word) for word in text.split() if word
                 not in stop_words]
@@ -52,11 +56,20 @@ def preprocess_text(text, stem=False, lemmatize=False):
         return [stemmer.stem(word) for word in text.split() if word not in
                     stop_words]
 
-    return [word for word in text.split() if word not in stop_words]
+    # Removing stopwords
+    tokens = [word for word in text.split() if word not in stop_words]
+
+    if rebuild_text:
+        return " ".join(tokens)
+
+    return tokens
 
 
 def clean_text(text):
+    # Remove hyperlinks and symbols
     text = remove_http_symbols(text)
+
+    # Case folding
     text = text.lower()
 
     # removes extra space
@@ -65,7 +78,7 @@ def clean_text(text):
     return text
 
 
-def tokenize(text, rebuild_text=True):
+def tokenize(text):
     words = []
 
     for sentence in sent_tokenize(text):
@@ -74,10 +87,7 @@ def tokenize(text, rebuild_text=True):
                   t.lower() not in stop_words]
         words += tokens
 
-    if rebuild_text:
-        return ' '.join(words).strip()
-    else:
-        return words
+    return words
 
 
 def remove_http_symbols(text):

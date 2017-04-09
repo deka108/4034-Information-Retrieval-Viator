@@ -1,7 +1,8 @@
 from sklearn.model_selection import train_test_split
 import pandas as pd
 
-from server.core.topic_classification.classifier import RFClassifier,NBClassifier,NNClassifier
+from server.core.topic_classification.classifier import RFClassifier,NBClassifier
+from server.core.topic_classification.classifier_gensim import NNClassifier
 from server.utils import data_util,text_util
 from nltk.tokenize import sent_tokenize, word_tokenize
 from server.core.topic_classification import classification_preprocessing as cf
@@ -211,8 +212,8 @@ def run_2():
     y_test = y_test.apply(pd.to_numeric)
 
     forest = RFClassifier()
-    forest.train_model(trainDataVecs,y_train,testDataVecs,y_test)
-    result = forest.predict(testDataVecs,y_test)
+    forest.train_model(trainDataVecs,y_train)
+    result = forest.predict(testDataVecs)
     score = accuracy_score(y_test,result)
     print(score)
 

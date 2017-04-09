@@ -5,7 +5,7 @@ from server.core.solr import solr_interface
 solr_manager = Blueprint('solr_manager', __name__, static_folder='../data')
 
 
-@solr_manager.route('/delete/', methods=['DELETE'])
+@solr_manager.route('/delete/', methods=['GET'])
 def delete_table():
     status_code = solr_interface.delete_all_index()
     if status_code < 400:
@@ -13,7 +13,7 @@ def delete_table():
     abort(status_code)
 
 
-@solr_manager.route('/delete/<page_id>', methods=['DELETE'])
+@solr_manager.route('/delete/<page_id>', methods=['GET'])
 def delete_table_name(page_id):
     status_code = solr_interface.delete_index_by_page(page_id)
     if status_code < 400:

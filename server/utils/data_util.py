@@ -24,6 +24,8 @@ SPLITTED_DATA_FILENAME = "splitted_data_{}"
 NEW_LOCATION_CORPUS_FILENAME = "new_location_corpus"
 NEW_LOCATION_CORPUS_ALL_FILENAME = "new_location_corpus_all"
 SPLIT_LOCATION_CORPUS_FILENAME = "new_location_corpus_{}"
+VOCAB_PICKLE_FILENAME = 'vocab.pkl'
+TENSORBOARD_LOG_PATH = '/logs/'
 
 TESTING = "testing"
 
@@ -57,6 +59,10 @@ def get_json_filepath(file_name):
 
 def get_csv_filepath(file_name):
     return config.get_data_path(get_csv_filename(file_name))
+
+
+def get_filepath(file_name):
+    return config.get_data_path(file_name)
 
 
 def get_splitted_csv_filepath(id):
@@ -246,6 +252,7 @@ def write_text_to_txt(text, file_name, write_mode="a"):
         file_handler.write("\n\n")
 
 
+
 def delete_file(file_path):
     if config.check_data_path(file_path):
         config.delete_file(file_path)
@@ -296,3 +303,32 @@ def delete_solr_records():
     RECORDS_SOLR = {}
     write_solr_records_to_json(RECORDS_SOLR)
     return True
+
+
+def get_gensim_dict_path(suffix):
+    if not suffix: suffix = ""
+    return get_filepath("tmp/post{}.dict".format(suffix))
+
+
+def get_gensim_corpus_path(suffix):
+    return get_filepath("tmp/post{}.mm".format(suffix))
+
+
+def get_gensim_tfidf_path(suffix):
+    return get_filepath("tmp/model{}.tfidf".format(suffix))
+
+
+def get_gensim_w2v_path(suffix):
+    return get_filepath("tmp/model{}.word2vec".format(suffix))
+
+
+def get_gensim_d2v_path(suffix):
+    return get_filepath("tmp/model{}.doc2vec".format(suffix))
+
+
+def get_gensim_lda_path(suffix):
+    return get_filepath("tmp/model{}.lda".format(suffix))
+
+
+def get_gensim_lsi_path(suffix):
+    return get_filepath("tmp/model{}.lsi".format(suffix))

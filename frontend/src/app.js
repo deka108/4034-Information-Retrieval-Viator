@@ -9,10 +9,13 @@ import 'angular-material-data-table';
 import 'angular-utils-pagination';
 import 'angular-busy';
 import 'angular-sanitize';
+import 'angular-material/angular-material.min.css!';
+import 'angular-busy/dist/angular-busy.min.css!';
+import 'angular-material-data-table/dist/md-data-table.min.css!';
+import 'style/app.css!';
 
 import SearchController from 'src/controllers/SearchController';
 import AdminController from 'src/controllers/AdminController';
-import LabelController from 'src/controllers/LabelController';
 import InitializationService from 'src/services/InitializationService';
 import DbDataService from 'src/services/DbDataService';
 import SearchDataService from 'src/services/SearchDataService';
@@ -31,7 +34,6 @@ export default angular.module('viator-app', ['ngMaterial', 'md.data.table', 'ang
     .constant('_', _)
     .controller('SearchController', SearchController)
     .controller('AdminController', AdminController)
-    .controller('LabelController', LabelController)
     .service('SearchDataService', SearchDataService)
     .service('DbDataService', DbDataService)
     .service('InitializationService', InitializationService)

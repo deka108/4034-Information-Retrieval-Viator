@@ -1,21 +1,21 @@
 from nltk import word_tokenize
-from nltk.stem import WordNetLemmatizer, PorterStemmer
+from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
-from sklearn.naive_bayes import MultinomialNB, GaussianNB
-from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
-from sklearn.metrics import confusion_matrix, accuracy_score, classification_report, precision_score
 from sklearn.externals import joblib
-from server.core.topic_classification import classification_preprocessing as cp
 from server.core.topic_classification.classifier import VClassifier
 from server.utils import data_util as du
 from server import config
 import pandas as pd
 import numpy as np
-import nltk
 import time
-import pickle
 from server.utils.data_util import LOGGING_TOPIC_FILENAME
 
+
+#1. Food
+#2. Event
+#3. Nature
+#4. Accommodation
+#5. Attraction
 
 class LemmaTokenizer(object):
     def __init__(self):
@@ -25,17 +25,13 @@ class LemmaTokenizer(object):
         return [self.wnl.lemmatize(t) for t in word_tokenize(doc)]
 
 
-# nltk.data.path.append('D:/nltk_data/')
-
 def add_topic(page_id):
     global shape
     """TESTING"""
     print("Recognising topics for page:{}...".format(page_id))
     start_time = time.time()
-    vocab = joblib.load('vocab.pkl')
+    vocab = joblib.load(du.get_filepath(du.VOCAB_PICKLE_FILENAME))
     model = VClassifier()
-
-    #clf = joblib.load('rf_tfidf.pkl')
 
     test_df = du.get_csv_data_by_pageid(page_id)
 
@@ -53,7 +49,6 @@ def add_topic(page_id):
     test_desc = test_data.loc[:, ["description"]]
     test_desc = test_desc.fillna('')
     test_desc = list(test_desc.values.flatten())
-    test_pg = test_data.loc[:, ["page_id"]]
 
     test_post = list()
 
@@ -81,12 +76,13 @@ def add_topic(page_id):
     shape = test_tf.shape[0]
     speed = shape/elapsed_time
 
-    log = "Finish recognising locations for page:{}! Elapsed Time: {}".format(
+    log = "Finish recognising topics for page:{}! Elapsed Time: {}\n".format(
         page_id, elapsed_time)
+    log += "Classification speed, samples per second = " + str(speed)
     print(log)
-    print("samples per second = " + str(speed))
 
     result_df = pd.DataFrame(id_result, columns = ["id", "predicted_class"])
+<<<<<<< HEAD
 
     predicted = test.merge(result_df, on=["id"], copy=False)
     predicted = predicted.drop_duplicates()
@@ -101,6 +97,16 @@ def add_topic(page_id):
     #3. Nature
     #4. Accommodation
     #5. Attraction
+=======
+    predicted = test.merge(result_df, on=["id"])
+
+    filename = page_id + "_facebook.csv"
+    filepath = config.get_data_path(filename)
+    predicted.to_csv(filepath, encoding='utf-8')
+    du.write_text_to_txt(log, LOGGING_TOPIC_FILENAME)
+    print("Predicted class saved to " + filename)
+
+>>>>>>> ab989a185e42cd101c2ee7e513eacdb014dcda79
 
 def add_topic_to_all_pages():
     page_ids = du.get_page_ids()
@@ -113,10 +119,10 @@ def add_topic_to_all_pages():
     end_time = time.time()
     elapsed_time = end_time - start_time
     ov_speed = length/elapsed_time
-    log = "Finished recognising topics for all pages! Elapsed time: {}"\
+    log = "Finished recognising topics for all pages! Elapsed time: {}\n"\
         .format(elapsed_time)
+    log += "Overall samples per second = " + str(ov_speed)
     print(log)
-    print("Overall samples per second = " + str(ov_speed))
     du.write_text_to_txt(log, LOGGING_TOPIC_FILENAME)
 
 

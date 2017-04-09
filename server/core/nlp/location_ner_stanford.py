@@ -8,8 +8,11 @@ import time
 from server.utils.data_util import ALL_POSTS_LOCATIONS_FILENAME, \
     PAGE_LOCATION_FILENAME, LOGGING_NER_FILENAME
 
-nlp = StanfordCoreNLP('http://localhost:9000')
+
 NER_COLUMNS = text_util.EXTRACTED_COLUMNS + ['full_text', 'locations']
+
+
+nlp = StanfordCoreNLP('http://localhost:9000')
 
 
 def run():
@@ -58,7 +61,11 @@ def extract_location_all():
     start_time = time.time()
     page_ids = data_util.get_page_ids()
     for page_id in page_ids:
-        extract_location_page_id(page_id)
+        try:
+            extract_location_page_id(page_id)
+        except Exception as e:
+            print("Unable to connect to Stanford NER server")
+            print(e)
     end_time = time.time()
     elapsed_time = end_time - start_time
     log = "Finished recognising locations for all pages! Elapsed time: {}"\

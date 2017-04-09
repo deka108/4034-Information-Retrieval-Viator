@@ -8,7 +8,7 @@ const URL = {
 
     DB_CRAWL: DB_MANAGER_URL + '/crawl/',
     DB_READ_PAGES: DB_MANAGER_URL + '/db_records/',
-    DB_READ_POSTS: DB_MANAGER_URL + '/read/',
+    DB_READ_POSTS: DB_MANAGER_URL + '/read',
     DB_DELETE: DB_MANAGER_URL + '/delete/',
     SOLR_READ: DB_MANAGER_URL + '/solr_records/',
 
