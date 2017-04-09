@@ -55,3 +55,48 @@ Classification speed, samples per second = 622.1654956770706
 Finished recognising topics for all pages! Elapsed time: 245.76864314079285
 Overall samples per second = 58.00984136057027
 
+Finish recognising topics for page:Tripviss! Elapsed Time: 2.829926013946533
+Classification speed, samples per second = 33.21641609594956
+
+Finish recognising topics for page:goturkeytourism! Elapsed Time: 0.097991943359375
+Classification speed, samples per second = 183.68857053877298
+
+Finish recognising topics for page:incredibleindia! Elapsed Time: 0.6311447620391846
+Classification speed, samples per second = 893.6143241968063
+
+Finish recognising topics for page:TheSmartLocal! Elapsed Time: 3.7409636974334717
+Classification speed, samples per second = 701.6908508898147
+
+Finish recognising topics for page:Tripviss! Elapsed Time: 0.23761510848999023
+Classification speed, samples per second = 429.2656331838295
+
+Finish recognising topics for page:goturkeytourism! Elapsed Time: 0.08667492866516113
+Classification speed, samples per second = 207.67251011577787
+
+Finish recognising topics for page:incredibleindia! Elapsed Time: 0.3918468952178955
+Classification speed, samples per second = 791.1253190550798
+
+Finish recognising topics for page:indonesia.travel! Elapsed Time: 0.8845341205596924
+Classification speed, samples per second = 1501.355311380982
+
+Finish recognising topics for page:itsmorefuninthePhilippines! Elapsed Time: 3.9458158016204834
+Classification speed, samples per second = 867.2477814586883
+
+Finish recognising topics for page:koreatourism! Elapsed Time: 3.487312078475952
+Classification speed, samples per second = 1002.2045407325311
+
+Finish recognising topics for page:malaysia.travel.sg! Elapsed Time: 0.4124622344970703
+Classification speed, samples per second = 712.7925308325125
+
+Finish recognising topics for page:visitchinanow! Elapsed Time: 0.23251795768737793
+Classification speed, samples per second = 885.9530766951277
+
+Finish recognising topics for page:visitjapaninternational! Elapsed Time: 1.8950128555297852
+Classification speed, samples per second = 650.6552166134475
+
+Finish recognising topics for page:wonderfulplacesindo! Elapsed Time: 0.5125188827514648
+Classification speed, samples per second = 122.9223002707405
+
+Finished recognising topics for all pages! Elapsed time: 16.754406929016113
+Overall samples per second = 781.6450952566812
+

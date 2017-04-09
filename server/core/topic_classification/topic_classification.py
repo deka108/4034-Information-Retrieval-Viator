@@ -1,19 +1,13 @@
 from nltk import word_tokenize
-from nltk.stem import WordNetLemmatizer, PorterStemmer
+from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
-from sklearn.naive_bayes import MultinomialNB, GaussianNB
-from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
-from sklearn.metrics import confusion_matrix, accuracy_score, classification_report, precision_score
 from sklearn.externals import joblib
-from server.core.topic_classification import classification_preprocessing as cp
 from server.core.topic_classification.classifier import VClassifier
 from server.utils import data_util as du
 from server import config
 import pandas as pd
 import numpy as np
-import nltk
 import time
-import pickle
 from server.utils.data_util import LOGGING_TOPIC_FILENAME
 
 
@@ -85,8 +79,6 @@ def add_topic(page_id):
     print(log)
 
     result_df = pd.DataFrame(id_result, columns = ["id", "predicted_class"])
-
-
     predicted = test.merge(result_df, on=["id"])
 
     filename = page_id + "_facebook.csv"
@@ -102,9 +94,6 @@ def add_topic_to_all_pages():
     start_time = time.time()
     length = 0
     for page_id in page_ids:
-        if page_id == "TheSmartLocal":
-            continue
-        print(page_id)
         add_topic(page_id)
         length += shape
     end_time = time.time()

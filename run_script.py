@@ -23,18 +23,18 @@ def run():
     # sentiment.get_sentiment(page_id)
 
     # Topic classification
-    gm.run()
-    tc.add_topic_to_all_pages()
+    # gm.run()
+    # tc.add_topic_to_all_pages()
 
 
     # GEOLOCATION: performing Location NER + extract geocoding
     # Performing Location NER
     # Location NER: requires STANFORD serv
-    # location_ner_stanford.run()
+    location_ner_stanford.update_all_locations()
     # location_ner_stanford.run_pageid(page_id)
 
     # Add Geocoding (coordinates to posts)
-    # extract_geocoding.run()
+    extract_geocoding.run()
     # extract_geocoding.run_pageid(page_id)
 
 

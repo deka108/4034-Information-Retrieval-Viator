@@ -372,3 +372,25 @@ Accommodation       0.94      0.88      0.91        69
 
 
 
+=====vc results=====
+accuracy:
+ 0.8301886792452831
+confusion_matrix:
+ [[61  4  1  1  0]
+ [ 8 72  2  3  7]
+ [ 2  2 63  0  4]
+ [ 2  1  1 61  4]
+ [ 4  4 12  1 51]]
+classification_report:
+                precision    recall  f1-score   support
+
+         Food       0.79      0.91      0.85        67
+       Events       0.87      0.78      0.82        92
+       Nature       0.80      0.89      0.84        71
+Accommodation       0.92      0.88      0.90        69
+   Attraction       0.77      0.71      0.74        72
+
+  avg / total       0.83      0.83      0.83       371
+
+
+
