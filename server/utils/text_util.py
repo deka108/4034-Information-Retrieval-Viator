@@ -44,7 +44,11 @@ def get_text(row):
 
 
 def preprocess_text(text, stem=False, lemmatize=False, rebuild_text=False):
+    # Cleaning: remove hyperlinks and symbols
     text = clean_text(text)
+
+    # Normalization: either lemmatize using wordnet lemmatizer or stemming
+    # using snowballstemmer
     if lemmatize:
         return [lemmatizer.lemmatize(word) for word in text.split() if word
                 not in stop_words]
@@ -52,6 +56,7 @@ def preprocess_text(text, stem=False, lemmatize=False, rebuild_text=False):
         return [stemmer.stem(word) for word in text.split() if word not in
                     stop_words]
 
+    # Removing stopwords
     tokens = [word for word in text.split() if word not in stop_words]
 
     if rebuild_text:

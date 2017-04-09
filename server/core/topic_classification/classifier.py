@@ -13,6 +13,19 @@ from server.utils import data_util
 NUM_CATEGORIES = 5
 
 
+def plot_confusion_matrix(Y_test, Y_pred):
+    sns.set()
+    cmatrix = confusion_matrix(y_true=Y_test, y_pred=Y_pred)
+    ax = sns.heatmap(cmatrix, xticklabels=["Food", "Events", "Nature",
+                                           "Accommodation", "Attraction"],
+                     yticklabels=["Food", "Events", "Nature",
+                                  "Accommodation",
+                                  "Attraction"], annot=True,
+                     square=True, cbar=False)
+    sns.plt.yticks(rotation=0)
+    sns.plt.show()
+
+
 class BaseClassifier(metaclass=abc.ABCMeta):
 
     def __init__(self, *args):
@@ -63,44 +76,17 @@ class BaseClassifier(metaclass=abc.ABCMeta):
 
         print(log)
         data_util.write_text_to_txt(log, self.score_result)
+        plot_confusion_matrix(true_y, pred_y)
 
     def run(self, X_train, X_test, y_train, y_test):
-        self.create_model()
         self.train_model(X_train, y_train)
         pred_y = self.predict(X_test)
         self.compute_score(y_test, pred_y)
-        self.plot_confusion_matrix(y_test, pred_y)
 
     def print_all(self):
         print(self.name)
         print(self.check_point)
         print(self.score_result)
-
-    def plot_confusion_matrix(self, Y_test, Y_pred):
-        sns.set()
-        cmatrix = confusion_matrix(y_true=Y_test, y_pred=Y_pred)
-        ax = sns.heatmap(cmatrix, xticklabels=["Food", "Events", "Nature",
-                                               "Accommodation", "Attraction"],
-                         yticklabels=["Food", "Events", "Nature",
-                                      "Accommodation",
-                                      "Attraction"], annot=True,
-                         square=True, cbar=False)
-        sns.plt.yticks(rotation=0)
-        sns.plt.show()
-        # cm_fig, cm_ax = subplots(figsize=(8.0, 8.0))
-        # cm_ax.matshow(cmatrix, cmap=cm.GnBu)
-        #
-        # cm_ax.set_xticklabels(list(CATEGORIES.keys()))
-        # cm_ax.set_yticklabels(list(CATEGORIES.keys()))
-        #
-        # for i in range(len(CATEGORIES.keys())):
-        #     for j in range(len(CATEGORIES.keys())):
-        #         cm_ax.text(x=j, y=i, s=cmatrix[i, j], va='center', ha='center')
-        #
-        # title('Confusion matrix')
-        # xlabel('Predicted categories')
-        # ylabel('Actual categories')
-        # plt.matshow()
 
 
 class RFClassifier(BaseClassifier):
@@ -115,10 +101,10 @@ class RFClassifier(BaseClassifier):
 
 
 class VClassifier(BaseClassifier):
-    def __init__(self):
+    def __init__(self, *args):
         BaseClassifier.__init__(self)
         self.init_params("vc")
-        self.create_model()
+        self.create_model(*args)
 
     def create_model(self, *args):
         arg = list()

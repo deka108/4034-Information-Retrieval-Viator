@@ -5,7 +5,7 @@ import csv
 from itertools import zip_longest
 from nltk.corpus import wordnet as wn
 
-nltk.data.path.append('D:/nltk_data/')
+# nltk.data.path.append('D:/nltk_data/')
 
 def extract_corpus(url):
     topic = {"vocab_food": "",

@@ -89,19 +89,12 @@ def create_model():
     clf2 = NBClassifier()
     clf3 = LRClassifier()
 
-    clf = VClassifier()
-    clf.create_model(clf1, clf2, clf3)
+    clf = VClassifier(clf1, clf2, clf3)
     train_label = list(map(float, train_label))
     train_label = list(map(int, train_label))
-
-    model = clf.train_model(train_tf[:, :], train_label[:])
-    # model = clf1.train_model(train_tf[:,:], train_label[:], val_tf, valRes)
-
-    result = model.predict(val_tf[:, :])
-    result = list(map(float, result))
     valRes = list(map(float, valRes))
 
-    clf.compute_score(valRes, result)
+    clf.run(train_tf[:,:], val_tf[:,:], train_label[:], valRes[:])
 
 
 def run():
