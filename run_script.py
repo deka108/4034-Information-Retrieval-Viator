@@ -30,8 +30,8 @@ def run():
     # sentiment.get_sentiment(page_id)
 
     # Topic classification
-    gm.run()
-    tc.add_topic_to_all_pages()
+    #gm.run()          #train and generate models
+    tc.add_topic_to_all_pages()    #classify once the pickle files are available
 
 
     # GEOLOCATION: performing Location NER + extract geocoding

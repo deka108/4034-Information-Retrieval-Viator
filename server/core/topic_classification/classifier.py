@@ -58,7 +58,7 @@ class BaseClassifier(metaclass=abc.ABCMeta):
         }
 
         for score in scores:
-            print("{}: {}".format(score, scores[score]))
+            print("{}: \n {}".format(score, scores[score]))
 
         scores["confusion_matrix"] = scores.get("confusion_matrix").tolist()
         with open(self.score_result, "w") as fh:
