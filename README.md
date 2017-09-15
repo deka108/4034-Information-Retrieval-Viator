@@ -1,5 +1,7 @@
 # Viator Application
 
+Demo: https://www.youtube.com/watch?v=fcOc4POJIS0
+
 Dependencies:
 1. Please use Python 3.6 or PyCharm.
 2. Install the required python package dependencies in requirements.txt:
@@ -17,5 +19,3 @@ if the StanfordCoreNLP server is running, therefore it is commented by default.
 3. Run `python run_script.py` to pre-processed files necessary for indexing.
 4. Run `python run.py` to start the server at localhost:8888
 5. Open browser and http://localhost:8888 to see our Viator engine :D
-
-File structure:
